@@ -24,3 +24,22 @@
 
 /// Units
 pub mod units;
+
+/// Ingredients
+pub mod ingredients;
+
+/// Prelude, for importing all of the units and ingredients
+///
+/// `use beermaker::prelude::*`
+pub mod prelude {
+    pub use crate::ingredients::*;
+    pub use crate::units::alkalinity::*;
+    pub use crate::units::color::*;
+    pub use crate::units::concentration::*;
+    pub use crate::units::hardness::*;
+    pub use crate::units::temperature::*;
+    pub use crate::units::time::*;
+    pub use crate::units::volume::*;
+    pub use crate::units::weight::*;
+    pub use crate::units::{Ibu, Ph};
+}
