@@ -19,8 +19,8 @@
     missing_copy_implementations,
     missing_docs
 )]
-#![allow(
-    clippy::match_same_arms,
-    clippy::doc_markdown,
-)]
+#![allow(clippy::match_same_arms, clippy::doc_markdown)]
 #![cfg_attr(docsrs, feature(doc_auto_cfg))]
+
+/// Units
+pub mod units;
