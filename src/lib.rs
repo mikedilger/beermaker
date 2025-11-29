@@ -43,3 +43,22 @@ pub mod prelude {
     pub use crate::units::weight::*;
     pub use crate::units::{Ibu, Ph};
 }
+
+mod style;
+pub use style::Style;
+
+use std::ops::Range;
+
+fn union_ranges<T: PartialOrd + Copy>(ranges: &[Range<T>]) -> Range<T> {
+    let mut start = ranges[0].start;
+    let mut end = ranges[0].end;
+    for range in ranges.iter().skip(1) {
+        if range.start < start {
+            start = range.start;
+        }
+        if range.end > end {
+            end = range.end;
+        }
+    }
+    start..end
+}

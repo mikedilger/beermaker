@@ -1,0 +1,262 @@
+use crate::units::prelude::*;
+use serde::{Deserialize, Serialize};
+use std::fmt;
+use std::ops::Range;
+
+/// Style of beer
+///
+/// Styles are defined by a few different groups. Of course they disagree.
+/// We take data from two of them:
+///
+/// Beer Judge Certification Program
+/// <https://www.bjcp.org/bjcp-style-guidelines/>
+///
+/// Brewer's Association
+/// <https://www.brewersassociation.org/edu/brewers-association-beer-style-guidelines/>
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
+pub enum Style {
+    /// Märzen is a malty amber lager with medium-body, low esters, and a clean finish.
+    /// Märzen is brewed in Germany traditionally in March, lagered through the
+    /// summer, and served at Oktoberfest (along with Festbier which is now more
+    /// common).
+    Marzen,
+
+    /// Hefeweizen, Weissbier
+    Hefeweizen,
+
+    /// Leichtesweizen, a light version of Weissbier
+    LeichtesWeizen,
+
+    /// Irish Red Ale
+    IrishRedAle,
+}
+
+impl Style {
+    /// BJCP style guideline overall impression
+    #[must_use]
+    pub fn overall_impression_bjcp(&self) -> &str {
+        match *self {
+            Style::Marzen => {
+                "An amber, malty German lager with a clean, rich, toasty, bready \
+                 malt flavor, restrained bitterness, and a well-attenuated finish. \
+                 The overall malt impression is soft, elegant, and complex, with a \
+                 rich malty aftertaste that is never cloying or heavy."
+            }
+            Style::Hefeweizen => {
+                "A pale, refreshing, lightly-hopped German wheat beer with high \
+                 carbonation, dry finish, fluffy mouthfeel, and a distinctive \
+                 banana-and-clove weizen yeast fermentation profile."
+            }
+            Style::LeichtesWeizen => "Light version of Hefeweisen.",
+            Style::IrishRedAle => {
+                "An easy-drinking pint, often with subtle flavors. Slightly malty \
+                 in the balance sometimes with an initial soft toffee or caramel \
+                 sweetness, a slightly grainy-biscuity palate, and a touch of \
+                 roasted dryness in the finish. Some versions can emphasize the \
+                 caramel and sweetness more, while others will favor the grainy \
+                 palate and roasted dryness."
+            }
+        }
+    }
+
+    /// Ranges of original gravity for the style, BJCP then BA
+    #[must_use]
+    pub fn original_gravity_ranges(&self) -> &[Range<SpecificGravity>] {
+        match *self {
+            Style::Marzen => &[
+                SpecificGravity(1.054)..SpecificGravity(1.060), // BJCP
+                SpecificGravity(1.052)..SpecificGravity(1.057), // BA
+            ],
+            Style::Hefeweizen => &[
+                SpecificGravity(1.044)..SpecificGravity(1.053), // BJCP
+                SpecificGravity(1.047)..SpecificGravity(1.056), // BA
+            ],
+            Style::LeichtesWeizen => &[
+                SpecificGravity(1.028)..SpecificGravity(1.044), // BA
+            ],
+            Style::IrishRedAle => &[
+                SpecificGravity(1.036)..SpecificGravity(1.046), // BJCP
+                SpecificGravity(1.040)..SpecificGravity(1.048), // BA
+            ],
+        }
+    }
+
+    /// Range of original gravity for the style
+    #[must_use]
+    pub fn original_gravity_range(&self) -> Range<SpecificGravity> {
+        crate::union_ranges(self.original_gravity_ranges())
+    }
+
+    /// Ranges of final gravity for the style, BJCP then BA
+    #[must_use]
+    pub fn final_gravity_ranges(&self) -> &[Range<SpecificGravity>] {
+        match *self {
+            Style::Marzen => &[
+                SpecificGravity(1.010)..SpecificGravity(1.014), // BJCP
+                SpecificGravity(1.012)..SpecificGravity(1.020), // BA
+            ],
+            Style::Hefeweizen => &[
+                SpecificGravity(1.008)..SpecificGravity(1.014), // BJCP
+                SpecificGravity(1.008)..SpecificGravity(1.016), // BA
+            ],
+            Style::LeichtesWeizen => &[
+                SpecificGravity(1.004)..SpecificGravity(1.008), // BA
+            ],
+            Style::IrishRedAle => &[
+                SpecificGravity(1.010)..SpecificGravity(1.014), // BJCP
+                SpecificGravity(1.010)..SpecificGravity(1.014), // BA
+            ],
+        }
+    }
+
+    /// Range of final gravity for the style
+    #[must_use]
+    pub fn final_gravity_range(&self) -> Range<SpecificGravity> {
+        crate::union_ranges(self.final_gravity_ranges())
+    }
+
+    /// Ranges of ABV for the style, BJCP then BA
+    #[must_use]
+    pub fn abv_ranges(&self) -> &[Range<f32>] {
+        match *self {
+            Style::Marzen => &[5.6..6.3, 5.1..6.0],
+            Style::Hefeweizen => &[4.3..5.6, 4.9..5.6],
+            Style::LeichtesWeizen => &[2.5..3.5],
+            Style::IrishRedAle => &[3.8..5.0, 4.0..4.8],
+        }
+    }
+
+    /// Range of ABV for the style
+    #[must_use]
+    pub fn abv_range(&self) -> Range<f32> {
+        crate::union_ranges(self.abv_ranges())
+    }
+
+    /// Ranges of IBU for the style, BJCP then BA
+    #[must_use]
+    pub fn ibu_ranges(&self) -> &[Range<Ibu>] {
+        match *self {
+            Style::Marzen => &[Ibu(18.0)..Ibu(24.0), Ibu(18.0)..Ibu(25.0)],
+            Style::Hefeweizen => &[Ibu(8.0)..Ibu(15.0), Ibu(10.0)..Ibu(15.0)],
+            Style::LeichtesWeizen => &[Ibu(10.0)..Ibu(15.0)],
+            Style::IrishRedAle => &[Ibu(18.0)..Ibu(28.0), Ibu(20.0)..Ibu(28.0)],
+        }
+    }
+
+    /// Range of IBU for the style
+    #[must_use]
+    pub fn ibu_range(&self) -> Range<Ibu> {
+        crate::union_ranges(self.ibu_ranges())
+    }
+
+    /// Ranges of SRM for the style, BJCP then BA
+    #[must_use]
+    pub fn color_ranges(&self) -> &[Range<Srm>] {
+        match *self {
+            Style::Marzen => &[Srm(8.0)..Srm(17.0), Srm(4.0)..Srm(15.0)],
+            Style::Hefeweizen => &[Srm(2.0)..Srm(6.0), Srm(3.0)..Srm(9.0)],
+            Style::LeichtesWeizen => &[Srm(3.5)..Srm(15.0)],
+            Style::IrishRedAle => &[Srm(9.0)..Srm(14.0), Srm(11.0)..Srm(18.0)],
+        }
+    }
+
+    /// Range of SRM for the style
+    #[must_use]
+    pub fn color_range(&self) -> Range<Srm> {
+        crate::union_ranges(self.color_ranges())
+    }
+
+    /// Yeast pitching rate (cells per mL)
+    #[must_use]
+    pub fn yeast_pitching_rate(&self) -> u64 {
+        const ALE_RATE: u64 = 750_000;
+        const LAGER_RATE: u64 = 1_500_000;
+        const _HIGH_GRAVITY_RATE: u64 = 1_160_000;
+
+        match *self {
+            Self::Marzen => LAGER_RATE,
+            Self::Hefeweizen => ALE_RATE,
+            Self::LeichtesWeizen => ALE_RATE,
+            Self::IrishRedAle => ALE_RATE,
+        }
+    }
+
+    /// Carbonation volume
+    #[must_use]
+    pub fn carbonation_volume(&self) -> f32 {
+        // 1.5 - 2.0:  British cask ale, barleywine
+        // 2.0 - 2.5:  American and British ales
+        // 2.5 - 3.0:  Lagers, wheat beers
+        // 3.0 - 4.0:  Belgian ales, champagne-like beers
+        // Only use heavy bottles if going >= 3.0.
+        //
+        // british ale 1.8  1.5-2.0
+        // fruit lambic 3.0-4.5
+        // porter/stout 2.2  1.7-2.3
+        // american ale 2.5
+        // lager 2.6
+        // euro lager 2.2 - 2.7
+        // wheat beer 2.8, or 3.3-4.5
+        // lambic 2.4-2.8
+        // belgian ale 3.0  1n.9-2.4
+
+        match *self {
+            Self::Marzen => 2.7,
+            Self::Hefeweizen => 3.3,
+            Self::LeichtesWeizen => 4.0,
+            Self::IrishRedAle => 2.1,
+        }
+    }
+
+    /// Is a lager
+    #[must_use]
+    #[allow(clippy::match_like_matches_macro)]
+    pub fn is_a_lager(&self) -> bool {
+        match *self {
+            Self::Marzen => true,
+            _ => false,
+        }
+    }
+
+    /// Recommended boil length (minutes)
+    ///
+    /// Pilsner malt has more DMS, indicating longer boil to drive it off.
+    ///
+    /// Clear beers (lagers) benefit from more hot-break of longer boils.
+    ///
+    /// You can get more bitterness from the same hops from longer boils
+    /// but this is easily done with more hops in a shorter boil.
+    ///
+    /// Longer boils create more melanoidins.
+    #[must_use]
+    pub fn recommended_boil_length(&self) -> Minutes {
+        // TODO: this could be better
+        if self.is_a_lager() {
+            Minutes(90)
+        } else {
+            Minutes(60)
+        }
+    }
+
+    /// Recommended conditioning time
+    #[must_use]
+    pub fn recommended_conditioning_time(&self) -> Days {
+        // TODO: this could be better
+        if self.is_a_lager() {
+            Days(7 * 7) // 6-8 weeks
+        } else {
+            Days(14) // 2 weeks
+        }
+    }
+}
+
+impl fmt::Display for Style {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match *self {
+            Style::Marzen => write!(f, "Märzen"),
+            Style::Hefeweizen => write!(f, "Hefeweissen/Weissbier"),
+            Style::LeichtesWeizen => write!(f, "Leichtes Weizen"),
+            Style::IrishRedAle => write!(f, "Irish Red Ale"),
+        }
+    }
+}
