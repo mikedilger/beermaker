@@ -53,6 +53,9 @@ pub use process::{Packaging, Process};
 mod mash;
 pub use mash::MashRest;
 
+mod recipe;
+pub use recipe::Recipe;
+
 use std::ops::Range;
 
 fn union_ranges<T: PartialOrd + Copy>(ranges: &[Range<T>]) -> Range<T> {
