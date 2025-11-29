@@ -47,6 +47,9 @@ pub mod prelude {
 mod style;
 pub use style::Style;
 
+mod process;
+pub use process::{Packaging, Process};
+
 use std::ops::Range;
 
 fn union_ranges<T: PartialOrd + Copy>(ranges: &[Range<T>]) -> Range<T> {
