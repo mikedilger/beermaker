@@ -1,0 +1,19 @@
+[package]
+name = "beermaker"
+version = "0.1.0"
+authors = ["Mike Dilger <mike@mikedilger.com>"]
+description = "A library for helping make beer"
+repository = "https://github.com/mikedilger/beermaker"
+readme = "README.md"
+keywords = [ "beer" ]
+license = "MIT"
+edition = "2024"
+
+[dependencies]
+derive_more = { version = "2.0", features = [ "add", "sum", "mul" ] }
+serde = { version = "1.0", features = [ "derive" ] }
+serde_json = "1.0"
+strum = { version = "0.27", features = [ "derive" ] }
+
+[dev-dependencies]
+float-cmp = "0.10"
