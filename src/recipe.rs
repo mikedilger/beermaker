@@ -294,10 +294,7 @@ impl Recipe {
         let ogr = self.style.original_gravity_range();
         let ideal_points = f32::midpoint(ogr.start.0, ogr.end.0) - 1.0;
 
-        let adjustment = match self.grain_bill_adjustment {
-            Some(a) => a,
-            None => 1.0,
-        };
+        let adjustment = self.grain_bill_adjustment.unwrap_or(1.0);
 
         adjustment * ideal_points / actual_points
     }
@@ -353,6 +350,7 @@ impl Recipe {
     }
 
     /// The weight of the malts in the mash
+    #[must_use]
     pub fn grain_bill_string(&self) -> String {
         let mut output: String = String::new();
 
@@ -693,6 +691,7 @@ impl Recipe {
 
     /// Grams of yeast needed for pitch
     #[must_use]
+    #[allow(clippy::cast_precision_loss)]
     pub fn yeast_grams(&self) -> Option<Grams> {
         if let Some((grams, liters)) = self.yeast.pitching_rate() {
             Some(grams * (self.process.ferment_volume.0 / liters.0))

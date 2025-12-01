@@ -40,6 +40,8 @@ pub struct Steps {
 /// If you pass in custom_steps, they will be the first steps in each
 /// section, followed by the standard steps.
 #[must_use]
+#[allow(clippy::similar_names)]
+#[allow(clippy::too_many_lines)]
 pub fn print_recipe(
     recipe: &Recipe,
     custom_steps: Option<Steps>,
@@ -394,9 +396,9 @@ pub fn print_recipe(
 
     // -- pitch ------------
 
-    steps.pitch.push(
-        "Sanitize the fermenter and any equipment used for transfer.".to_string()
-    );
+    steps
+        .pitch
+        .push("Sanitize the fermenter and any equipment used for transfer.".to_string());
 
     steps
         .pitch
@@ -425,7 +427,8 @@ pub fn print_recipe(
 
     steps.ferment.push(
         "Keep an eye on fermentation. At some point it will start to \
-         slow down.".to_string()
+         slow down."
+            .to_string(),
     );
 
     steps.ferment.push(format!(
@@ -441,7 +444,8 @@ pub fn print_recipe(
     if lagering_time > Days(28) {
         steps.ferment.push(
             "With sanitized equipment, rack off the trub from primary \
-             fermenter to a secondary fermenter.".to_string()
+             fermenter to a secondary fermenter."
+                .to_string(),
         );
     }
 
@@ -466,12 +470,12 @@ pub fn print_recipe(
         steps.package.push(
             "Sanitize all equipment including siphon racking cane and tube, bottles, \
 	         turkey baster, graduated cylinder, and hydrometer."
-                .to_string()
+                .to_string(),
         );
 
         steps.package.push(
             "Take second Final Gravity reading. Return the sample to the secondary fermenter."
-                .to_string()
+                .to_string(),
         );
 
         // This is pretty nutty IMHO
@@ -523,7 +527,8 @@ pub fn print_recipe(
         steps.package.push(
             "Bottle Conditioning: Leave all bottles at room temperature, in a container \
              that can catch spills, and cover with a towel in case any bottle happens \
-             to explode or fountain.  Leave for two weeks.".to_string()
+             to explode or fountain.  Leave for two weeks."
+                .to_string(),
         );
     } else {
         let carb_volume = recipe.style.carbonation_volume();
