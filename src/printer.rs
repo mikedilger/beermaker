@@ -350,7 +350,7 @@ pub fn print_recipe(
         .chill
         .push("From this point on, sanitization is important.".to_string());
 
-    if recipe.style.is_lager {
+    if recipe.style.is_a_lager() {
         steps.chill.push(
             "Rapid chilling is important for multiple reasons to avoid to \
              off-flavors (including DMS), contamination, and drop haze \

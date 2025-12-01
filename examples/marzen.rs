@@ -50,20 +50,24 @@ fn main() {
         // except the hops goo at the bottom
         kettle_losses: Liters(0.03),
 
-        // I measured this.
+        // I measured this.  But you can use this formula
+        // `pi * (kettle_opening_radius in cm)^2 * 0.00428`
         boil_evaporation_per_hour: Liters(2.27),
 
+        // This depends on your method. See the docs.
         grain_absorption_per_kg: Liters(0.66),
 
         hops_absorption_per_kg: Liters(5.0),
 
         // The reason the batch size is small is because I only
-        // have this 11L kettle that I run on my kitchen hob
-        // 11L kettle, 1.5L buffer for foam
+        // have this 11L kettle that I run on my kitchen hob.
+        //
+        // I leave a 1.5L buffer for foam and space to prevent
+        // boil-over.
         kettle_volume: Liters(9.5),
 
-        // Looks high, but fairly accurate for tipping the entire
-        // mash through a sieve
+        // This looks high, but is fairly accurate when you tip the
+        // entire mash through a sieve
         mash_efficiency: 0.83,
 
         sparge_volume: Liters(1.0),
@@ -71,13 +75,15 @@ fn main() {
         // This isn't used by the software yet
         goal_mash_thickness_per_kg: Liters(4.2),
 
+        // I don't have a plate chiller. Somebody send me a plate
+        // chiller ;-)
         ice_bath: true,
 
         // Batch size.  I'm using a 5L glass carboy and I want
         // head space for the Krausen
         ferment_volume: Liters(6.0),
 
-        // Yeast grow and steal part of my beer!
+        // Yeast grow and steal this much of my beer!
         ferment_loss_percent: 0.10,
 
         room_temperature: Celsius(20.0),
@@ -143,6 +149,7 @@ fn main() {
             timing: Minutes(60),
         }],
 
+        // Yes, lagers should clear
         fining_desired: true,
 
         // White Labs German X Lager Yeast WLP835
@@ -160,7 +167,7 @@ fn main() {
     // recipe in detail (no custom steps)
     println!("{}", print_recipe(&recipe, None, Some(70)));
 
-    // Printout any warning
+    // Printout any warnings
     if let Err(warnings) = recipe.verify() {
         for warning in &warnings {
             println!("WARNING: {}", warning);
