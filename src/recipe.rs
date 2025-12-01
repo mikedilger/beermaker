@@ -62,6 +62,11 @@ pub struct Recipe {
 
     /// The temperature to ferment at
     pub ferment_temperature: Celsius,
+
+    /// Force the malt and sugar proportions to be higher or lower
+    /// than what would put the O.G. in the middle of the style range.
+    /// It will just multiply the amounts of everything by this number.
+    pub grain_bill_adjustment: Option<f32>,
 }
 
 // Strike water volume can be computed by multipling the weight
@@ -289,7 +294,12 @@ impl Recipe {
         let ogr = self.style.original_gravity_range();
         let ideal_points = f32::midpoint(ogr.start.0, ogr.end.0) - 1.0;
 
-        ideal_points / actual_points
+        let adjustment = match self.grain_bill_adjustment {
+            Some(a) => a,
+            None => 1.0
+        };
+
+        adjustment * ideal_points / actual_points
     }
 
     /// Malt doses
