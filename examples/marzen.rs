@@ -59,7 +59,8 @@ fn main() {
 
         // The reason the batch size is small is because I only
         // have this 11L kettle that I run on my kitchen hob
-        kettle_volume: Liters(11.0),
+        // 11L kettle, 1.5L buffer for foam
+        kettle_volume: Liters(9.5),
 
         // Looks high, but fairly accurate for tipping the entire
         // mash through a sieve
@@ -74,7 +75,7 @@ fn main() {
 
         // Batch size.  I'm using a 5L glass carboy and I want
         // head space for the Krausen
-        ferment_volume: Liters(4.25),
+        ferment_volume: Liters(6.0),
 
         // Yeast grow and steal part of my beer!
         ferment_loss_percent: 0.10,
@@ -116,7 +117,7 @@ fn main() {
             },
             MaltProportion {
                 malt: Malt::WeyermannMelanoidin,
-                proportion: 3.,
+                proportion: 4.,
             },
         ],
 
@@ -152,6 +153,13 @@ fn main() {
     };
 
     // Finally, instruct the beermaker to print out my
-    // recipe in detail
+    // recipe in detail (no custom steps)
     println!("{}", print_recipe(&recipe, None));
+
+    // Printout any warning
+    if let Err(warnings) = recipe.verify() {
+        for warning in &warnings {
+            println!("WARNING: {}", warning);
+        }
+    }
 }
