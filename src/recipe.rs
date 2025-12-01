@@ -759,10 +759,11 @@ impl Recipe {
         }
 
         // Verify the pre-boil volume fits in the kettle
-        let fill_fraction = self.pre_boil_volume().0 / self.process.kettle_volume.0;
-        if fill_fraction > 0.8 {
+
+        if self.pre_boil_volume() > self.process.kettle_volume {
             errors.push(format!(
-                "Kettle will be full or overfull:  {fill_fraction} > 0.8"
+                "Kettle will be full or overfull:  {}",
+                self.pre_boil_volume()
             ));
         }
 

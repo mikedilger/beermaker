@@ -14,6 +14,10 @@ pub struct Process {
     /// Water acids/bases
     pub water_acids: Vec<AcidConcentration>,
 
+    /// The effective volume of your boil kettle... the max level you can boil at.
+    /// Make sure to leave some space for rolling boils and foam.
+    pub kettle_volume: Liters,
+
     /// How much is left behind in the kettle after the boil
     pub kettle_losses: Liters,
 
@@ -42,10 +46,6 @@ pub struct Process {
     /// How much absorption happens from your hops (5 L/kg) is normal.
     /// Much less however if you squeeze hop bags afterwards.
     pub hops_absorption_per_kg: Liters,
-
-    /// The volume of your boil kettle. To make sure the wort quantity
-    /// can fit.
-    pub kettle_volume: Liters,
 
     /// Your mash efficiency. Generally 0.6 - 0.9. Lower for bigger
     /// beers. Higher for BIAB or straining through sieves.
