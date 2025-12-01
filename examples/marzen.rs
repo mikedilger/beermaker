@@ -1,0 +1,157 @@
+use beermaker::prelude::*;
+use beermaker::*;
+
+/// This is a very small 4.25 L batch experiment that I did.
+/// I would not consider this a great recipe, because I made
+/// it up and I am a beginning brewer.  But this shows you
+/// how to use the software.
+
+fn main() {
+    // Here I define my water profile
+    pub const PAPAIOEA_PARK_BORE: WaterProfile = WaterProfile {
+        ca: Ppm(38.6),
+        mg: Ppm(7.0),
+        na: Ppm(15.6),
+        so4: Ppm(12.5),
+        cl: Ppm(21.9),
+        alkalinity_caco3: Ppm(120.),
+        ph: Ph(8.0), //  not reported, guessed
+    };
+
+    // And this is my process
+    let process = Process {
+        water_profile: PAPAIOEA_PARK_BORE,
+
+        // These are probably wrong.
+        // A future version of the beermaker will figure this
+        // out for me automatically
+        water_salts: vec![
+            SaltConcentration {
+                salt: Salt::Gypsum,
+                ppm: Ppm(60.0),
+            },
+            SaltConcentration {
+                salt: Salt::Epsom,
+                ppm: Ppm(20.0),
+            },
+            SaltConcentration {
+                salt: Salt::MagnesiumChloride,
+                ppm: Ppm(140.0),
+            },
+            SaltConcentration {
+                salt: Salt::BakingSoda,
+                ppm: Ppm(10.0),
+            },
+        ],
+
+        water_acids: vec![],
+
+        // This is very small since I tip out the entire kettle
+        // except the hops goo at the bottom
+        kettle_losses: Liters(0.03),
+
+        // I measured this.
+        boil_evaporation_per_hour: Liters(2.27),
+
+        grain_absorption_per_kg: Liters(0.66),
+
+        hops_absorption_per_kg: Liters(5.0),
+
+        // The reason the batch size is small is because I only
+        // have this 11L kettle that I run on my kitchen hob
+        kettle_volume: Liters(11.0),
+
+        // Looks high, but fairly accurate for tipping the entire
+        // mash through a sieve
+        mash_efficiency: 0.83,
+
+        sparge_volume: Liters(1.0),
+
+        // This isn't used by the software yet
+        goal_mash_thickness_per_kg: Liters(4.2),
+
+        ice_bath: true,
+
+        // Batch size.  I'm using a 5L glass carboy and I want
+        // head space for the Krausen
+        ferment_volume: Liters(4.25),
+
+        // Yeast grow and steal part of my beer!
+        ferment_loss_percent: 0.10,
+
+        room_temperature: Celsius(20.0),
+
+        // I use boiling water, but within seconds it isn't boiling
+        // anymore
+        infusion_temperature: Celsius(98.5),
+
+        // This is for recipes where you dilute the wort after
+        // boiling to make the full volume, called a partial boil.
+        partial_boil_dilution: Liters(0.0),
+
+        // I use these double-sized big brown bottles that NZ bottle
+        // shops charged me a deposit on, but wont take back anymore.
+        // That's ok, they are useful.
+        packaging: Packaging::Bottle(Liters(0.750), Sugar::Dextrose),
+    };
+
+    // Here is my experimental Märzen recipe
+    let recipe = Recipe {
+        name: "Example Märzen".to_owned(),
+
+        style: Style::Marzen,
+
+        process,
+
+        // The malt bill.  The proportions don't have to add up
+        // to anything in particular.
+        malts: vec![
+            MaltProportion {
+                malt: Malt::WeyermannMunich2,
+                proportion: 60.,
+            },
+            MaltProportion {
+                malt: Malt::GladfieldGermanPilsner,
+                proportion: 27.,
+            },
+            MaltProportion {
+                malt: Malt::WeyermannMelanoidin,
+                proportion: 3.,
+            },
+        ],
+
+        // This example has two rests
+        mash_rests: vec![
+            MashRest {
+                target_temperature: Celsius(61.0),
+                duration: Minutes(30),
+            },
+            MashRest {
+                target_temperature: Celsius(69.0),
+                duration: Minutes(30),
+            },
+        ],
+
+        // No sugars. If you add DME or maltodextrin you can
+        // put that here.
+        sugars: vec![],
+
+        hops: vec![HopsDose {
+            hops: Hops::HallertauMittelfruh, // Alt: Tettnanger
+            weight: Grams(11.0),
+            timing: Minutes(60),
+        }],
+
+        fining_desired: true,
+
+        // White Labs German X Lager Yeast WLP835
+        yeast: Yeast::WLP835,
+
+        // Just use the optimal temp for that yeast
+        ferment_temperature: Yeast::WLP835.temp(),
+    };
+
+    // Finally, instruct the beermaker to print out my
+    // recipe in detail
+    println!("{}", print_recipe(&recipe, None));
+}
