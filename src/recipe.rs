@@ -296,7 +296,7 @@ impl Recipe {
 
         let adjustment = match self.grain_bill_adjustment {
             Some(a) => a,
-            None => 1.0
+            None => 1.0,
         };
 
         adjustment * ideal_points / actual_points
@@ -340,9 +340,15 @@ impl Recipe {
     #[must_use]
     pub fn fermentables_weight(&self) -> Kilograms {
         Kilograms(
-            self.malt_doses().iter().map(|dose| dose.weight.0).sum::<f32>()
-                +
-                self.sugar_doses().iter().map(|dose| dose.weight.0).sum::<f32>()
+            self.malt_doses()
+                .iter()
+                .map(|dose| dose.weight.0)
+                .sum::<f32>()
+                + self
+                    .sugar_doses()
+                    .iter()
+                    .map(|dose| dose.weight.0)
+                    .sum::<f32>(),
         )
     }
 
@@ -355,10 +361,9 @@ impl Recipe {
             writeln!(
                 output,
                 "{}, {:04.1}%  {}",
-                malt_dose.weight,
-                percent,
-                malt_dose.malt
-            ).unwrap();
+                malt_dose.weight, percent, malt_dose.malt
+            )
+            .unwrap();
         }
 
         for sugar_dose in self.sugar_doses() {
@@ -366,10 +371,9 @@ impl Recipe {
             writeln!(
                 output,
                 "{} {:.1}% {}",
-                sugar_dose.weight,
-                percent,
-                sugar_dose.sugar
-            ).unwrap();
+                sugar_dose.weight, percent, sugar_dose.sugar
+            )
+            .unwrap();
         }
 
         output

@@ -158,7 +158,7 @@ fn main() {
 
     // Finally, instruct the beermaker to print out my
     // recipe in detail (no custom steps)
-    println!("{}", print_recipe(&recipe, None));
+    println!("{}", print_recipe(&recipe, None, Some(70)));
 
     // Printout any warning
     if let Err(warnings) = recipe.verify() {

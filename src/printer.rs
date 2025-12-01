@@ -40,11 +40,13 @@ pub struct Steps {
 /// If you pass in custom_steps, they will be the first steps in each
 /// section, followed by the standard steps.
 #[must_use]
-pub fn print_recipe(recipe: &Recipe, custom_steps: Option<Steps>) -> String {
-    let mut steps = match custom_steps {
-        Some(steps) => steps,
-        None => Default::default(),
-    };
+pub fn print_recipe(
+    recipe: &Recipe,
+    custom_steps: Option<Steps>,
+    char_width: Option<usize>,
+) -> String {
+    let char_width = char_width.unwrap_or(78);
+    let mut steps = custom_steps.unwrap_or_default();
 
     // Local variables for format! substitutions
 
@@ -53,7 +55,7 @@ pub fn print_recipe(recipe: &Recipe, custom_steps: Option<Steps>) -> String {
     let batch_size = recipe.process.ferment_volume;
     let mash_ph = recipe.mash_ph();
     let yeast_amount = if let Some(g) = recipe.yeast_grams() {
-        format!("{}", g)
+        format!("{g}")
     } else {
         format!("{} billion cells", recipe.yeast_cells() / 1_000_000_000)
     };
@@ -122,12 +124,12 @@ pub fn print_recipe(recipe: &Recipe, custom_steps: Option<Steps>) -> String {
 
     steps.header.push(format!(
         "Volume History:\n{}",
-        &indent(&recipe.volume_history_string(), 2)
+        &indent(&recipe.volume_history_string(), 2, char_width)
     ));
 
     steps.header.push(format!(
         "Grain Bill:\n{}",
-        &indent(&recipe.grain_bill_string(), 2)
+        &indent(&recipe.grain_bill_string(), 2, char_width)
     ));
 
     // -- acquire ------------
@@ -236,7 +238,7 @@ pub fn print_recipe(recipe: &Recipe, custom_steps: Option<Steps>) -> String {
         } else {
             steps.mash.push(format!(
                 "Infuse {} of {infusion_temp} into the mash.",
-                infusions[i - i]
+                infusions[i - 1]
             ));
 
             steps
@@ -392,19 +394,19 @@ pub fn print_recipe(recipe: &Recipe, custom_steps: Option<Steps>) -> String {
 
     // -- pitch ------------
 
-    steps.pitch.push(format!(
-        "Sanitize the fermenter and any equipment used for transfer.",
-    ));
+    steps.pitch.push(
+        "Sanitize the fermenter and any equipment used for transfer.".to_string()
+    );
 
     steps
         .pitch
-        .push(format!("Transfer the wort into the fermenter.",));
+        .push("Transfer the wort into the fermenter.".to_string());
 
-    steps.pitch.push(format!("Oxygenate the wort.",));
+    steps.pitch.push("Oxygenate the wort.".to_string());
 
     steps
         .pitch
-        .push(format!("Verify the temperature is correct for the yeast.",));
+        .push("Verify the temperature is correct for the yeast.".to_string());
 
     steps
         .pitch
@@ -414,17 +416,17 @@ pub fn print_recipe(recipe: &Recipe, custom_steps: Option<Steps>) -> String {
 
     steps
         .ferment
-        .push(format!("Close the fermenter and install or setup airlock."));
+        .push("Close the fermenter and install or setup airlock.".to_string());
 
     steps.ferment.push(format!(
         "Place the fermenter under temperature control. We need it to \
          be and remain at {fermentation_temp} for about {fermentation_time}."
     ));
 
-    steps.ferment.push(format!(
+    steps.ferment.push(
         "Keep an eye on fermentation. At some point it will start to \
-         slow down."
-    ));
+         slow down.".to_string()
+    );
 
     steps.ferment.push(format!(
         "As soon as it starts to slow, or when gravity is 2-5 points above \
@@ -437,14 +439,14 @@ pub fn print_recipe(recipe: &Recipe, custom_steps: Option<Steps>) -> String {
     ));
 
     if lagering_time > Days(28) {
-        steps.ferment.push(format!(
+        steps.ferment.push(
             "With sanitized equipment, rack off the trub from primary \
-             fermenter to a secondary fermenter."
-        ));
+             fermenter to a secondary fermenter.".to_string()
+        );
     }
 
     if recipe.fining_desired {
-        steps.ferment.push(format!("Fining: Add fining agent.",));
+        steps.ferment.push("Fining: Add fining agent.".to_string());
     }
 
     if lagering_time > Days(0) {
@@ -461,14 +463,16 @@ pub fn print_recipe(recipe: &Recipe, custom_steps: Option<Steps>) -> String {
     // -- package ------------
 
     if let Packaging::Bottle(bottle_volume, sugar) = recipe.process.packaging {
-        steps.package.push(format!(
+        steps.package.push(
             "Sanitize all equipment including siphon racking cane and tube, bottles, \
-	         turkey baster, graduated cylinder, and hydrometer.",
-        ));
+	         turkey baster, graduated cylinder, and hydrometer."
+                .to_string()
+        );
 
-        steps.package.push(format!(
+        steps.package.push(
             "Take second Final Gravity reading. Return the sample to the secondary fermenter."
-        ));
+                .to_string()
+        );
 
         // This is pretty nutty IMHO
         // steps.package.push(format!(
@@ -512,14 +516,15 @@ pub fn print_recipe(recipe: &Recipe, custom_steps: Option<Steps>) -> String {
         //));
 
         steps.package.push(format!(
-            "Rack the beer into {num_bottles} {bottle_volume} bottles, capping each one.",
+            "Rack the beer into up to {num_bottles}x {bottle_volume} bottles, \
+             and then cap them.",
         ));
 
-        steps.package.push(format!(
+        steps.package.push(
             "Bottle Conditioning: Leave all bottles at room temperature, in a container \
-             that can atch spills, and cover with a towel in case any bottle happens \
-             to explode or fountain.  Leave for two weeks."
-        ));
+             that can catch spills, and cover with a towel in case any bottle happens \
+             to explode or fountain.  Leave for two weeks.".to_string()
+        );
     } else {
         let carb_volume = recipe.style.carbonation_volume();
         steps.package.push(format!(
@@ -527,84 +532,92 @@ pub fn print_recipe(recipe: &Recipe, custom_steps: Option<Steps>) -> String {
         ));
     }
 
-    steps.package.push(format!("The beer is done."));
+    steps.package.push("The beer is done.".to_string());
 
     // -------------------------------
 
     let mut output = String::new();
 
-    for block in steps.header.iter() {
-        output.push_str(block);
+    for block in &steps.header {
+        output.push_str(&indent(block, 0, char_width));
         output.push('\n');
     }
-    output.push_str("---ACQUIRE-------------------\n\n");
+
+    header(&mut output, "ACQUIRE", char_width);
     for (i, block) in steps.acquire.iter().enumerate() {
-        output.push_str(&label("ACQUIRE", i + 1, block));
+        label(&mut output, "ACQUIRE", i + 1, block, char_width);
         output.push('\n');
     }
-    output.push_str("---PREP-------------------\n\n");
+    header(&mut output, "PREP", char_width);
     for (i, block) in steps.prep.iter().enumerate() {
-        output.push_str(&label("PREP", i + 1, block));
+        label(&mut output, "PREP", i + 1, block, char_width);
         output.push('\n');
     }
-    output.push_str("---MASH-------------------\n\n");
+    header(&mut output, "MASH", char_width);
     for (i, block) in steps.mash.iter().enumerate() {
-        output.push_str(&label("MASH", i + 1, block));
+        label(&mut output, "MASH", i + 1, block, char_width);
         output.push('\n');
     }
-    output.push_str("---BOIL-------------------\n\n");
+    header(&mut output, "BOIL", char_width);
     for (i, block) in steps.boil.iter().enumerate() {
-        output.push_str(&label("BOIL", i + 1, block));
+        label(&mut output, "BOIL", i + 1, block, char_width);
         output.push('\n');
     }
-    output.push_str("---CHILL-------------------\n\n");
+    header(&mut output, "CHILL", char_width);
     for (i, block) in steps.chill.iter().enumerate() {
-        output.push_str(&label("CHILL", i + 1, block));
+        label(&mut output, "CHILL", i + 1, block, char_width);
         output.push('\n');
     }
-    output.push_str("---PITCH-------------------\n\n");
+    header(&mut output, "PITCH", char_width);
     for (i, block) in steps.pitch.iter().enumerate() {
-        output.push_str(&label("PITCH", i + 1, block));
+        label(&mut output, "PITCH", i + 1, block, char_width);
         output.push('\n');
     }
-    output.push_str("---FERMENT-------------------\n\n");
+    header(&mut output, "FERMENT", char_width);
     for (i, block) in steps.ferment.iter().enumerate() {
-        output.push_str(&label("FERMENT", i + 1, block));
+        label(&mut output, "FERMENT", i + 1, block, char_width);
         output.push('\n');
     }
-    output.push_str("---PACKAGE-------------------\n\n");
+    header(&mut output, "PACKAGE", char_width);
     for (i, block) in steps.package.iter().enumerate() {
-        output.push_str(&label("PACKAGE", i + 1, block));
+        label(&mut output, "PACKAGE", i + 1, block, char_width);
         output.push('\n');
     }
 
     output
 }
 
-fn label(label: &str, step: usize, s: &str) -> String {
-    use std::fmt::Write;
-    let mut output = String::new();
-
+fn header(output: &mut String, label: &str, char_width: usize) {
+    output.push_str("---");
     output.push_str(label);
-    output.push_str(&format!("-{:02}: ", step));
+    output.push_str(&"-".repeat(char_width - label.len() - 3));
+    output.push_str("\n\n");
+}
 
-    let sublines = textwrap::wrap(s, 79 - 9);
+fn label(output: &mut String, label: &str, step: usize, s: &str, char_width: usize) {
+    use std::fmt::Write;
+
+    let pre_output_len = output.len();
+    output.push_str(label);
+    write!(output, "-{step:02}: ").unwrap();
+    let prefix_len = output.len() - pre_output_len;
+
+    let sublines = textwrap::wrap(s, char_width - prefix_len);
     let mut virgin = true;
     for subline in sublines {
         if !virgin {
-            write!(output, "{}", " ".repeat(9)).unwrap();
+            write!(output, "{}", " ".repeat(prefix_len)).unwrap();
         }
         writeln!(output, "{subline}").unwrap();
         virgin = false;
     }
-    output
 }
 
-fn indent(s: &str, indent: usize) -> String {
+fn indent(s: &str, indent: usize, char_width: usize) -> String {
     use std::fmt::Write;
     let mut output = String::new();
 
-    let sublines = textwrap::wrap(s, 79 - indent);
+    let sublines = textwrap::wrap(s, char_width - indent);
     for subline in sublines {
         write!(output, "{}", " ".repeat(indent)).unwrap();
         writeln!(output, "{subline}").unwrap();
@@ -612,11 +625,12 @@ fn indent(s: &str, indent: usize) -> String {
     output
 }
 
-fn indent2(s: &str, indent: usize) -> String {
+/*
+fn indent2(s: &str, indent: usize, char_width: usize) -> String {
     use std::fmt::Write;
     let mut output = String::new();
 
-    let sublines = textwrap::wrap(s, 79 - indent);
+    let sublines = textwrap::wrap(s, char_width - indent);
     let mut virgin = true;
     for subline in sublines {
         if !virgin {
@@ -627,3 +641,4 @@ fn indent2(s: &str, indent: usize) -> String {
     }
     output
 }
+*/

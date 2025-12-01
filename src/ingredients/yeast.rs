@@ -87,7 +87,6 @@ pub enum Yeast {
 }
 
 impl Yeast {
-
     /// Sources say it is between 5b and 20b depending on
     /// viability of the yeast.  Fermentis guarantees a
     /// minimum of 6b, many home brew tests show it is
@@ -236,7 +235,7 @@ impl Yeast {
     pub fn pitching_rate(&self) -> Option<(Grams, Liters)> {
         match *self {
             // 50-100g/hL
-            Yeast::LallemandMunichClassic => Some((Grams(75.0) , Liters(100.0))),
+            Yeast::LallemandMunichClassic => Some((Grams(75.0), Liters(100.0))),
             _ => None,
         }
     }
