@@ -180,8 +180,9 @@ pub fn print_recipe(
     steps.prep.push(
         "Assemble all equipment for the mash, boil, and ferment including:\n\
          Sanitizer, spray bottle of sanitizer, bowl for sanitizer, \
-         scale, thermomemter, pH meter, graduated cylinder, hydrometer, \
-         turkey baster, ladel, funnel, timer, fermenter, kettle, kettle lid \
+         scale, thermomemter, pH meter, graduated cylinder, hydrometer or \
+         refractometer, turkey baster or sample pipet, ladel, funnel, timer, \
+         fermenter, kettle, kettle lid \
          stirrer, rest for stirrer, mash tun, sparging equipment, \
          boiler for strike/infusion water, etc."
             .to_string(),
@@ -349,12 +350,20 @@ pub fn print_recipe(
         .chill
         .push("From this point on, sanitization is important.".to_string());
 
-    steps.chill.push(
-        "Rapid chilling is important for multiple reasons to avoid to \
-         off-flavors (including DMS), contamination, and drop haze \
-         proteins for clarity"
-            .to_string(),
-    );
+    if recipe.style.is_lager {
+        steps.chill.push(
+            "Rapid chilling is important for multiple reasons to avoid to \
+             off-flavors (including DMS), contamination, and drop haze \
+             proteins for clarity."
+                .to_string(),
+        );
+    } else {
+        steps.chill.push(
+            "Rapid chilling is important for multiple reasons to avoid to \
+             off-flavors (including DMS) and contamination."
+                .to_string(),
+        );
+    }
 
     if recipe.process.ice_bath {
         steps.chill.push(
@@ -382,9 +391,8 @@ pub fn print_recipe(
 
     steps.chill.push(format!(
         "Original Gravity Reading\n\n\
-             When the temperature is down to 20°C, take an Original Gravity reading \
-             with the sanitized Glass Graduated Cylinder, Turkey Baster, and Hydrometer. \
-             Return the sample after testing. Target is {og}.\n\n\
+             When the temperature is down to 20°C, take an Original Gravity reading. \
+             Optionally return the sample after testing. Target is {og}.\n\n\
              If the calculator is needed it is at ( \n\
              'cargo run --bin hydrometer_correct' )."
     ));
@@ -455,12 +463,15 @@ pub fn print_recipe(
 
     if lagering_time > Days(0) {
         steps.ferment.push(format!(
-            "Crash to near 0°C for {lagering_time}. BEWARE, it will want to suck \
-             in oxygen as it drops temperature and that will massively oxidize \
-             the beer. Replace sanitizer in the airlock with strong alcohol. \
-             Use one of these techniques: apply continuous low pressure CO2, \
-             use a Co2-filled balloon as the airlock, or use a very long \
-             blow-off tube"
+            "Slowly lower the temperature by 1°C per day until you get near 0°C. \
+             Or optionally crash to near 0°C (but Germans dont do that). Hold at \
+             this low temperature for {lagering_time}.  BEWARE, if you crash it, \
+             the fermenter will suck in whatever is in your airlock and a bunch \
+             of atmosphere (with oxygen) besides, potentially ruining your beer. \
+             So consider these: Replace sanitizer in the airlock with strong alcohol; \
+             Apply continuous low pressure CO2; use a Co2-filled balloon as the \
+             airlock; use a blow-off tube long enough that the water wont be sucked \
+             all the way into the fermenter."
         ));
     }
 
@@ -469,7 +480,7 @@ pub fn print_recipe(
     if let Packaging::Bottle(bottle_volume, sugar) = recipe.process.packaging {
         steps.package.push(
             "Sanitize all equipment including siphon racking cane and tube, bottles, \
-	         turkey baster, graduated cylinder, and hydrometer."
+	         sampler and measuring devices."
                 .to_string(),
         );
 
