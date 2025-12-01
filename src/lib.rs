@@ -56,6 +56,9 @@ pub use mash::MashRest;
 mod recipe;
 pub use recipe::Recipe;
 
+mod printer;
+pub use printer::print_recipe;
+
 use std::ops::Range;
 
 fn union_ranges<T: PartialOrd + Copy>(ranges: &[Range<T>]) -> Range<T> {
