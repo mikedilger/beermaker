@@ -121,6 +121,11 @@ pub fn print_recipe(recipe: &Recipe, custom_steps: Option<Steps>) -> String {
         &indent(&recipe.volume_history_string(), 2)
     ));
 
+    steps.header.push(format!(
+        "Grain Bill:\n{}",
+        &indent(&recipe.grain_bill_string(), 2)
+    ));
+
     // -- acquire ------------
 
     steps

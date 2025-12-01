@@ -336,6 +336,45 @@ impl Recipe {
         self.malt_doses().iter().map(|dose| dose.weight).sum()
     }
 
+    /// The weight of all the fermentables
+    #[must_use]
+    pub fn fermentables_weight(&self) -> Kilograms {
+        Kilograms(
+            self.malt_doses().iter().map(|dose| dose.weight.0).sum::<f32>()
+                +
+                self.sugar_doses().iter().map(|dose| dose.weight.0).sum::<f32>()
+        )
+    }
+
+    /// The weight of the malts in the mash
+    pub fn grain_bill_string(&self) -> String {
+        let mut output: String = String::new();
+
+        for malt_dose in self.malt_doses() {
+            let percent = 100.0 * malt_dose.weight.0 / self.fermentables_weight().0;
+            writeln!(
+                output,
+                "{}, {:04.1}%  {}",
+                malt_dose.weight,
+                percent,
+                malt_dose.malt
+            ).unwrap();
+        }
+
+        for sugar_dose in self.sugar_doses() {
+            let percent = 100.0 * sugar_dose.weight.0 / self.fermentables_weight().0;
+            writeln!(
+                output,
+                "{} {:.1}% {}",
+                sugar_dose.weight,
+                percent,
+                sugar_dose.sugar
+            ).unwrap();
+        }
+
+        output
+    }
+
     /// The water absorption of the malts
     #[must_use]
     pub fn water_absorption(&self) -> Liters {
