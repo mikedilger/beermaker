@@ -87,6 +87,13 @@ pub enum Yeast {
 }
 
 impl Yeast {
+
+    /// Sources say it is between 5b and 20b depending on
+    /// viability of the yeast.  Fermentis guarantees a
+    /// minimum of 6b, many home brew tests show it is
+    /// closer to 20b.  We pick a number in between.
+    pub const CELLS_PER_GRAM_DRY: u64 = 13_000_000_000;
+
     /// The minimum recommended temperature to ferment at
     #[must_use]
     #[allow(clippy::match_same_arms)]
@@ -198,6 +205,39 @@ impl Yeast {
             Yeast::WLP833 => Flocculation::Medium,
             Yeast::WLP835 => Flocculation::Medium,
             Yeast::WLP838 => Flocculation::MediumHigh,
+        }
+    }
+
+    /// Is the yeast dry?
+    #[must_use]
+    #[allow(clippy::match_same_arms)]
+    pub fn is_dry(&self) -> bool {
+        match *self {
+            Yeast::KveikVoss => true,
+            Yeast::LutraKveik => false,
+            Yeast::LallemandMunichClassic => true,
+            Yeast::SafaleT58 => true,
+            Yeast::SafaleW68 => true,
+            Yeast::SafaleWB06 => true,
+            Yeast::SaflagerW3470 => true,
+            Yeast::WLP300 => false,
+            Yeast::WLP351 => false,
+            Yeast::WLP380 => false,
+            Yeast::WLP820 => false,
+            Yeast::WLP830 => false,
+            Yeast::WLP833 => false,
+            Yeast::WLP835 => false,
+            Yeast::WLP838 => false,
+        }
+    }
+
+    /// Pitching rate, if known
+    #[must_use]
+    pub fn pitching_rate(&self) -> Option<(Grams, Liters)> {
+        match *self {
+            // 50-100g/hL
+            Yeast::LallemandMunichClassic => Some((Grams(75.0) , Liters(100.0))),
+            _ => None,
         }
     }
 }

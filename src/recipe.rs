@@ -687,15 +687,30 @@ impl Recipe {
         output
     }
 
-    /// Billions of yeast cells needed for a good pitch
+    /// Grams of yeast needed for pitch
+    #[must_use]
+    pub fn yeast_grams(&self) -> Option<Grams> {
+        if let Some((grams, liters)) = self.yeast.pitching_rate() {
+            Some(grams * (self.process.ferment_volume.0 / liters.0))
+        } else {
+            let cells = self.yeast_cells();
+            if self.yeast.is_dry() {
+                Some(Grams((cells / Yeast::CELLS_PER_GRAM_DRY) as f32))
+            } else {
+                None
+            }
+        }
+    }
+
+    /// Number of yeast cells needed for a good pitch
     #[must_use]
     #[allow(clippy::cast_possible_truncation)]
     #[allow(clippy::cast_sign_loss)]
-    pub fn yeast_cells_needed(&self) -> u64 {
+    pub fn yeast_cells(&self) -> u64 {
         let ml: Milliliters = self.process.ferment_volume.into();
         let plato: Plato = self.original_gravity().into();
         let pitch_rate: u64 = self.style.yeast_pitching_rate();
-        (pitch_rate * (ml.0 * plato.0) as u64) / 1_000_000_000
+        pitch_rate * (ml.0 * plato.0) as u64
     }
 
     /// Yeast nutrient needed

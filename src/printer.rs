@@ -52,7 +52,11 @@ pub fn print_recipe(recipe: &Recipe, custom_steps: Option<Steps>) -> String {
     let time_until_done = recipe.time_until_done();
     let batch_size = recipe.process.ferment_volume;
     let mash_ph = recipe.mash_ph();
-    let yeast_cells = recipe.yeast_cells_needed();
+    let yeast_amount = if let Some(g) = recipe.yeast_grams() {
+        format!("{}", g)
+    } else {
+        format!("{} billion cells", recipe.yeast_cells() / 1_000_000_000)
+    };
     let ibu = recipe.ibu_tinseth();
     let min_ibu = recipe.style.ibu_range().start.0;
     let max_ibu = recipe.style.ibu_range().end.0;
@@ -108,7 +112,7 @@ pub fn print_recipe(recipe: &Recipe, custom_steps: Option<Steps>) -> String {
              Days:             {time_until_done}\n  \
              Ferment Temp:     {fermentation_temp}\n  \
              Mash pH:          {mash_ph}\n  \
-             Yeast Pitch:      {yeast_cells} billion cells\n  \
+             Yeast Pitch:      {yeast_amount}\n  \
              Bitterness:       {ibu}   [style: {min_ibu:.1} .. {max_ibu:.1}]\n  \
              Color:            {color}    [style: {min_color:.1} .. {max_color:.1}]\n  \
              Original Gravity: {og} [style: {min_og:.3} .. {max_og:.3}]\n  \
@@ -152,7 +156,7 @@ pub fn print_recipe(recipe: &Recipe, custom_steps: Option<Steps>) -> String {
     ));
 
     steps.acquire.push(format!(
-        "You will need {yeast_cells} billion cells of {yeast}. You may need \
+        "You will need {yeast_amount} of {yeast}. You may need \
          to start a yeast starter a day before."
     ));
 
@@ -404,7 +408,7 @@ pub fn print_recipe(recipe: &Recipe, custom_steps: Option<Steps>) -> String {
 
     steps
         .pitch
-        .push(format!("Pitch {yeast_cells} billion cells of {yeast}.",));
+        .push(format!("Pitch {yeast_amount} of {yeast}.",));
 
     // -- ferment ------------
 
