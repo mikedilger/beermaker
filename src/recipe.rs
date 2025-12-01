@@ -888,7 +888,7 @@ impl Recipe {
         // Verify the mash pH
         if !(5.2..5.6).contains(&self.mash_ph().0) {
             errors.push(format!(
-                "Estimated Mash pH {} out of range 5.2..5.6",
+                "Estimated Mash {} is out of range 5.2..5.6",
                 self.mash_ph()
             ));
         }
