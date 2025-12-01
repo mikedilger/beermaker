@@ -166,17 +166,24 @@ impl Style {
         crate::union_ranges(self.color_ranges())
     }
 
-    /// Yeast pitching rate (cells per mL)
+    /// Yeast pitching rate (cells per mL per Plato)
     #[must_use]
     pub fn yeast_pitching_rate(&self) -> u64 {
+        // 750k to 1m per ml per plato
         const ALE_RATE: u64 = 750_000;
+
+        // 1.5m per ml per plato for lagers
         const LAGER_RATE: u64 = 1_500_000;
-        const _HIGH_GRAVITY_RATE: u64 = 1_160_000;
 
         match *self {
             Self::Marzen => LAGER_RATE,
-            Self::Hefeweizen => ALE_RATE,
-            Self::LeichtesWeizen => ALE_RATE,
+
+            // Weissbeer rate is lower, as growth promotes esters
+            // Weissbier is 5-10 mm cells per ml
+            // at 12.5 plato (1.050 points) that is 4m-8m per ml per plato
+            Self::Hefeweizen => 600_000,
+            Self::LeichtesWeizen => 600_000,
+
             Self::IrishRedAle => ALE_RATE,
         }
     }

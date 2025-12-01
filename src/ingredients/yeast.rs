@@ -68,6 +68,7 @@ pub enum Yeast {
     WLP820,
 
     /// White Labs German Lager Yeast WLP830
+    // I've heard this is strain 34/70, as is Wyeast 2206
     WLP830,
 
     /// White Labs German Bock Lager Yeast WLP833

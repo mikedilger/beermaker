@@ -639,8 +639,6 @@ impl Recipe {
     }
 
     /// Billions of yeast cells needed for a good pitch
-    //
-    //  1 million cells per mL per plato
     #[must_use]
     #[allow(clippy::cast_possible_truncation)]
     #[allow(clippy::cast_sign_loss)]
