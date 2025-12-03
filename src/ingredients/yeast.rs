@@ -47,6 +47,8 @@ pub enum Yeast {
     SafaleT58,
 
     /// Safale W-68 (german style wheat beers), can't find in NZ
+    /// Wyeast Strain 3068 from Weihenstephan Weizen beers,
+    /// but behaves differently as it is dry.
     SafaleW68,
 
     /// Safale WB-06 (wheat)
@@ -56,6 +58,7 @@ pub enum Yeast {
     SaflagerW3470,
 
     /// White labs Hefeweizen Ale Yeast, WLP300
+    /// Wyeast Strain 3068 from Weihenstephan Weizen beers
     WLP300,
 
     /// White Labs Bavarian Weizen Ale Yeast, WLP351

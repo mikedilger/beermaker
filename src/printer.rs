@@ -101,6 +101,7 @@ pub fn print_recipe(
     let yeast = recipe.yeast;
     let fermentation_time = recipe.fermentation_time();
     let lagering_time = recipe.style.recommended_conditioning_time();
+    let diacetyl_rest_temp = recipe.diacetyl_rest_temperature();
 
     // -- header ------------
 
@@ -440,8 +441,10 @@ pub fn print_recipe(
     );
 
     steps.ferment.push(format!(
-        "As soon as it starts to slow, or when gravity is 2-5 points above \
-         {fg}, raise the temperature by about 6 to 11°C for a 2 day diacetyl rest."
+        "Diacetyl rest: As soon as it starts to slow, or when gravity is 2-5 \
+         points above {fg}, do a 2 day diacetyl rest at {diacetyl_rest_temp}, or \
+         just let it ferment on the trub at {fermentation_temp} for 3-5 days \
+         after fermentation stops."
     ));
 
     steps.ferment.push(format!(

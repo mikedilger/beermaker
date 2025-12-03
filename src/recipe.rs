@@ -735,6 +735,12 @@ impl Recipe {
         self.process.kettle_volume
     }
 
+    /// Diacetyl rest temperature
+    #[must_use]
+    pub fn diacetyl_rest_temperature(&self) -> Celsius {
+        Celsius(self.ferment_temperature.0 * (5.0 / 6.0) + (20.0 / 3.0))
+    }
+
     /// IBU (Tinseth formula)
     // FIXME: use the mIBU model which is more accurate
     #[must_use]
