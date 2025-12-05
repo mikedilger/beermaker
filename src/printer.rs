@@ -1,4 +1,4 @@
-use crate::prelude::Days;
+use crate::prelude::{Days, Grams};
 use crate::{Packaging, Recipe};
 
 /// Instructions for each major step of the process.
@@ -56,6 +56,7 @@ pub fn print_recipe(
     let time_until_done = recipe.time_until_done();
     let batch_size = recipe.process.ferment_volume;
     let mash_ph = recipe.mash_ph();
+    let wort_fan = recipe.wort_fan();
     let yeast_amount = if let Some(g) = recipe.yeast_grams() {
         format!("{g}")
     } else {
@@ -117,6 +118,7 @@ pub fn print_recipe(
              Days:             {time_until_done}\n  \
              Ferment Temp:     {fermentation_temp}\n  \
              Mash pH:          {mash_ph}\n  \
+             Wort FAN:         {wort_fan}\n  \
              Yeast Pitch:      {yeast_amount}\n  \
              Bitterness:       {ibu}   [style: {min_ibu:.1} .. {max_ibu:.1}]\n  \
              Color:            {color}    [style: {min_color:.1} .. {max_color:.1}]\n  \
@@ -316,10 +318,14 @@ pub fn print_recipe(
         ));
     }
 
-    steps.boil.push(format!(
-        "At 10 minutes before the end of the boil, add \
+    if yeast_nutrient > Grams(0.0) {
+        steps.boil.push(format!(
+            "At 10 minutes before the end of the boil, add \
              {yeast_nutrient} of yeast nutrient."
-    ));
+        ));
+    } else {
+        steps.boil.push("Do not add yeast nutrient.".to_string());
+    }
 
     if recipe.process.ice_bath {
         steps.boil.push(

@@ -388,6 +388,47 @@ impl Recipe {
         Gallons(0.15 * grain_weight_lbs.0).into()
     }
 
+    /// Estimated FAN amount in the wort from malts, in ppm (mg/L)
+    #[must_use]
+    pub fn fan_from_malt(&self) -> Ppm {
+        let mut total: Ppm = Ppm(0.0);
+        let gallons: Gallons = self.process.ferment_volume.into();
+        for malt_dose in self.malt_doses() {
+            let pounds: Pounds = malt_dose.weight.into();
+            let points = {
+                let ppg = malt_dose.malt.ppg(); // points/(pounds*gallons) at 100% eff.
+                self.process.mash_efficiency * ppg * pounds.0 / gallons.0
+            };
+            let malt_fan_per_point: Ppm = malt_dose.malt.fan() / 40.0;
+            total = total + malt_fan_per_point * points;
+        }
+
+        total
+    }
+
+    /// Estimated FAN requirement of yeast
+    #[must_use]
+    pub fn fan_requirement_of_yeast(&self) -> Ppm {
+        self.yeast.fan_requirement() * ((self.original_gravity().0 - 1.0) / 0.050)
+    }
+
+    /// Total wort FAN from malts and yeast nutrient
+    #[must_use]
+    pub fn wort_fan(&self) -> Ppm {
+        // yeast nutrient generally provides about 0.4 ppm
+        // per gram in one hectoliter
+        // FIXME: ONLY in high FAN nutrients
+        let fan_rate = 0.4 * 100.0; // ppm*L/g
+
+        let nutrient_ppm = Ppm(
+            self.yeast_nutrient_amount().0       // g
+                * fan_rate                       // ppm*L / g
+                / self.process.ferment_volume.0, // 1 / L
+        );
+
+        self.fan_from_malt() + nutrient_ppm
+    }
+
     /// The pre-boil original gravity (OG) of the wort
     #[must_use]
     pub fn pre_boil_gravity(&self) -> SpecificGravity {
@@ -717,10 +758,24 @@ impl Recipe {
     }
 
     /// Yeast nutrient needed
-    // 1.5 g per liter
     #[must_use]
     pub fn yeast_nutrient_amount(&self) -> Grams {
-        Grams(1.5) * self.process.ferment_volume.0
+        if self.fan_requirement_of_yeast() < self.fan_from_malt() {
+            Grams(0.0)
+        } else {
+            let ppm_needed = self.fan_requirement_of_yeast().0 - self.fan_from_malt().0;
+
+            // yeast nutrient generally provides about 0.4 ppm
+            // per gram in one hectoliter
+            // FIXME: ONLY in high FAN nutrients
+            let fan_rate = 0.4 * 100.0; // ppm*L/g
+
+            Grams(
+                self.process.ferment_volume.0         // L
+                    * ppm_needed                      // ppm
+                    / fan_rate, // g / ppm*L
+            )
+        }
     }
 
     /// Ice bath ice weight
