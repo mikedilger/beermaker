@@ -242,6 +242,31 @@ impl Yeast {
             _ => None,
         }
     }
+
+    /// FAN requirements, minimum, if known, for standard gravity of 1.040
+    /// Worts generally should have (different people say different things):
+    ///     180-200 ppm standard
+    ///     250-300 ppm high gravity
+    #[must_use]
+    pub fn fan_requirement(&self) -> Ppm {
+        match *self {
+            Yeast::KveikVoss => Ppm(180.0),
+            Yeast::LutraKveik => Ppm(180.0),
+            Yeast::LallemandMunichClassic => Ppm(180.0),
+            Yeast::SafaleT58 => Ppm(150.0),     // ale
+            Yeast::SafaleW68 => Ppm(150.0),     // ale
+            Yeast::SafaleWB06 => Ppm(150.0),    // ale
+            Yeast::SaflagerW3470 => Ppm(100.0), // lager
+            Yeast::WLP300 => Ppm(180.0),
+            Yeast::WLP351 => Ppm(100.0), // Low N consumer
+            Yeast::WLP380 => Ppm(150.0),
+            Yeast::WLP820 => Ppm(100.0), // lager
+            Yeast::WLP830 => Ppm(100.0), // lager
+            Yeast::WLP833 => Ppm(100.0), // bock lager
+            Yeast::WLP835 => Ppm(100.0), // lager
+            Yeast::WLP838 => Ppm(100.0), // lager
+        }
+    }
 }
 
 impl fmt::Display for Yeast {
