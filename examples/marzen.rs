@@ -161,6 +161,8 @@ fn main() {
         // We could force it stronger or weaker if the automatic
         // levelling isn't what we want.
         grain_bill_adjustment: None,
+
+        boil_length_override: None,
     };
 
     // Finally, instruct the beermaker to print out my

@@ -67,6 +67,10 @@ pub struct Recipe {
     /// than what would put the O.G. in the middle of the style range.
     /// It will just multiply the amounts of everything by this number.
     pub grain_bill_adjustment: Option<f32>,
+
+    /// Boil length override
+    /// If none, it will take it from the beer style
+    pub boil_length_override: Option<Minutes>,
 }
 
 // Strike water volume can be computed by multipling the weight
@@ -143,7 +147,10 @@ impl Recipe {
     /// The boil time
     #[must_use]
     pub fn boil_time(&self) -> Minutes {
-        self.style.recommended_boil_length()
+        match self.boil_length_override {
+            Some(bl) => bl,
+            None => self.style.recommended_boil_length(),
+        }
     }
 
     /// The mount of water that evaporates during the boil
