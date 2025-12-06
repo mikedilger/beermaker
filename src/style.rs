@@ -15,6 +15,9 @@ use std::ops::Range;
 /// <https://www.brewersassociation.org/edu/brewers-association-beer-style-guidelines/>
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
 pub enum Style {
+    /// Dunkelweizen
+    Dunkelweizen,
+
     /// Märzen is a malty amber lager with medium-body, low esters, and a clean finish.
     /// Märzen is brewed in Germany traditionally in March, lagered through the
     /// summer, and served at Oktoberfest (along with Festbier which is now more
@@ -36,6 +39,13 @@ impl Style {
     #[must_use]
     pub fn overall_impression_bjcp(&self) -> &str {
         match *self {
+            Style::Dunkelweizen => {
+                "A moderately dark German wheat beer \
+                 with a distinctive banana-and-clove weizen yeast fermentation \
+                 profile, supported by a toasted bread or caramel malt flavor. \
+                 Highly carbonated and refreshing, with a creamy, fluffy texture \
+                 and light finish."
+            }
             Style::Marzen => {
                 "An amber, malty German lager with a clean, rich, toasty, bready \
                  malt flavor, restrained bitterness, and a well-attenuated finish. \
@@ -63,6 +73,10 @@ impl Style {
     #[must_use]
     pub fn original_gravity_ranges(&self) -> &[Range<SpecificGravity>] {
         match *self {
+            Style::Dunkelweizen => &[
+                SpecificGravity(1.044)..SpecificGravity(1.057), // BJCP
+                SpecificGravity(1.048)..SpecificGravity(1.056), // BA
+            ],
             Style::Marzen => &[
                 SpecificGravity(1.054)..SpecificGravity(1.060), // BJCP
                 SpecificGravity(1.052)..SpecificGravity(1.057), // BA
@@ -91,6 +105,10 @@ impl Style {
     #[must_use]
     pub fn final_gravity_ranges(&self) -> &[Range<SpecificGravity>] {
         match *self {
+            Style::Dunkelweizen => &[
+                SpecificGravity(1.008)..SpecificGravity(1.014), // BJCP
+                SpecificGravity(1.008)..SpecificGravity(1.016), // BA
+            ],
             Style::Marzen => &[
                 SpecificGravity(1.010)..SpecificGravity(1.014), // BJCP
                 SpecificGravity(1.012)..SpecificGravity(1.020), // BA
@@ -119,6 +137,7 @@ impl Style {
     #[must_use]
     pub fn abv_ranges(&self) -> &[Range<f32>] {
         match *self {
+            Style::Dunkelweizen => &[4.3..5.6, 4.8..5.4],
             Style::Marzen => &[5.6..6.3, 5.1..6.0],
             Style::Hefeweizen => &[4.3..5.6, 4.9..5.6],
             Style::LeichtesWeizen => &[2.5..3.5],
@@ -136,6 +155,7 @@ impl Style {
     #[must_use]
     pub fn ibu_ranges(&self) -> &[Range<Ibu>] {
         match *self {
+            Style::Dunkelweizen => &[Ibu(10.0)..Ibu(18.0), Ibu(10.0)..Ibu(15.0)],
             Style::Marzen => &[Ibu(18.0)..Ibu(24.0), Ibu(18.0)..Ibu(25.0)],
             Style::Hefeweizen => &[Ibu(8.0)..Ibu(15.0), Ibu(10.0)..Ibu(15.0)],
             Style::LeichtesWeizen => &[Ibu(10.0)..Ibu(15.0)],
@@ -153,6 +173,7 @@ impl Style {
     #[must_use]
     pub fn color_ranges(&self) -> &[Range<Srm>] {
         match *self {
+            Style::Dunkelweizen => &[Srm(14.0)..Srm(23.0), Srm(10.0)..Srm(25.0)],
             Style::Marzen => &[Srm(8.0)..Srm(17.0), Srm(4.0)..Srm(15.0)],
             Style::Hefeweizen => &[Srm(2.0)..Srm(6.0), Srm(3.0)..Srm(9.0)],
             Style::LeichtesWeizen => &[Srm(3.5)..Srm(15.0)],
@@ -169,22 +190,16 @@ impl Style {
     /// Yeast pitching rate (cells per mL per Plato)
     #[must_use]
     pub fn yeast_pitching_rate(&self) -> u64 {
-        // 750k to 1m per ml per plato
-        const ALE_RATE: u64 = 750_000;
-
-        // 1.5m per ml per plato for lagers
-        const LAGER_RATE: u64 = 1_500_000;
-
-        match *self {
-            Self::Marzen => LAGER_RATE,
-
-            // Weissbeer rate is lower, as growth promotes esters
-            // Weissbier is 5-10 mm cells per ml
-            // at 12.5 plato (1.050 points) that is 4m-8m per ml per plato
-            Self::Hefeweizen => 600_000,
-            Self::LeichtesWeizen => 600_000,
-
-            Self::IrishRedAle => ALE_RATE,
+        if self.is_a_wheat_beer() {
+            // 600k per ml per plato for Weissbier as
+            // stressed growth promotes esters
+            600_000
+        } else if self.is_a_lager() {
+            // 1.5m per ml per plato for lagers
+            1_500_000
+        } else {
+            // 750k to 1m per ml per plato
+            750_000
         }
     }
 
@@ -208,6 +223,7 @@ impl Style {
         // belgian ale 3.0  1n.9-2.4
 
         match *self {
+            Self::Dunkelweizen => 3.5,
             Self::Marzen => 2.7,
             Self::Hefeweizen => 3.3,
             Self::LeichtesWeizen => 4.0,
@@ -225,6 +241,18 @@ impl Style {
         }
     }
 
+    /// Is a wheat beer
+    #[must_use]
+    #[allow(clippy::match_like_matches_macro)]
+    pub fn is_a_wheat_beer(&self) -> bool {
+        match *self {
+            Self::Dunkelweizen => true,
+            Self::Hefeweizen => true,
+            Self::LeichtesWeizen => true,
+            _ => false,
+        }
+    }
+
     /// Recommended boil length (minutes)
     ///
     /// Pilsner malt has more DMS, indicating longer boil to drive it off.
@@ -235,13 +263,17 @@ impl Style {
     /// but this is easily done with more hops in a shorter boil.
     ///
     /// Longer boils create more melanoidins.
+    /// Longer boils ensure protein coagulation.
     #[must_use]
     pub fn recommended_boil_length(&self) -> Minutes {
-        // TODO: this could be better
         if self.is_a_lager() {
-            Minutes(90)
+            // Drive off that DMS, and get more hot-break benefit
+            Minutes(80)
+        } else if self.is_a_wheat_beer() {
+            // Ensure protein coagulation and create more melanoidin
+            Minutes(75)
         } else {
-            Minutes(60)
+            Minutes(50)
         }
     }
 
@@ -260,6 +292,7 @@ impl Style {
 impl fmt::Display for Style {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match *self {
+            Style::Dunkelweizen => write!(f, "Dunkelweizen"),
             Style::Marzen => write!(f, "Märzen"),
             Style::Hefeweizen => write!(f, "Hefeweissen/Weissbier"),
             Style::LeichtesWeizen => write!(f, "Leichtes Weizen"),
