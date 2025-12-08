@@ -104,6 +104,10 @@ pub fn print_recipe(
     let lagering_time = recipe.style.recommended_conditioning_time();
     let diacetyl_rest_temp = recipe.diacetyl_rest_temperature();
 
+    let bottles_nz = (recipe.process.post_ferment_volume().0 / 0.330).floor();
+    let bottles_eu = (recipe.process.post_ferment_volume().0 / 0.500).floor();
+    let bottles_large = (recipe.process.post_ferment_volume().0 / 0.750).floor();
+
     // -- header ------------
 
     steps.header.push(format!(
@@ -124,7 +128,8 @@ pub fn print_recipe(
              Color:            {color}    [style: {min_color:.1} .. {max_color:.1}]\n  \
              Original Gravity: {og} [style: {min_og:.3} .. {max_og:.3}]\n  \
              Final Gravity:    {fg} [style: {min_fg:.3} .. {max_fg:.3}]\n  \
-             ABV:              {abv:.1}   [style: {min_abv:.1} .. {max_abv:.1}]\n",
+             ABV:              {abv:.1}        [style: {min_abv:.1} .. {max_abv:.1}]\n  \
+             Bottles:          {bottles_nz}x330ml {bottles_eu}x500ml {bottles_large}x750ml\n",
     ));
 
     steps.header.push(format!(
