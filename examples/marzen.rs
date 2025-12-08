@@ -96,6 +96,9 @@ fn main() {
         // boiling to make the full volume, called a partial boil.
         partial_boil_dilution: Liters(0.0),
 
+        // Post ferment dilution
+        post_ferment_dilution: Liters(0.0),
+
         // I use these double-sized big brown bottles that NZ bottle
         // shops charged me a deposit on, but wont take back anymore.
         // That's ok, they are useful.

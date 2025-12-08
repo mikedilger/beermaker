@@ -1,4 +1,4 @@
-use crate::prelude::{Days, Grams};
+use crate::prelude::{Days, Grams, Liters};
 use crate::{Packaging, Recipe};
 
 /// Instructions for each major step of the process.
@@ -98,12 +98,13 @@ pub fn print_recipe(
     };
     let yeast_nutrient = recipe.yeast_nutrient_amount();
     let post_boil_volume = recipe.process.post_boil_volume();
+    let partial_boil_dilution = recipe.process.partial_boil_dilution;
     let fermentation_temp = recipe.ferment_temperature;
     let yeast = recipe.yeast;
     let fermentation_time = recipe.fermentation_time();
     let lagering_time = recipe.style.recommended_conditioning_time();
     let diacetyl_rest_temp = recipe.diacetyl_rest_temperature();
-
+    let post_ferment_dilution = recipe.process.post_ferment_dilution;
     let bottles_nz = (recipe.process.post_ferment_volume().0 / 0.330).floor();
     let bottles_eu = (recipe.process.post_ferment_volume().0 / 0.500).floor();
     let bottles_large = (recipe.process.post_ferment_volume().0 / 0.750).floor();
@@ -358,6 +359,13 @@ pub fn print_recipe(
 
     // -- chill ------------
 
+    if partial_boil_dilution > Liters(0.0) {
+        steps.chill.push(format!(
+            "Dilute the wort with {partial_boil_dilution} of \
+                     boiled-then-cooled water"
+        ));
+    }
+
     steps
         .chill
         .push("From this point on, sanitization is important.".to_string());
@@ -486,6 +494,13 @@ pub fn print_recipe(
              Apply continuous low pressure CO2; use a Co2-filled balloon as the \
              airlock; use a blow-off tube long enough that the water wont be sucked \
              all the way into the fermenter."
+        ));
+    }
+
+    if post_ferment_dilution > Liters(0.0) {
+        steps.ferment.push(format!(
+            "Dilute the fermented beer with {post_ferment_dilution} \
+                     of boiled-then-cooled water."
         ));
     }
 

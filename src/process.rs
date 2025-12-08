@@ -88,6 +88,10 @@ pub struct Process {
     /// has affects on the outcome.
     pub partial_boil_dilution: Liters,
 
+    /// Post-ferment dilution, allows fermenting at higher gravity,
+    /// while providing a lower ABV product.
+    pub post_ferment_dilution: Liters,
+
     /// Packaging
     pub packaging: Packaging,
 }
@@ -113,7 +117,7 @@ impl Process {
     #[must_use]
     pub fn post_ferment_volume(&self) -> Liters {
         // Simple estimate to account for trub and losses
-        self.ferment_volume - self.ferment_losses()
+        self.ferment_volume - self.ferment_losses() + self.post_ferment_dilution
     }
 
     /// Ferment losses

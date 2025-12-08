@@ -675,6 +675,14 @@ impl Recipe {
         )
         .unwrap();
 
+        total = total + self.process.post_ferment_dilution;
+        writeln!(
+            output,
+            "Dilution: +{}          TOTAL {total}",
+            self.process.post_ferment_dilution
+        )
+        .unwrap();
+
         output
     }
 
@@ -850,10 +858,23 @@ impl Recipe {
     pub fn abv(&self) -> f32 {
         let og = self.original_gravity().0;
         let fg = self.final_gravity().0;
-        // Simple:
-        // (og - fg) * 131.25
-        // More precise, esp for higher alcohol drinks:
-        (76.08 * (og - fg) / (1.775 - og)) * (fg / 0.794)
+
+        let abv = {
+            // Simple:
+            // (og - fg) * 131.25
+            // More precise, esp for higher alcohol drinks:
+            (76.08 * (og - fg) / (1.775 - og)) * (fg / 0.794)
+        };
+
+        let pre_volume = self.process.ferment_volume - self.process.ferment_losses();
+
+        let alcohol_volume = pre_volume * (abv / 100.0);
+
+        let post_volume = self.process.post_ferment_volume();
+
+        let post_fraction = alcohol_volume.0 / post_volume.0;
+
+        post_fraction * 100.0
     }
 
     /// Verify that the recipe is sound
