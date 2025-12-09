@@ -104,6 +104,10 @@ pub fn hydrometer_temp_correction(
 ///   Brix - literal measurement
 ///   SGwort - presuming it is wort like beer, with a correction
 ///
+/// If you can use the SGwort scale, your wort correction factor is 1.0
+/// Otherwise if you use the SGsugar scale or convert from Brix, then you
+/// need the correction factor, which might be somewhere close to 1.04.
+///
 /// Use the pre-fermentation reading as `original_brix`
 /// Use the current reading as `current_brix`
 ///
@@ -112,14 +116,21 @@ pub fn hydrometer_temp_correction(
 ///
 /// Both sugar and alcohol will refract light. To figure out which
 /// is which, the `original_sg_wort` reading is required.
+///
+/// The formulas this use come from Petr Novotný published in Zymurgy
+/// magazine, July-Aug 2017 "Revisiting the Refractometer"
 #[must_use]
 pub fn refractometer_correction(
-    original_sg_wort: SpecificGravity,
-    current_sg_wort: SpecificGravity,
+    original_sg: SpecificGravity,
+    current_sg: SpecificGravity,
+    wort_correction_factor: f32,
 ) -> (SpecificGravity, f32) {
 
-    let original_brix: Brix = original_sg_wort.into();
-    let current_brix: Brix = current_sg_wort.into();
+    let original_sg = original_sg / wort_correction_factor;
+    let current_sg = current_sg / wort_correction_factor;
+
+    let original_brix: Brix = original_sg.into();
+    let current_brix: Brix = current_sg.into();
 
     let gravity = SpecificGravity(
         1.0
