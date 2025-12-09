@@ -49,6 +49,29 @@ impl From<Plato> for SpecificGravity {
     }
 }
 
+/// Brix
+#[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Serialize, Deserialize, Add, Sum, Sub)]
+pub struct Brix(pub f32);
+
+impl fmt::Display for Brix {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{:.2}% brix", self.0)
+    }
+}
+
+impl From<SpecificGravity> for Brix {
+    fn from(sg: SpecificGravity) -> Brix {
+        Brix(((182.4601 * sg.0 - 775.6821) * sg.0 + 1262.7794) * sg.0 - 669.5622)
+    }
+}
+
+impl From<Brix> for SpecificGravity {
+    fn from(b: Brix) -> SpecificGravity {
+        SpecificGravity(1.000 + (b.0 / (258.6 - ((b.0 / 258.2) * 227.1))))
+    }
+}
+
+
 #[cfg(test)]
 mod test {
     use super::*;
@@ -64,6 +87,11 @@ mod test {
         let a = Plato(7.1);
         let b = Into::<Plato>::into(Into::<SpecificGravity>::into(a));
         println!("  a={a} b={b}");
-        assert!(approx_eq!(f32, a.0, b.0, epsilon = 0.005));
+        assert!(approx_eq!(f32, a.0, b.0, epsilon = 0.001));
+
+        let a = Brix(8.422);
+        let b = Into::<Brix>::into(Into::<SpecificGravity>::into(a));
+        println!("  a={a} b={b}");
+        assert!(approx_eq!(f32, a.0, b.0, epsilon = 0.0005));
     }
 }
