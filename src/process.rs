@@ -52,10 +52,6 @@ pub struct Process {
     /// Best to measure this and average it over time.
     pub mash_efficiency: f32,
 
-    /// The amount of water used to sparge.
-    // FIXME: this should be batch-size dependent
-    pub sparge_volume: Liters,
-
     /// If chilling is done with an ice bath
     pub ice_bath: bool,
 

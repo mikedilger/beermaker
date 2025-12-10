@@ -70,8 +70,6 @@ fn main() {
         // entire mash through a sieve
         mash_efficiency: 0.83,
 
-        sparge_volume: Liters(1.0),
-
         // I don't have a plate chiller. Somebody send me a plate
         // chiller ;-)
         ice_bath: true,
@@ -138,6 +136,10 @@ fn main() {
                 duration: Minutes(30),
             },
         ],
+
+        // Fairly typical for two-step mash
+        // Final mash thickness 3.3 L/kg, but 2.5 L/kg at first rest
+        mash_thickness: 3.3,
 
         // No sugars. If you add DME or maltodextrin you can
         // put that here.

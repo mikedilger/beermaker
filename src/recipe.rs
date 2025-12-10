@@ -29,6 +29,10 @@ pub struct Recipe {
     /// For single infusion, just list that one.
     pub mash_rests: Vec<MashRest>,
 
+    /// Final mash thickness in liters of liquor per kilogram of grist.
+    /// Typical range is 2.4 - 3.1.
+    pub mash_thickness: f32,
+
     /// The sugars added after mashing, in proportion to all malts and sugars
     /// by weight. The actual weights are calculated.
     pub sugars: Vec<SugarProportion>,
@@ -149,10 +153,18 @@ impl Recipe {
         self.process.post_boil_pre_loss_volume() + self.boil_evaporation()
     }
 
+    /// The amount of sparge water used
+    #[must_use]
+    pub fn sparge_volume(&self) -> Liters {
+        self.pre_boil_volume()
+            //+ self.water_absorption()
+            - self.pre_sparge_volume()
+    }
+
     /// The pre-sparge volume
     #[must_use]
     pub fn pre_sparge_volume(&self) -> Liters {
-        self.pre_boil_volume() - self.process.sparge_volume
+        Liters(self.grain_weight().0 * self.mash_thickness - self.water_absorption().0)
     }
 
     /// Strike temperature
@@ -266,7 +278,7 @@ impl Recipe {
     #[must_use]
     pub fn total_water(&self) -> Liters {
         self.mash_volume() // strike plus infusions
-            + self.process.sparge_volume
+            + self.sparge_volume()
             + self.process.partial_boil_dilution
     }
 
@@ -669,11 +681,11 @@ impl Recipe {
         )
         .unwrap();
 
-        total = total + self.process.sparge_volume;
+        total = total + self.sparge_volume();
         writeln!(
             output,
             "Sparge: +{}            TOTAL {total}",
-            self.process.sparge_volume
+            self.sparge_volume()
         )
         .unwrap();
 
@@ -950,6 +962,12 @@ impl Recipe {
                 "Kettle will be full or overfull:  {}",
                 self.pre_boil_volume()
             ));
+        }
+
+        if self.sparge_volume().0 < 0.0 {
+            errors.push(
+                "Sparge volume is negative! Mash produces too much wort to boil.".to_string(),
+            );
         }
 
         if self.process.room_temperature > Celsius(30.0) {

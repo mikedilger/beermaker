@@ -1,12 +1,5 @@
 pH calculation could use some love.
 
-Mash thickness:  recipe should specify a mash thickness for
-     the final mash step.  The process should NOT specify
-     sparge volume.  We should compute whatever sparge volume
-     takes us from that mash thickness to the pre-boil volume
-     that we want.  We should error if their mash thickness
-     is so thin that we already have too much water.
-
 Partial Boil Dilution:  Right now we have to specify it in
      liters (in the process). But we could compute it
      automatically as whatever reaches the  max kettle

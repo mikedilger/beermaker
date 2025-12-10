@@ -91,7 +91,7 @@ pub fn print_recipe(
     let strike_volume = recipe.strike_volume();
     let strike_temp = recipe.strike_temperature();
     let infusion_temp = recipe.process.infusion_temperature;
-    let sparge_volume = recipe.process.sparge_volume;
+    let sparge_volume = recipe.sparge_volume();
     let pre_boil_additions = recipe.pre_boil_additions_string();
     let pre_boil_gravity = recipe.pre_boil_gravity();
     let boil_minutes = recipe.boil_time();
