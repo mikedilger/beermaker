@@ -20,18 +20,21 @@ pub struct Recipe {
     /// Process specification
     pub process: Process,
 
+    /// The malts that will be mashed, in proportion to all malts and sugars
+    /// by weight. The actual weights are calculated.
+    pub malts: Vec<MaltProportion>,
+
     /// The mash rests.
     ///
     /// For single infusion, just list that one.
     pub mash_rests: Vec<MashRest>,
 
-    /// The malts that will be mashed, in proportion to all malts and sugars
-    /// by weight. The actual weights are calculated.
-    pub malts: Vec<MaltProportion>,
-
     /// The sugars added after mashing, in proportion to all malts and sugars
     /// by weight. The actual weights are calculated.
     pub sugars: Vec<SugarProportion>,
+
+    /// Original gravity target
+    pub original_gravity: SpecificGravity,
 
     /// The IBU target
     pub ibu: Ibu,
@@ -39,21 +42,18 @@ pub struct Recipe {
     /// The proportional hops additions added during the boil
     pub hops: Vec<HopsProportion>,
 
-    /// The yeast to ferment with
-    pub yeast: Yeast,
+    /// Boil length override
+    /// If none, it will take it from the beer style
+    pub boil_length_override: Option<Minutes>,
 
     /// Whether or not to use a fining agent
     pub fining_desired: bool,
 
+    /// The yeast to ferment with
+    pub yeast: Yeast,
+
     /// The temperature to ferment at
     pub ferment_temperature: Celsius,
-
-    /// Original gravity target
-    pub original_gravity: SpecificGravity,
-
-    /// Boil length override
-    /// If none, it will take it from the beer style
-    pub boil_length_override: Option<Minutes>,
 }
 
 // Strike water volume can be computed by multipling the weight

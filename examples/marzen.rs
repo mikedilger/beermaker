@@ -143,6 +143,9 @@ fn main() {
         // put that here.
         sugars: vec![],
 
+        // Original graivty
+        original_gravity: SpecificGravity(1.056),
+
         ibu: Ibu(21.0),
 
         hops: vec![HopsProportion {
@@ -150,6 +153,8 @@ fn main() {
             proportion: 11.0,
             timing: Minutes(60),
         }],
+
+        boil_length_override: None,
 
         // Yes, lagers should clear
         fining_desired: true,
@@ -159,11 +164,6 @@ fn main() {
 
         // Just use the optimal temp for that yeast
         ferment_temperature: Yeast::WLP835.temp(),
-
-        // Original graivty
-        original_gravity: SpecificGravity(1.056),
-
-        boil_length_override: None,
     };
 
     // Finally, instruct the beermaker to print out my
