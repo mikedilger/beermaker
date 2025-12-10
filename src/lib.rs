@@ -120,6 +120,7 @@ pub fn hydrometer_temp_correction(
 /// The formulas this use come from Petr Novotný published in Zymurgy
 /// magazine, July-Aug 2017 "Revisiting the Refractometer"
 #[must_use]
+#[allow(clippy::similar_names)]
 pub fn refractometer_correction(
     original_sg: SpecificGravity,
     current_sg: SpecificGravity,

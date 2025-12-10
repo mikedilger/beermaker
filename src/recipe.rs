@@ -9,21 +9,6 @@ use std::fmt::Write;
 ///
 /// This struct, along with the process specified within it, does all
 /// the calculations for making the beer.
-///
-/// Volume information works like this
-///
-/// | Change                | Result                      |
-/// |-----------------------|-----------------------------|
-/// | + strike              | strike_volume()             |
-/// | + infusion(N)         | mash_volume()               |
-/// | - absorb              | pre_sparge_volume()         |
-/// | + sparge              | pre_boil_volume()           |
-/// | - evaporation         | post_boil_pre_loss_volume() |
-/// | - kettle loss         | post_boil_volume()          |
-/// | + postboil dilution   | ferment_volume              |
-/// | - fermenter_losses    | post_ferment_volume()       |
-/// | + postferm dilution   | product_volume()            |
-///
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Recipe {
     /// The name of the recipe
@@ -531,11 +516,11 @@ impl Recipe {
         }
     }
 
-    /// The estimated final gravity
+    /// The estimated gravity after fermentation, before any dilution
     // TODO: this doesn't adjust for the presence of unfermentable
     //       sugars
     #[must_use]
-    pub fn final_gravity(&self) -> SpecificGravity {
+    pub fn post_ferment_gravity(&self) -> SpecificGravity {
         let og = self.original_gravity();
 
         let mut attenuation = self.yeast.attenuation();
@@ -560,6 +545,14 @@ impl Recipe {
         attenuation *= 1.0 - reduction_percent;
 
         SpecificGravity(og.0 - (og.0 - 1.0) * attenuation)
+    }
+
+    /// Final gravity
+    #[must_use]
+    pub fn final_gravity(&self) -> SpecificGravity {
+        let points = self.post_ferment_gravity().0 - 1.0;
+        let ratio = self.process.post_ferment_volume().0 / self.process.product_volume().0;
+        SpecificGravity(1.0 + points * ratio)
     }
 
     /// Estimated mash pH
@@ -895,7 +888,7 @@ impl Recipe {
     #[must_use]
     pub fn abv(&self) -> f32 {
         let og = self.original_gravity().0;
-        let fg = self.final_gravity().0;
+        let fg = self.post_ferment_gravity().0;
 
         let abv = {
             // Simple:

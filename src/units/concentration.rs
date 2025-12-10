@@ -16,7 +16,9 @@ impl fmt::Display for Ppm {
 }
 
 /// Specific Gravity
-#[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Serialize, Deserialize, Add, Sum, Sub, Div)]
+#[derive(
+    Debug, Clone, Copy, PartialEq, PartialOrd, Serialize, Deserialize, Add, Sum, Sub, Mul, Div,
+)]
 pub struct SpecificGravity(pub f32);
 
 impl fmt::Display for SpecificGravity {
@@ -26,7 +28,9 @@ impl fmt::Display for SpecificGravity {
 }
 
 /// Plato (approx same as Brix).  Percentage of dissolved sugar.
-#[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Serialize, Deserialize, Add, Sum, Sub, Div)]
+#[derive(
+    Debug, Clone, Copy, PartialEq, PartialOrd, Serialize, Deserialize, Add, Sum, Sub, Mul, Div,
+)]
 pub struct Plato(pub f32);
 
 impl fmt::Display for Plato {
