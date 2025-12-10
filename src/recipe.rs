@@ -51,8 +51,11 @@ pub struct Recipe {
     /// by weight. The actual weights are calculated.
     pub sugars: Vec<SugarProportion>,
 
-    /// The hops additions added during the boil
-    pub hops: Vec<HopsDose>,
+    /// The IBU target
+    pub ibu: Ibu,
+
+    /// The proportional hops additions added during the boil
+    pub hops: Vec<HopsProportion>,
 
     /// The yeast to ferment with
     pub yeast: Yeast,
@@ -330,6 +333,35 @@ impl Recipe {
             .map(|proportion| SugarDose {
                 sugar: proportion.sugar,
                 weight: Kilograms(proportion.proportion * multiplier),
+            })
+            .collect()
+    }
+
+    /// Hops doses
+    #[must_use]
+    #[allow(clippy::cast_precision_loss)]
+    pub fn hops_doses(&self) -> Vec<HopsDose> {
+        let bigness_factor = 1.65 * (0.000_125_f32).powf(self.original_gravity().0 - 1.0);
+        let gallons: Gallons = self.process.ferment_volume.into();
+
+        let mut nominal_ibus: f32 = 0.0;
+
+        for hops_prop in &self.hops {
+            let ounces: Ounces = Grams(hops_prop.proportion).into();
+            let boil_time_factor = (1.0 - (-0.04 * hops_prop.timing.0 as f32).exp()) / 4.15;
+            let utilization = bigness_factor * boil_time_factor;
+            nominal_ibus +=
+                utilization * hops_prop.hops.alpha_acid() * ounces.0 * 7490.0 / gallons.0;
+        }
+
+        let scaling_factor = self.ibu.0 / nominal_ibus;
+
+        self.hops
+            .iter()
+            .map(|prop| HopsDose {
+                hops: prop.hops,
+                weight: Grams(prop.proportion * scaling_factor),
+                timing: prop.timing,
             })
             .collect()
     }
@@ -697,7 +729,7 @@ impl Recipe {
         for sugar in &self.sugar_doses() {
             writeln!(output, "{} of {}", sugar.weight, sugar.sugar).unwrap();
         }
-        for hops in &self.hops {
+        for hops in &self.hops_doses() {
             writeln!(output, "{} of {}", hops.weight, hops.hops).unwrap();
         }
         writeln!(output, "Yeast: {}", self.yeast).unwrap();
@@ -733,7 +765,7 @@ impl Recipe {
     #[must_use]
     pub fn hops_additions_string(&self) -> String {
         let mut output: String = String::new();
-        for hopsdose in &self.hops {
+        for hopsdose in &self.hops_doses() {
             let after = self.boil_time() - hopsdose.timing;
             writeln!(
                 output,
@@ -817,17 +849,14 @@ impl Recipe {
     #[allow(clippy::cast_precision_loss)]
     pub fn ibu_tinseth(&self) -> Ibu {
         let bigness_factor = 1.65 * (0.000_125_f32).powf(self.original_gravity().0 - 1.0);
-
-        let boil_time_factor = (1.0 - (-0.04 * self.boil_time().0 as f32).exp()) / 4.15;
-
-        let utilization = bigness_factor * boil_time_factor;
+        let gallons: Gallons = self.process.ferment_volume.into();
 
         let mut ibu: f32 = 0.0;
 
-        let gallons: Gallons = self.process.ferment_volume.into();
-
-        for dose in &self.hops {
+        for dose in &self.hops_doses() {
             let ounces: Ounces = dose.weight.into();
+            let boil_time_factor = (1.0 - (-0.04 * dose.timing.0 as f32).exp()) / 4.15;
+            let utilization = bigness_factor * boil_time_factor;
             ibu += utilization * dose.hops.alpha_acid() * ounces.0 * 7490.0 / gallons.0;
         }
 

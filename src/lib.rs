@@ -125,23 +125,17 @@ pub fn refractometer_correction(
     current_sg: SpecificGravity,
     wort_correction_factor: f32,
 ) -> (SpecificGravity, f32) {
-
     let original_sg = original_sg / wort_correction_factor;
     let current_sg = current_sg / wort_correction_factor;
 
     let original_brix: Brix = original_sg.into();
     let current_brix: Brix = current_sg.into();
 
-    let gravity = SpecificGravity(
-        1.0
-            + 0.006276 * current_brix.0
-            - 0.002349 * original_brix.0
-    );
+    let gravity = SpecificGravity(1.0 + 0.006_276 * current_brix.0 - 0.002_349 * original_brix.0);
 
-    let abw = 0.67062 * original_brix.0
-        - 0.66091 * current_brix.0;
+    let abw = 0.67062 * original_brix.0 - 0.66091 * current_brix.0;
 
-    let abv = (gravity.0 * abw)/0.791;
+    let abv = (gravity.0 * abw) / 0.791;
 
     (gravity, abv)
 

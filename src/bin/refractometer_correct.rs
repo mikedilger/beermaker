@@ -1,5 +1,5 @@
-use beermaker::refractometer_correction;
 use beermaker::prelude::*;
+use beermaker::refractometer_correction;
 use std::io;
 
 pub fn main() {

@@ -146,9 +146,11 @@ fn main() {
         // put that here.
         sugars: vec![],
 
-        hops: vec![HopsDose {
+        ibu: Ibu(21.0),
+
+        hops: vec![HopsProportion {
             hops: Hops::HallertauMittelfruh, // Alt: Tettnanger
-            weight: Grams(11.0),
+            proportion: 11.0,
             timing: Minutes(60),
         }],
 

@@ -123,6 +123,21 @@ pub struct SugarDose {
     pub weight: Kilograms,
 }
 
+/// A proportion of Hops
+///
+/// where the sum of proportions provides the recipe specified IBUs
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+pub struct HopsProportion {
+    /// Which hops to use
+    pub hops: Hops,
+
+    /// Proportion to use in relation to all other hops
+    pub proportion: f32,
+
+    /// How long before the end of the boil to add them
+    pub timing: Minutes,
+}
+
 /// A dose of Hops
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 pub struct HopsDose {

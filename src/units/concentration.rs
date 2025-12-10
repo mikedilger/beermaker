@@ -71,7 +71,6 @@ impl From<Brix> for SpecificGravity {
     }
 }
 
-
 #[cfg(test)]
 mod test {
     use super::*;
