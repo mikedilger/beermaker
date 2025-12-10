@@ -163,9 +163,8 @@ fn main() {
         // Just use the optimal temp for that yeast
         ferment_temperature: Yeast::WLP835.temp(),
 
-        // We could force it stronger or weaker if the automatic
-        // levelling isn't what we want.
-        grain_bill_adjustment: None,
+        // Original graivty
+        original_gravity: SpecificGravity(1.056),
 
         boil_length_override: None,
     };

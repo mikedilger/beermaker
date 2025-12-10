@@ -66,10 +66,8 @@ pub struct Recipe {
     /// The temperature to ferment at
     pub ferment_temperature: Celsius,
 
-    /// Force the malt and sugar proportions to be higher or lower
-    /// than what would put the O.G. in the middle of the style range.
-    /// It will just multiply the amounts of everything by this number.
-    pub grain_bill_adjustment: Option<f32>,
+    /// Original gravity target
+    pub original_gravity: SpecificGravity,
 
     /// Boil length override
     /// If none, it will take it from the beer style
@@ -301,12 +299,9 @@ impl Recipe {
         );
         let actual_points = sg.0 - 1.0;
 
-        let ogr = self.style.original_gravity_range();
-        let ideal_points = f32::midpoint(ogr.start.0, ogr.end.0) - 1.0;
+        let ideal_points = self.original_gravity.0 - 1.0;
 
-        let adjustment = self.grain_bill_adjustment.unwrap_or(1.0);
-
-        adjustment * ideal_points / actual_points
+        ideal_points / actual_points
     }
 
     /// Malt doses
