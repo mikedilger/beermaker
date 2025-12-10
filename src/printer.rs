@@ -1,5 +1,6 @@
 use crate::prelude::{Days, Grams, Liters};
 use crate::{Packaging, Recipe};
+use std::fmt::Write;
 
 /// Instructions for each major step of the process.
 ///
@@ -56,6 +57,10 @@ pub fn print_recipe(
     let time_until_done = recipe.time_until_done();
     let batch_size = recipe.process.ferment_volume;
     let mash_ph = recipe.mash_ph();
+    let mut mash_thicknesses = String::new();
+    for f in recipe.mash_thicknesses() {
+        let _ = write!(mash_thicknesses, "{f:.1}L/kg, ");
+    }
     let wort_fan = recipe.wort_fan();
     let yeast_amount = if let Some(g) = recipe.yeast_grams() {
         format!("{g}")
@@ -123,6 +128,7 @@ pub fn print_recipe(
              Days:             {time_until_done}\n  \
              Ferment Temp:     {fermentation_temp}\n  \
              Mash pH:          {mash_ph}\n  \
+             Mash Thicknesses: {mash_thicknesses}\n  \
              Wort FAN:         {wort_fan}\n  \
              Yeast Pitch:      {yeast_amount}\n  \
              Bitterness:       {ibu}   [style: {min_ibu:.1} .. {max_ibu:.1}]\n  \

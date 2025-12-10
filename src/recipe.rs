@@ -256,6 +256,23 @@ impl Recipe {
         infusions
     }
 
+    /// Thickness of the mash, in liters of water per kilograms of
+    /// grain, at each mash step.
+    #[must_use]
+    pub fn mash_thicknesses(&self) -> Vec<f32> {
+        let mut thicknesses: Vec<f32> = Vec::new();
+
+        let mut liters = self.strike_volume();
+        thicknesses.push(liters.0 / self.grain_weight().0);
+
+        for infusion in self.mash_infusions() {
+            liters = liters + infusion;
+            thicknesses.push(liters.0 / self.grain_weight().0);
+        }
+
+        thicknesses
+    }
+
     /// The water added throughout the mash, before losses from grain
     /// absorption
     #[must_use]

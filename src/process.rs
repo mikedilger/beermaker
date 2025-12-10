@@ -56,10 +56,6 @@ pub struct Process {
     // FIXME: this should be batch-size dependent
     pub sparge_volume: Liters,
 
-    /// The target mash thickness.
-    /// Generally target 2.0 - 4.0 L/kg. BIAB may be a lot more.
-    pub goal_mash_thickness_per_kg: Liters,
-
     /// If chilling is done with an ice bath
     pub ice_bath: bool,
 

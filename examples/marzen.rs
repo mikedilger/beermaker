@@ -72,9 +72,6 @@ fn main() {
 
         sparge_volume: Liters(1.0),
 
-        // This isn't used by the software yet
-        goal_mash_thickness_per_kg: Liters(4.2),
-
         // I don't have a plate chiller. Somebody send me a plate
         // chiller ;-)
         ice_bath: true,
