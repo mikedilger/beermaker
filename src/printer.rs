@@ -102,7 +102,7 @@ pub fn print_recipe(
         0.0
     };
     let yeast_nutrient = recipe.yeast_nutrient_amount();
-    let post_boil_volume = recipe.process.post_boil_volume();
+    let post_boil_pre_loss_volume = recipe.process.post_boil_pre_loss_volume();
     let partial_boil_dilution = recipe.process.partial_boil_dilution;
     let fermentation_temp = recipe.ferment_temperature;
     let yeast = recipe.yeast;
@@ -110,9 +110,9 @@ pub fn print_recipe(
     let lagering_time = recipe.style.recommended_conditioning_time();
     let diacetyl_rest_temp = recipe.diacetyl_rest_temperature();
     let post_ferment_dilution = recipe.process.post_ferment_dilution;
-    let bottles_nz = (recipe.process.post_ferment_volume().0 / 0.330).floor();
-    let bottles_eu = (recipe.process.post_ferment_volume().0 / 0.500).floor();
-    let bottles_large = (recipe.process.post_ferment_volume().0 / 0.750).floor();
+    let bottles_nz = (recipe.process.product_volume().0 / 0.330).floor();
+    let bottles_eu = (recipe.process.product_volume().0 / 0.500).floor();
+    let bottles_large = (recipe.process.product_volume().0 / 0.750).floor();
 
     // -- header ------------
 
@@ -349,14 +349,15 @@ pub fn print_recipe(
 
     steps.boil.push(format!(
         "Verify Volume\n\n\
-             At this point, make sure the volume is approaching the {post_boil_volume}.\n\n\
-             If the volume is too high, you can:\n\
-             a) discard some but this will lower the gravity\n\
-             b) boil longer, but this will change the hop character\n\n\
-             If the volume is too low, you can:\n\
-             a) add more boiling water, bring back to a boil briefly.\n\n\
-             In any case, write down what happened and so that the recipe can be \
-             adjusted for future runs."
+         At this point, make sure the volume is approaching the \
+         {post_boil_pre_loss_volume}.\n\n\
+         If the volume is too high, you can:\n\
+         a) discard some but this will lower the gravity\n\
+         b) boil longer, but this will change the hop character\n\n\
+         If the volume is too low, you can:\n\
+         a) add more boiling water, bring back to a boil briefly.\n\n\
+         In any case, write down what happened and so that the recipe can be \
+         adjusted for future runs."
     ));
 
     steps
@@ -533,7 +534,7 @@ pub fn print_recipe(
 
         let total_priming_amount = sugar.priming_amount(
             recipe.style.carbonation_volume(),
-            recipe.process.post_ferment_volume(),
+            recipe.process.product_volume(),
             recipe.process.room_temperature,
         );
 
@@ -551,7 +552,7 @@ pub fn print_recipe(
             recipe.process.room_temperature,
         );
 
-        let num_bottles = (recipe.process.post_ferment_volume().0 / bottle_volume.0).ceil();
+        let num_bottles = (recipe.process.product_volume().0 / bottle_volume.0).ceil();
 
         steps.package.push(format!(
             "If priming each bottle separately, add {bottle_priming_amount} \

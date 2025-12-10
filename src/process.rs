@@ -109,11 +109,16 @@ impl Process {
         profile
     }
 
-    /// The volume after fermenting
+    /// The product volume at the end
+    #[must_use]
+    pub fn product_volume(&self) -> Liters {
+        self.post_ferment_volume() + self.post_ferment_dilution
+    }
+
+    /// The post ferment, pre-diluted product
     #[must_use]
     pub fn post_ferment_volume(&self) -> Liters {
-        // Simple estimate to account for trub and losses
-        self.ferment_volume - self.ferment_losses() + self.post_ferment_dilution
+        self.ferment_volume - self.ferment_losses()
     }
 
     /// Ferment losses
@@ -122,15 +127,15 @@ impl Process {
         self.ferment_volume * self.ferment_loss_percent
     }
 
-    /// The post-boil volume
+    /// The post-boil volume, pre kettle losses
     #[must_use]
-    pub fn post_boil_volume(&self) -> Liters {
-        (self.ferment_volume - self.partial_boil_dilution) + self.kettle_losses
+    pub fn post_boil_pre_loss_volume(&self) -> Liters {
+        self.post_boil_volume() + self.kettle_losses
     }
 
-    /// The pre-dilution volume
+    /// The post-boil volume, after kettle losses
     #[must_use]
-    pub fn pre_dilution_volume(&self) -> Liters {
+    pub fn post_boil_volume(&self) -> Liters {
         self.ferment_volume - self.partial_boil_dilution
     }
 }

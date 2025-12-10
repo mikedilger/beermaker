@@ -5,28 +5,25 @@ use crate::style::Style;
 use serde::{Deserialize, Serialize};
 use std::fmt::Write;
 
-/* Notes about water volumes
-
-Mash:
-+ Strike Volume                          = strike_volume()
-+ Mash Infusion
-(+ Mash Infusion)                        = pre_absorption_water()
-- Absorption                             = process.pre_sparge_volume()
-+ Sparge                                 = process.pre_boil_volume()
-
-Boil:
-- Evaporation                            = process.post_boil_volume()
-- Kettle Losses                          = process.pre_dilution_volume()
-
-Ferment:
-+ Partial Boil Dilution                  = process.ferment_volume
-- Ferment Loss Percent                   = process.post_ferment_volume()
- */
-
 /// A recipe for beer
 ///
 /// This struct, along with the process specified within it, does all
 /// the calculations for making the beer.
+///
+/// Volume information works like this
+///
+/// | Change                | Result                      |
+/// |-----------------------|-----------------------------|
+/// | + strike              | strike_volume()             |
+/// | + infusion(N)         | mash_volume()               |
+/// | - absorb              | pre_sparge_volume()         |
+/// | + sparge              | pre_boil_volume()           |
+/// | - evaporation         | post_boil_pre_loss_volume() |
+/// | - kettle loss         | post_boil_volume()          |
+/// | + postboil dilution   | ferment_volume              |
+/// | - fermenter_losses    | post_ferment_volume()       |
+/// | + postferm dilution   | product_volume()            |
+///
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Recipe {
     /// The name of the recipe
@@ -164,7 +161,7 @@ impl Recipe {
     /// The pre-boil volume
     #[must_use]
     pub fn pre_boil_volume(&self) -> Liters {
-        self.process.post_boil_volume() + self.boil_evaporation()
+        self.process.post_boil_pre_loss_volume() + self.boil_evaporation()
     }
 
     /// The pre-sparge volume
@@ -196,7 +193,7 @@ impl Recipe {
         // our work.
 
         // start at the end of the mash with the grains still inside
-        let mut current_water = self.pre_absorption_water();
+        let mut current_water = self.mash_volume();
         let mut current_temp: Option<Celsius> = None;
 
         // Iterate backwards through each mash rest
@@ -273,17 +270,17 @@ impl Recipe {
         thicknesses
     }
 
-    /// The water added throughout the mash, before losses from grain
+    /// The volume at the end of the mash, before losses from grain
     /// absorption
     #[must_use]
-    pub fn pre_absorption_water(&self) -> Liters {
+    pub fn mash_volume(&self) -> Liters {
         self.pre_sparge_volume() + self.water_absorption()
     }
 
     /// The total amount of water input during the process
     #[must_use]
     pub fn total_water(&self) -> Liters {
-        self.pre_absorption_water() // strike plus infusions
+        self.mash_volume() // strike plus infusions
             + self.process.sparge_volume
             + self.process.partial_boil_dilution
     }
@@ -911,7 +908,7 @@ impl Recipe {
 
         let alcohol_volume = pre_volume * (abv / 100.0);
 
-        let post_volume = self.process.post_ferment_volume();
+        let post_volume = self.process.product_volume();
 
         let post_fraction = alcohol_volume.0 / post_volume.0;
 
