@@ -473,6 +473,14 @@ pub fn print_recipe(
          after fermentation stops."
     ));
 
+    steps.ferment.push(
+        "Forced diacetyl test: Take a sample of beer, heat it to 66 C in \
+         a water bath for 20 minutes. Then let it cool back to room temperature. \
+         Smell and taste it. If it has diacetyl then let the beer ferment for \
+         another day and try again."
+            .to_string(),
+    );
+
     steps.ferment.push(format!(
         "Final Gravity Reading: Measure the final gravity. Return sample to carboy. \
          Target is {fg}",
