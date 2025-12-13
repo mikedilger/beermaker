@@ -1,4 +1,5 @@
-use crate::ingredients::{AcidConcentration, SaltConcentration, Sugar, WaterProfile};
+use crate::Packaging;
+use crate::ingredients::{AcidConcentration, SaltConcentration, WaterProfile};
 use crate::units::prelude::*;
 use serde::{Deserialize, Serialize};
 
@@ -134,14 +135,4 @@ impl Process {
     pub fn post_boil_volume(&self) -> Liters {
         self.ferment_volume - self.partial_boil_dilution
     }
-}
-
-/// The kind of packaging that is used
-#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq)]
-pub enum Packaging {
-    /// Packaged in bottles of given size, primed with the given sugar
-    Bottle(Liters, Sugar),
-
-    /// Packaged in a keg if given size
-    Keg(Liters),
 }

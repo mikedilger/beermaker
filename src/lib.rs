@@ -48,7 +48,10 @@ mod style;
 pub use style::Style;
 
 mod process;
-pub use process::{Packaging, Process};
+pub use process::Process;
+
+mod packaging;
+pub use packaging::Packaging;
 
 mod mash;
 pub use mash::MashRest;

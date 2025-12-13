@@ -1,6 +1,7 @@
 use crate::mash::MashRest;
+use crate::packaging::Packaging;
 use crate::prelude::*;
-use crate::process::{Packaging, Process};
+use crate::process::Process;
 use crate::style::Style;
 use serde::{Deserialize, Serialize};
 use std::fmt::Write;
