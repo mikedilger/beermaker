@@ -492,15 +492,88 @@ impl Process2 {
         thicknesses
     }
 
-    /*
+    /// The estimated gravity after fermentation, before any dilution
+    // TODO: this doesn't adjust for the presence of unfermentable
+    //       sugars
+    #[must_use]
+    pub fn post_ferment_gravity(&self) -> SpecificGravity {
+        let og = self.recipe.original_gravity;
+
+        let mut attenuation = self.recipe.yeast.attenuation();
+
+        let mut reduction_percent: f32 = 0.0;
+
+        for malt_dose in &self.malt_doses() {
+            if malt_dose.malt.category() == MaltCategory::Crystal {
+                let pounds: Pounds = malt_dose.weight.into();
+                let lovabond: Lovabond = malt_dose.malt.ebc().into();
+                let gallons: Gallons = self.batch_size.into();
+                // for 1 pound in a in a 5 gallon batch.
+                let mult = (pounds.0 / gallons.0) / (1.0 / 5.0);
+
+                // 10 lovabond -> 1%, 60 lovabond -> 3%
+                reduction_percent += (0.0004 * lovabond.0 + 0.006) * mult;
+            }
+
+            // TODO: dextrin / carapils, chocolate roast, etc.
+        }
+
+        attenuation *= 1.0 - reduction_percent;
+
+        SpecificGravity(og.0 - (og.0 - 1.0) * attenuation)
+    }
+
+    /// The post-fermentation dilution fraction to apply to achieve closer to
+    /// the target ABV
+    #[must_use]
+    pub fn post_fermentation_dilution_fraction(&self) -> f32 {
+        if let Some(target_abv) = self.recipe.target_abv {
+            let natural_abv = Abv::from_gravity(
+                self.recipe.original_gravity,
+                self.post_ferment_gravity(),
+                1.0,
+            );
+            if natural_abv > target_abv {
+                return (natural_abv.0 / target_abv.0)
+                    .min(self.recipe.max_post_ferment_dilution);
+            }
+        }
+
+        1.0
+    }
+
+    /// The post-fermentation dilution to apply to achieve closer to the
+    /// target ABV
+    #[must_use]
+    pub fn post_fermentation_dilution(&self) -> Liters {
+        let end = self.post_ferment_volume() * self.post_fermentation_dilution_fraction();
+        let start = self.post_ferment_volume();
+        end - start
+    }
+
     /// The product volume at the end
     #[must_use]
     pub fn product_volume(&self) -> Liters {
-        self.post_ferment_volume() + self.post_ferment_dilution
+        self.post_ferment_volume() + self.post_fermentation_dilution()
     }
-     */
 
-    // product_volume = f(post_ferment_volume, post_ferment_dilution)
+    /// ABV in %
+    #[must_use]
+    pub fn abv(&self) -> Abv {
+        Abv::from_gravity(
+            self.recipe.original_gravity,
+            self.post_ferment_gravity(),
+            self.post_fermentation_dilution_fraction()
+        )
+    }
+
+    /// Final gravity
+    #[must_use]
+    pub fn final_gravity(&self) -> SpecificGravity {
+        let points = self.post_ferment_gravity().0 - 1.0;
+        let ratio = self.post_ferment_volume().0 / self.product_volume().0;
+        SpecificGravity(1.0 + points * ratio)
+    }
 
     /// The total amount of water input during the process
     #[must_use]
@@ -508,15 +581,85 @@ impl Process2 {
         self.mash_volume() // strike plus infusions
             + self.sparge_volume()
             + self.partial_boil_dilution()
-        // FIME plus post_ferment_dilution
+            + self.post_fermentation_dilution()
+    }
+
+    /// Salt doses
+    #[must_use]
+    pub fn salt_doses(&self, liters: Option<Liters>) -> Vec<SaltDose> {
+        let mut output: Vec<SaltDose> = Vec::new();
+
+        let water_liters = match liters {
+            Some(l) => l,
+            None => self.total_water(),
+        };
+
+        for salt_concentration in &self.water_salts() {
+            let mg = Milligrams(water_liters.0 * salt_concentration.ppm.0);
+            output.push(SaltDose {
+                salt: salt_concentration.salt,
+                mg,
+            });
+        }
+
+        output
+    }
+
+    /// Acid doses
+    #[must_use]
+    pub fn acid_doses(&self, liters: Option<Liters>) -> Vec<AcidDose> {
+        let mut output: Vec<AcidDose> = Vec::new();
+
+        let water_liters = match liters {
+            Some(l) => l,
+            None => self.total_water(),
+        };
+
+        for acid_concentration in &self.water_acids() {
+            let mg = Milligrams(water_liters.0 * acid_concentration.ppm.0);
+            output.push(AcidDose {
+                acid: acid_concentration.acid,
+                mg,
+            });
+        }
+
+        output
+    }
+
+    /// Strike water additions string
+    #[must_use]
+    pub fn water_doses(&self) -> String {
+        let salt_doses = self.salt_doses(None);
+        let acid_doses = self.acid_doses(None);
+        let mut output: String = String::new();
+        for salt_dose in &salt_doses {
+            writeln!(
+                output,
+                "Add in {} of {} to total water.",
+                salt_dose.mg, salt_dose.salt
+            )
+            .unwrap();
+        }
+        for acid_dose in &acid_doses {
+            writeln!(
+                output,
+                "Add in {} of {} to total water.",
+                acid_dose.mg, acid_dose.acid
+            )
+            .unwrap();
+        }
+        if output.is_empty() {
+            "No water dosing is required.".to_string()
+        } else {
+            output
+        }
     }
 
     /// Ingredient list
     #[must_use]
     pub fn ingredient_list_string(&self) -> String {
         let mut output: String = String::new();
-        // FIXME
-        //        writeln!(output, "Total Water: {}", self.total_water()).unwrap();
+        writeln!(output, "Total Water: {}", self.total_water()).unwrap();
         for malt in &self.malt_doses() {
             writeln!(output, "{} of {}", malt.weight, malt.malt).unwrap();
         }
@@ -529,4 +672,6 @@ impl Process2 {
         writeln!(output, "Yeast: {}", self.recipe.yeast).unwrap();
         output
     }
+
+
 }

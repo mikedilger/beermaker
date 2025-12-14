@@ -79,7 +79,7 @@ pub struct Recipe2 {
     /// post ferment dilution level to try to achieve this ABV. Note that
     /// this is not the only way to lower ABV, and usually other techniques
     /// are used in low alcohol beers.
-    pub target_abv: Option<f32>,
+    pub target_abv: Option<Abv>,
 
     /// Maximum post-fermentation dilution to allow in persuit of the target
     /// ABV.

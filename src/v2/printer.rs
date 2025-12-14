@@ -78,16 +78,16 @@ pub fn print_process(
     let og = process.recipe.original_gravity;
     let min_og = process.recipe.style.original_gravity_range().start.0;
     let max_og = process.recipe.style.original_gravity_range().end.0;
-    // let fg = process.recipe.final_gravity();
+    let fg = process.final_gravity();
     let min_fg = process.recipe.style.final_gravity_range().start.0;
     let max_fg = process.recipe.style.final_gravity_range().end.0;
-    //    let abv = recipe.abv();
+    let abv = process.abv();
     let min_abv = process.recipe.style.abv_range().start;
     let max_abv = process.recipe.style.abv_range().end;
     let ice_weight = process.equipment.ice_weight();
     let ice_bath_volume = process.equipment.chilled_water_volume();
-    //    let total_water_volume = recipe.total_water();
-    //    let water_doses = recipe.water_doses();
+    let total_water_volume = process.total_water();
+    let water_doses = process.water_doses();
     let adjusted_water_profile = process.adjusted_water_profile();
     let ingredient_list = process.ingredient_list_string();
     let strike_volume = process.strike_volume();
@@ -137,8 +137,8 @@ pub fn print_process(
              Bitterness:       <ibu>   [style: {min_ibu:.1} .. {max_ibu:.1}]\n  \
              Color:            <color>    [style: {min_color:.1} .. {max_color:.1}]\n  \
              Original Gravity: {og} [style: {min_og:.3} .. {max_og:.3}]\n  \
-             Final Gravity:    <fg> [style: {min_fg:.3} .. {max_fg:.3}]\n  \
-             ABV:              <abv:.1>       [style: {min_abv:.1} .. {max_abv:.1}]\n  \
+             Final Gravity:    {fg} [style: {min_fg:.3} .. {max_fg:.3}]\n  \
+             ABV:              {abv}       [style: {min_abv:.1} .. {max_abv:.1}]\n  \
              Bottles:          <bottles_nz>x330ml <bottles_eu>x500ml <bottles_large>x750ml\n",
     ));
 
@@ -174,12 +174,10 @@ pub fn print_process(
         ));
     }
 
-    /*
     steps.acquire.push(format!(
         "Acquire {total_water_volume} of water of the type specified in the \
              recipe."
     ));
-     */
 
     /*
     steps.acquire.push(format!(
@@ -190,12 +188,12 @@ pub fn print_process(
 
     // -- prep ------------
 
-    /*
     steps.prep.push(format!(
-        "Dose the full {total_water_volume} of source water as follows:\
-             \n{water_doses}\nThis Yields:\n\n{adjusted_water_profile}"
+        "Dose the full {total_water_volume} of source water as follows:\n\
+             \n{water_doses}\n\nThis Yields:\n\n{adjusted_water_profile}"
     ));
 
+    /*
     steps.prep.push("Calibrate the pH meter.".to_string());
 
     steps
@@ -510,12 +508,14 @@ pub fn print_process(
          another day and try again."
             .to_string(),
     );
+     */
 
     steps.ferment.push(format!(
         "Final Gravity Reading: Measure the final gravity. Return sample to carboy. \
          Target is {fg}",
     ));
 
+    /*
     if lagering_time > Days(28) {
         steps.ferment.push(
             "With sanitized equipment, rack off the trub from primary \

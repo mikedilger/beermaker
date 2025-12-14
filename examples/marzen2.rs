@@ -92,7 +92,7 @@ fn main() {
 
         // The salts aren't that important, but I don't want too much
         // sulfate relative to chloride.
-        chloride_sulfate_ratio_range: Some(0.8..4.0),
+        chloride_sulfate_ratio_range: Some(3.0..4.5),
 
         // The malt bill.  The proportions don't have to add up
         // to anything in particular.
@@ -156,10 +156,11 @@ fn main() {
         // Just use the optimal temp for that yeast
         ferment_temperature: Yeast::WLP835.temp(),
 
-        // We are not targetting a low ABV and do not
-        // allow post ferment dilutions in persuit of it.
-        target_abv: None,
-        max_post_ferment_dilution: 1.0,
+        // Lets drop the ABV a little bit, just for an example.
+        // Do not do this with a real Märzen or you will go straight
+        // to hell(es).
+        target_abv: Some(Abv(0.05)),
+        max_post_ferment_dilution: 1.3,
     };
 
     let process = Process2::new(equipment, recipe, Liters(7.0));

@@ -107,6 +107,33 @@ impl SpecificGravity {
     }
 }
 
+/// Alcohol by volume, fraction (not percent)
+#[derive(Debug, Clone, Copy, PartialEq, PartialOrd, Serialize, Deserialize, Add, Sum, Sub, Div)]
+pub struct Abv(pub f32);
+
+impl fmt::Display for Abv {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{:.2}% ABV", self.0 * 100.0)
+    }
+}
+
+impl Abv {
+    /// Compute Abv from original and final gravity.
+    ///
+    /// `dilution_fraction` must be 1.0 or greater.
+    pub fn from_gravity(
+        original_gravity: SpecificGravity,
+        final_gravity: SpecificGravity,
+        dilution_fraction: f32,
+    ) -> Abv {
+        let og = original_gravity.0;
+        let fg = final_gravity.0;
+        let abv = (76.08 * (og - fg) / (1.775 - og)) * (fg / 0.794) / 100.0;
+        Abv(abv / dilution_fraction)
+    }
+
+}
+
 #[cfg(test)]
 mod test {
     use super::*;
