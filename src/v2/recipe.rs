@@ -60,7 +60,7 @@ pub struct Recipe2 {
 
     /// If a partial boil dilution is allowable. If false, and the wort
     /// can't fit into the boil kettle, an error will be generated.
-    pub allow_partial_boil_dilutions: bool,
+    pub allow_partial_boil_dilution: bool,
 
     /// The temperature to ferment at
     pub ferment_temperature: Celsius,

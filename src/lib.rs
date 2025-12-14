@@ -66,6 +66,7 @@ use std::ops::Range;
 use units::concentration::{Brix, SpecificGravity};
 use units::temperature::{Celsius, Fahrenheit};
 
+/// Version 2, development in progress
 pub mod v2;
 
 /// Correct a specific gravity reading from a hydrometer when the

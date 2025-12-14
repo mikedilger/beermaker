@@ -1,5 +1,5 @@
 use crate::prelude::*;
-use super::{Equipment, Recipe2};
+use super::{Equipment, Recipe2, Warning};
 use serde::{Deserialize, Serialize};
 
 /// Process2
@@ -15,12 +15,6 @@ pub struct Process2 {
     // tbd: compute it magically from the max size that fits in
     // the equipment.
     pub batch_size: Liters,
-
-    /// Warnings
-    warnings: Vec<String>,
-
-    /// Errors
-    errors: Vec<String>,
 }
 
 impl Process2 {
@@ -41,27 +35,61 @@ impl Process2 {
             equipment,
             recipe,
             batch_size,
-            warnings: vec![],
-            errors: vec![],
         }
     }
 
-    /// Water salts to adjust ions
-    pub fn water_salts(&mut self) -> Vec<SaltConcentration> {
+    /// Get warnings
+    pub fn get_warnings(&self) -> Vec<Warning> {
+        let mut warnings: Vec<Warning> = Vec::new();
 
-        let water_profile = self.equipment.water_profile;
+        // Check chloride-sulfate ratio
+        if let Some(range) = &self.recipe.chloride_sulfate_ratio_range {
+            let water_profile = self.adjusted_water_profile();
+            let current = water_profile.cl.0 / water_profile.so4.0;
+            if current < range.start {
+                warnings.push(Warning::ChlorideSulfateRatioLow {
+                    current_ratio: current
+                });
+            } else if current > range.end {
+                warnings.push(Warning::ChlorideSulfateRatioHigh {
+                    current_ratio: current
+                });
+            }
+        }
+
+        // Check fermenter volume
+        {
+            let needed = self.batch_size + self.fermentation_head_space();
+
+            // Choose the smallest fermenter that handles this
+            let chosen = self.equipment.fermenters.iter()
+                .map(|&f| f)
+                .filter(|&f| f >= needed)
+                .min();
+
+            if chosen.is_none() {
+                warnings.push(Warning::FermentersTooSmall { needed });
+            }
+        }
+
+        warnings
+    }
+
+    /// Water salts to adjust ions
+    pub fn water_salts(&self) -> Vec<SaltConcentration> {
 
         let mut output: Vec<SaltConcentration> = Vec::new();
         // tbd: right now we only push at most one salt to fix
         // the chloride-sulfate concentration.
 
         if let Some(range) = &self.recipe.chloride_sulfate_ratio_range {
+            let water_profile = self.equipment.water_profile;
+
             let current = water_profile.cl.0 / water_profile.so4.0;
 
             if current < range.start {
                 // We need Chloride
                 if let Some(salt) = self.equipment.chloride_salt() {
-
                     let cl_needed = range.start * water_profile.so4.0
                         - water_profile.cl.0;
 
@@ -73,11 +101,6 @@ impl Process2 {
                         salt,
                         ppm: Ppm(salt_ppm_needed)
                     });
-                } else {
-                    self.warnings.push(
-                        format!("Chloride-Sulfate ratio is too low ({current}), and \
-                                 we have no salt to fix it with.")
-                    )
                 }
             } else if current > range.end {
                 // We need sulfate
@@ -93,18 +116,13 @@ impl Process2 {
                         salt,
                         ppm: Ppm(salt_ppm_needed)
                     });
-
-                } else {
-                    self.warnings.push(
-                        format!("Chloride-Sulfate ratio is too high ({current}), and \
-                                 we have no salt to fix it with.")
-                    )
                 }
             }
         }
 
         output
     }
+
 
     /// Water acids to adjust mash pH
     pub fn water_acids(&self) -> Vec<AcidConcentration> {
@@ -113,10 +131,8 @@ impl Process2 {
     }
 
     /// The water profile (after salts and acids)
-    ///
-    /// This is `&mut self` because it may add warnings.
     #[must_use]
-    pub fn adjusted_water_profile(&mut self) -> WaterProfile {
+    pub fn adjusted_water_profile(&self) -> WaterProfile {
         let mut profile = self.equipment.water_profile;
 
         for salt_conc in &self.water_salts() {
@@ -226,9 +242,7 @@ impl Process2 {
     }
 
     /// Chosen fermenter volume
-    //
-    /// This is `&mut self` because it may add errors.
-    pub fn fermenter_volume(&mut self) -> Option<Liters> {
+    pub fn fermenter_volume(&self) -> Liters {
         let needed = self.batch_size + self.fermentation_head_space();
 
         // Choose the smallest fermenter that handles this
@@ -237,25 +251,21 @@ impl Process2 {
             .filter(|&f| f >= needed)
             .min();
 
-        if chosen.is_none() {
-            self.errors.push(
-                format!("You don't have a fermenter large enough for this batch size.")
-            );
-        }
-
-        chosen
+        chosen.unwrap_or(needed)
     }
-
-    // BUT  we do not know the pre_boil_volume, and can't also calculate it from partial
-    //      boil dilution.
 
     /// Partial boil dilution
     pub fn partial_boil_dilution(&self) -> Liters {
         if self.batch_size > self.equipment.max_kettle_volume && self.recipe.allow_partial_boil_dilution {
-            self.batch_size
+            let pbd = self.batch_size
                 + self.equipment.kettle_losses
                 + self.boil_evaporation()
-                - self.pre_boil_volume()
+                - self.equipment.max_kettle_volume;
+            if pbd.0 < 0.0 {
+                Liters(0.0)
+            } else {
+                pbd
+            }
         } else {
             Liters(0.0)
         }
