@@ -94,12 +94,12 @@ impl Salt {
 
     /// What fraction (by weight) of this salt is the ion
     #[must_use]
-    pub fn ion_fraction(&self, ion: Ion) -> f32 {
+    pub fn ion_fraction(&self, target_ion: Ion) -> f32 {
         let mut numerator: f32 = 0.0;
         let mut denominator: f32 = 0.0;
-        for i in self.ions() {
+        for ion in self.ions().clone().drain(..) {
             denominator += ion.molecular_weight();
-            if i == ion {
+            if ion == target_ion {
                 numerator += ion.molecular_weight();
             }
         }
@@ -108,7 +108,7 @@ impl Salt {
 }
 
 /// An ion
-#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Ion {
     /// H+
     Hydrogen,
