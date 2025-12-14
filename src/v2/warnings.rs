@@ -1,8 +1,9 @@
 use crate::prelude::*;
 use std::fmt;
+use std::ops::Range;
 
 /// A warning related to a Process
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone)]
 pub enum Warning {
     /// There is too much sulfate, not enough chloride, and there is no salt
     /// available to correct this.
@@ -110,11 +111,56 @@ pub enum Warning {
 
     /// Mash pH out of range
     MashPhOutOfRange(Ph),
+
+    /// Original Gravity out of range for the style
+    OriginalGravityOutOfRange {
+        /// Original gravity
+        gravity: SpecificGravity,
+
+        /// range acceptable for the style
+        range: Range<SpecificGravity>,
+    },
+
+    /// Final Gravity out of range for the style
+    FinalGravityOutOfRange {
+        /// Final gravity
+        gravity: SpecificGravity,
+
+        /// range acceptable for the style
+        range: Range<SpecificGravity>,
+    },
+
+    /// ABV out of range for the style
+    AbvOutOfRange {
+        /// Alcohol by volume
+        abv: Abv,
+
+        /// range acceptable for the style
+        range: Range<f32>,
+    },
+
+    /// IBU out of range for the style
+    IbuOutOfRange {
+        /// IBU bitterness
+        ibu: Ibu,
+
+        /// range acceptable for the style
+        range: Range<Ibu>,
+    },
+
+    /// SRM out of range for the style
+    SrmOutOfRange {
+        /// SRM color value
+        srm: Srm,
+
+        /// range acceptable for the style
+        range: Range<Srm>,
+    },
 }
 
 impl fmt::Display for Warning {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
-        match *self {
+        match self {
             Self::ChlorideSulfateRatioLow { current_ratio } => {
                 write!(
                     f,
@@ -208,6 +254,41 @@ impl fmt::Display for Warning {
                 )
             }
             Self::MashPhOutOfRange(ph) => write!(f, "Mash {ph} is out of pH range 5.2..5.6"),
+            Self::OriginalGravityOutOfRange { gravity, range } => {
+                write!(
+                    f,
+                    "Original Gravity {gravity} out of range {}..{} for the style.",
+                    range.start, range.end
+                )
+            }
+            Self::FinalGravityOutOfRange { gravity, range } => {
+                write!(
+                    f,
+                    "Final Gravity {gravity} out of range {}..{} for the style.",
+                    range.start, range.end
+                )
+            }
+            Self::AbvOutOfRange { abv, range } => {
+                write!(
+                    f,
+                    "ABV {abv} out of range {}..{} for the style.",
+                    range.start, range.end
+                )
+            }
+            Self::IbuOutOfRange { ibu, range } => {
+                write!(
+                    f,
+                    "IBU {ibu} out of range {}..{} for the style.",
+                    range.start, range.end
+                )
+            }
+            Self::SrmOutOfRange { srm, range } => {
+                write!(
+                    f,
+                    "SRM {srm} out of range {}..{} for the style.",
+                    range.start, range.end
+                )
+            }
         }
     }
 }

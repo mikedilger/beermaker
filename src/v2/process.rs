@@ -1097,20 +1097,17 @@ impl Process2 {
             warnings.push(Warning::MashPhOutOfRange(self.mash_ph()));
         }
 
-        /*
         // Verify the style OG
         if !self
             .recipe
             .style
             .original_gravity_range()
-            .contains(&self.original_gravity())
+            .contains(&self.recipe.original_gravity)
         {
-            errors.push(format!(
-                "Original Gravity {:.3} out of range {:?} for {}",
-                self.recipe.original_gravity,
-                self.recipe.style.original_gravity_range(),
-                self.recipe.style
-            ));
+            warnings.push(Warning::OriginalGravityOutOfRange {
+                gravity: self.recipe.original_gravity,
+                range: self.recipe.style.original_gravity_range(),
+            });
         }
 
         // Verify the style FG
@@ -1120,45 +1117,35 @@ impl Process2 {
             .final_gravity_range()
             .contains(&self.final_gravity())
         {
-            errors.push(format!(
-                "Final Gravity {:.3} out of range {:?} for {}",
-                self.final_gravity(),
-                self.recipe.style.final_gravity_range(),
-                self.recipe.style
-            ));
+            warnings.push(Warning::FinalGravityOutOfRange {
+                gravity: self.final_gravity(),
+                range: self.recipe.style.final_gravity_range(),
+            });
         }
 
         // Verify the style ABV
-        if !self.recipe.style.abv_range().contains(&self.abv()) {
-            errors.push(format!(
-                "ABV {:.2} out of range {:?} for {}",
-                self.abv(),
-                self.recipe.style.abv_range(),
-                self.recipe.style
-            ));
+        if !self.recipe.style.abv_range().contains(&self.abv().0) {
+            warnings.push(Warning::AbvOutOfRange {
+                abv: self.abv(),
+                range: self.recipe.style.abv_range(),
+            });
         }
 
         // Verify the style IBU
         if !self.recipe.style.ibu_range().contains(&self.ibu()) {
-            errors.push(format!(
-                "IBU {:.1} out of range {:?} for {}",
-                self.ibu(),
-                self.recipe.style.ibu_range(),
-                self.recipe.style
-            ));
+            warnings.push(Warning::IbuOutOfRange {
+                ibu: self.ibu(),
+                range: self.recipe.style.ibu_range(),
+            });
         }
 
         // Verify the style SRM
         if !self.recipe.style.color_range().contains(&self.color()) {
-            errors.push(format!(
-                "SRM {:.1} out of range {:?} for {}",
-                self.color(),
-                self.recipe.style.color_range(),
-                self.recipe.style
-            ));
+            warnings.push(Warning::SrmOutOfRange {
+                srm: self.color(),
+                range: self.recipe.style.color_range(),
+            });
         }
-
-         */
 
         warnings
     }
