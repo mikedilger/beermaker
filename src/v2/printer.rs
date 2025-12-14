@@ -95,23 +95,22 @@ pub fn print_process(
     let strike_temp = process.strike_temperature();
     let infusion_temp = process.equipment.infusion_temperature;
     let sparge_volume = process.sparge_volume();
-    //    let pre_boil_additions = recipe.pre_boil_additions_string();
-    //    let pre_boil_gravity = recipe.pre_boil_gravity();
+    let pre_boil_gravity = process.pre_boil_gravity();
     let boil_minutes = process.recipe.boil_length;
-    //    let hops_additions = recipe.hops_additions_string();
-    //    let whirlfloc = if recipe.fining_desired {
-    //        recipe.whirlfloc_amount()
-    //    } else {
-    //        0.0
-    //    };
-    //    let yeast_nutrient = recipe.yeast_nutrient_amount();
+    let hops_additions = process.hops_additions_string();
+    let whirlfloc = if process.recipe.fining_desired {
+        process.whirlfloc_amount()
+    } else {
+        0.0
+    };
+    let yeast_nutrient = process.yeast_nutrient_amount();
     let post_boil_pre_loss_volume = process.post_boil_pre_loss_volume();
     let partial_boil_dilution = process.partial_boil_dilution();
     let fermentation_temp = process.recipe.ferment_temperature;
     let yeast = process.recipe.yeast;
     let fermentation_time = process.recipe.fermentation_time();
     let lagering_time = process.recipe.style.recommended_conditioning_time();
-    //    let diacetyl_rest_temp = recipe.diacetyl_rest_temperature();
+    let diacetyl_rest_temp = process.recipe.diacetyl_rest_temperature();
     //    let post_ferment_dilution = recipe.process.post_ferment_dilution;
     //    let bottles_nz = (recipe.process.product_volume().0 / 0.330).floor();
     //    let bottles_eu = (recipe.process.product_volume().0 / 0.500).floor();
@@ -231,7 +230,9 @@ pub fn print_process(
             .push("Since we are doing a step mash, boil water for step additions.".to_string());
     }
 
-    steps.mash.push("Add the mashable malts.".to_string());
+    steps
+        .mash
+        .push("Add the mashable malts (see grain bill).".to_string());
 
     steps.mash.push("Start the timer.".to_string());
 
@@ -295,12 +296,10 @@ pub fn print_process(
 
     // -- boil ------------
 
-    /*
-    if !recipe.sugars.is_empty() {
-        steps.boil.push(format!(
-            "Mix into the boil kettle the following sugars:\n\
-             \n{pre_boil_additions}"
-        ));
+    if !process.recipe.sugars.is_empty() {
+        steps
+            .boil
+            .push("Mix into the boil kettle the fermentable sugars (see grain bill).".to_string());
     }
 
     steps.boil.push(format!(
@@ -311,7 +310,6 @@ pub fn print_process(
          'cargo run --bin hydrometer_correct'\n\
          The target temp-correct pre-boil gravity is {pre_boil_gravity}"
     ));
-     */
 
     steps
         .boil
@@ -325,14 +323,13 @@ pub fn print_process(
         .boil
         .push(format!("We will be boiling for {boil_minutes}."));
 
-    /*
     steps.boil.push(format!(
         "At various times, add hops:\n\
              \
              {hops_additions}"
     ));
 
-    if recipe.fining_desired {
+    if process.recipe.fining_desired {
         steps.boil.push(format!(
             "At 10 minutes before the end of the boil, add \
                  {whirlfloc} whirlfloc tablets."
@@ -347,7 +344,6 @@ pub fn print_process(
     } else {
         steps.boil.push("Do not add yeast nutrient.".to_string());
     }
-    */
 
     if process.equipment.ice_bath {
         steps.boil.push(
@@ -457,14 +453,13 @@ pub fn print_process(
 
     steps.pitch.push("Oxygenate the wort.".to_string());
 
-    steps
-        .pitch
-        .push(format!("Verify the wort temperature is below {yeast_max_temperature}.",));
+    steps.pitch.push(format!(
+        "Verify the wort temperature is below {yeast_max_temperature}.",
+    ));
 
     steps
         .pitch
         .push(format!("Pitch {yeast_amount} of {yeast}.",));
-
 
     // -- ferment ------------
 
@@ -477,7 +472,6 @@ pub fn print_process(
          be and remain at {fermentation_temp} for about {fermentation_time}."
     ));
 
-    /*
     steps.ferment.push(
         "Keep an eye on fermentation. At some point it will start to \
          slow down."
@@ -498,7 +492,6 @@ pub fn print_process(
          another day and try again."
             .to_string(),
     );
-     */
 
     steps.ferment.push(format!(
         "Final Gravity Reading: Measure the final gravity. Return sample to carboy. \

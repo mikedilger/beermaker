@@ -100,7 +100,6 @@ impl WaterProfile {
     /// Add salt
     #[allow(clippy::match_same_arms)]
     pub fn add_salt(&mut self, salt_conc: SaltConcentration) {
-
         let mut distinct_ions = salt_conc.salt.ions();
         distinct_ions.sort();
         distinct_ions.dedup();

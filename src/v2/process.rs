@@ -1,6 +1,6 @@
 use super::{Equipment, Recipe2, Warning};
-use crate::prelude::*;
 use crate::Packaging;
+use crate::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::fmt::Write;
 
@@ -260,6 +260,18 @@ impl Process2 {
             .collect()
     }
 
+    /// The pre-boil original gravity (OG) of the wort
+    #[must_use]
+    pub fn pre_boil_gravity(&self) -> SpecificGravity {
+        let pre_boil_volume: Gallons = self.pre_boil_volume().into();
+        SpecificGravity::from_recipe(
+            &self.malt_doses(),
+            &self.sugar_doses(),
+            pre_boil_volume,
+            self.equipment.mash_efficiency,
+        )
+    }
+
     /// Hops doses
     #[must_use]
     #[allow(clippy::cast_precision_loss)]
@@ -290,6 +302,32 @@ impl Process2 {
                 timing: prop.timing,
             })
             .collect()
+    }
+
+    /// Get a hops additions as a string
+    #[must_use]
+    pub fn hops_additions_string(&self) -> String {
+        let mut output: String = String::new();
+        for hopsdose in &self.hops_doses() {
+            let after = self.recipe.boil_length - hopsdose.timing;
+            writeln!(
+                output,
+                "\n{} from start {} from end:  Add {} of {}",
+                after, hopsdose.timing, hopsdose.weight, hopsdose.hops
+            )
+            .unwrap();
+        }
+        output
+    }
+
+    /// The amount of whirlfloc tablet to use
+    #[must_use]
+    pub fn whirlfloc_amount(&self) -> f32 {
+        if self.recipe.fining_desired {
+            1.0 * (self.batch_size.0 / 19.0)
+        } else {
+            0.0
+        }
     }
 
     /// The weight of the malts in the mash
@@ -560,8 +598,7 @@ impl Process2 {
         if self.recipe.fan_requirement_of_yeast() < self.fan_from_malt() {
             Grams(0.0)
         } else {
-            let ppm_needed = self.recipe.fan_requirement_of_yeast().0
-                - self.fan_from_malt().0;
+            let ppm_needed = self.recipe.fan_requirement_of_yeast().0 - self.fan_from_malt().0;
 
             // yeast nutrient generally provides about 0.4 ppm
             // per gram in one hectoliter
@@ -635,8 +672,7 @@ impl Process2 {
                 1.0,
             );
             if natural_abv > target_abv {
-                return (natural_abv.0 / target_abv.0)
-                    .min(self.recipe.max_post_ferment_dilution);
+                return (natural_abv.0 / target_abv.0).min(self.recipe.max_post_ferment_dilution);
             }
         }
 
@@ -673,7 +709,11 @@ impl Process2 {
 
         for infusion in self.mash_infusions() {
             total = total + infusion;
-            writeln!(output, "Mash Infusion: +{infusion}     = {total}  mash volume").unwrap();
+            writeln!(
+                output,
+                "Mash Infusion: +{infusion}     = {total}  mash volume"
+            )
+            .unwrap();
         }
 
         total = total - self.water_absorption();
@@ -730,7 +770,7 @@ impl Process2 {
             "Dilution:      +{}     = {total}  product volume",
             self.post_fermentation_dilution()
         )
-            .unwrap();
+        .unwrap();
 
         output
     }
@@ -741,7 +781,7 @@ impl Process2 {
         Abv::from_gravity(
             self.recipe.original_gravity,
             self.post_ferment_gravity(),
-            self.post_fermentation_dilution_fraction()
+            self.post_fermentation_dilution_fraction(),
         )
     }
 
@@ -832,8 +872,6 @@ impl Process2 {
             output
         }
     }
-
-
 
     /// Ingredient list
     #[must_use]
@@ -1113,8 +1151,6 @@ impl Process2 {
         }
 
          */
-
-
 
         warnings
     }

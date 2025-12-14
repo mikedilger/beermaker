@@ -154,4 +154,10 @@ impl Recipe2 {
     pub fn fan_requirement_of_yeast(&self) -> Ppm {
         self.yeast.fan_requirement() * ((self.original_gravity.0 - 1.0) / 0.050)
     }
+
+    /// Diacetyl rest temperature
+    #[must_use]
+    pub fn diacetyl_rest_temperature(&self) -> Celsius {
+        Celsius(self.ferment_temperature.0 * (5.0 / 6.0) + (20.0 / 3.0))
+    }
 }

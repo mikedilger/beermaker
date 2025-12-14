@@ -67,7 +67,7 @@ pub enum Warning {
 
         /// What was the requested mash thickness?
         mash_thickness: f32,
-    }
+    },
 }
 
 impl fmt::Display for Warning {
@@ -102,35 +102,29 @@ impl fmt::Display for Warning {
                     "Excess partial-boil dilution is required. The recipe allows \
                            up to {maximum} but we had to use {dilution_ratio}."
                 )
-            },
+            }
             Self::LowDiastaticPower {
-                fraction_base_malts
+                fraction_base_malts,
             } => {
-                write!(
-                    f,
-                    "Not enough base malt: {fraction_base_malts} < 0.7"
-                )
-            },
+                write!(f, "Not enough base malt: {fraction_base_malts} < 0.7")
+            }
             Self::ExcessMalt {
                 malt,
                 percent,
-                max_recommended_percent
+                max_recommended_percent,
             } => {
                 write!(
                     f,
                     "Too much {malt}. You are using {percent}% but the recommended \
                      maximum is {max_recommended_percent}%",
                 )
-            },
-            Self::BoilKettleTooSmall {
-                needed,
-                available,
-            } => {
+            }
+            Self::BoilKettleTooSmall { needed, available } => {
                 write!(
                     f,
                     "Kettle is overfull. Kettle can hold {available} but we need {needed}"
                 )
-            },
+            }
             Self::TooMuchMash {
                 overfull,
                 mash_thickness,
@@ -140,7 +134,7 @@ impl fmt::Display for Warning {
                     "Too much mash by {overfull}. This means the mash thickness of \
                      {mash_thickness} is too thin and not achievable."
                 )
-            },
+            }
         }
     }
 }

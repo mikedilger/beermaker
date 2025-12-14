@@ -131,7 +131,6 @@ impl Abv {
         let abv = (76.08 * (og - fg) / (1.775 - og)) * (fg / 0.794) / 100.0;
         Abv(abv / dilution_fraction)
     }
-
 }
 
 #[cfg(test)]
