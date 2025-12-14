@@ -14,7 +14,7 @@ impl fmt::Display for Grams {
     }
 }
 
-impl Eq for Grams { }
+impl Eq for Grams {}
 
 impl Ord for Grams {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
@@ -34,7 +34,7 @@ impl fmt::Display for Kilograms {
     }
 }
 
-impl Eq for Kilograms { }
+impl Eq for Kilograms {}
 
 impl Ord for Kilograms {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
@@ -54,7 +54,7 @@ impl fmt::Display for Milligrams {
     }
 }
 
-impl Eq for Milligrams { }
+impl Eq for Milligrams {}
 
 impl Ord for Milligrams {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
@@ -74,7 +74,7 @@ impl fmt::Display for Ounces {
     }
 }
 
-impl Eq for Ounces { }
+impl Eq for Ounces {}
 
 impl Ord for Ounces {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
@@ -94,7 +94,7 @@ impl fmt::Display for Pounds {
     }
 }
 
-impl Eq for Pounds { }
+impl Eq for Pounds {}
 
 impl Ord for Pounds {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {

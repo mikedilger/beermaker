@@ -1,5 +1,5 @@
-use crate::Packaging;
 use crate::v2::Process2;
+use std::fmt::Write;
 
 /// Instructions for each major step of the process.
 ///
@@ -53,24 +53,26 @@ pub fn print_process(
     // Local variables for format! substitutions
 
     let style = process.recipe.style;
-//    let time_until_done = process.recipe.time_until_done();
+    //    let time_until_done = process.recipe.time_until_done();
     let batch_size = process.batch_size;
-//    let mash_ph = process.mash_ph();
-//    let mut mash_thicknesses = String::new();
-//    for f in recipe.mash_thicknesses() {
-//        let _ = write!(mash_thicknesses, "{f:.1}L/kg, ");
-//    }
-//    let wort_fan = recipe.wort_fan();
-//    let yeast_amount = if let Some(g) = recipe.yeast_grams() {
-//        format!("{g}")
-//    } else {
-//        format!("{} billion cells", recipe.yeast_cells() / 1_000_000_000)
+    let fermenter = process.fermenter_volume();
+
+    //    let mash_ph = process.mash_ph();
+    let mut mash_thicknesses = String::new();
+    for f in process.mash_thicknesses() {
+        let _ = write!(mash_thicknesses, "{f:.1}L/kg, ");
+    }
+    //    let wort_fan = recipe.wort_fan();
+    //    let yeast_amount = if let Some(g) = recipe.yeast_grams() {
+    //        format!("{g}")
+    //    } else {
+    //        format!("{} billion cells", recipe.yeast_cells() / 1_000_000_000)
     //    };
-//    let ibu = process.ibu_tinseth();
+    //    let ibu = process.ibu_tinseth();
     let target_ibu = process.recipe.ibu;
     let min_ibu = process.recipe.style.ibu_range().start.0;
     let max_ibu = process.recipe.style.ibu_range().end.0;
-//    let color = recipe.color();
+    //    let color = recipe.color();
     let min_color = process.recipe.style.color_range().start.0;
     let max_color = process.recipe.style.color_range().end.0;
     let og = process.recipe.original_gravity;
@@ -79,40 +81,40 @@ pub fn print_process(
     // let fg = process.recipe.final_gravity();
     let min_fg = process.recipe.style.final_gravity_range().start.0;
     let max_fg = process.recipe.style.final_gravity_range().end.0;
-//    let abv = recipe.abv();
+    //    let abv = recipe.abv();
     let min_abv = process.recipe.style.abv_range().start;
     let max_abv = process.recipe.style.abv_range().end;
-//    let ice_weight = recipe.ice_weight();
-//    let ice_bath_volume = recipe.chilled_water_volume();
-//    let total_water_volume = recipe.total_water();
-//    let water_doses = recipe.water_doses();
+    let ice_weight = process.equipment.ice_weight();
+    let ice_bath_volume = process.equipment.chilled_water_volume();
+    //    let total_water_volume = recipe.total_water();
+    //    let water_doses = recipe.water_doses();
     let adjusted_water_profile = process.adjusted_water_profile();
-//    let ingredient_list = recipe.ingredient_list_string();
-//    let strike_volume = recipe.strike_volume();
-//    let strike_temp = recipe.strike_temperature();
-//    let infusion_temp = recipe.process.infusion_temperature;
-//    let sparge_volume = recipe.sparge_volume();
-//    let pre_boil_additions = recipe.pre_boil_additions_string();
-//    let pre_boil_gravity = recipe.pre_boil_gravity();
+    let ingredient_list = process.ingredient_list_string();
+    let strike_volume = process.strike_volume();
+    //    let strike_temp = recipe.strike_temperature();
+    //    let infusion_temp = recipe.process.infusion_temperature;
+    let sparge_volume = process.sparge_volume();
+    //    let pre_boil_additions = recipe.pre_boil_additions_string();
+    //    let pre_boil_gravity = recipe.pre_boil_gravity();
     let boil_minutes = process.recipe.boil_length;
-//    let hops_additions = recipe.hops_additions_string();
-//    let whirlfloc = if recipe.fining_desired {
-//        recipe.whirlfloc_amount()
-//    } else {
-//        0.0
-//    };
-//    let yeast_nutrient = recipe.yeast_nutrient_amount();
-//    let post_boil_pre_loss_volume = recipe.process.post_boil_pre_loss_volume();
+    //    let hops_additions = recipe.hops_additions_string();
+    //    let whirlfloc = if recipe.fining_desired {
+    //        recipe.whirlfloc_amount()
+    //    } else {
+    //        0.0
+    //    };
+    //    let yeast_nutrient = recipe.yeast_nutrient_amount();
+    let post_boil_pre_loss_volume = process.post_boil_pre_loss_volume();
     let partial_boil_dilution = process.partial_boil_dilution();
     let fermentation_temp = process.recipe.ferment_temperature;
     let yeast = process.recipe.yeast;
-//    let fermentation_time = recipe.fermentation_time();
-//    let lagering_time = recipe.style.recommended_conditioning_time();
-//    let diacetyl_rest_temp = recipe.diacetyl_rest_temperature();
-//    let post_ferment_dilution = recipe.process.post_ferment_dilution;
-//    let bottles_nz = (recipe.process.product_volume().0 / 0.330).floor();
-//    let bottles_eu = (recipe.process.product_volume().0 / 0.500).floor();
-//    let bottles_large = (recipe.process.product_volume().0 / 0.750).floor();
+    //    let fermentation_time = recipe.fermentation_time();
+    //    let lagering_time = recipe.style.recommended_conditioning_time();
+    //    let diacetyl_rest_temp = recipe.diacetyl_rest_temperature();
+    //    let post_ferment_dilution = recipe.process.post_ferment_dilution;
+    //    let bottles_nz = (recipe.process.product_volume().0 / 0.330).floor();
+    //    let bottles_eu = (recipe.process.product_volume().0 / 0.500).floor();
+    //    let bottles_large = (recipe.process.product_volume().0 / 0.750).floor();
 
     // -- header ------------
 
@@ -126,9 +128,10 @@ pub fn print_process(
              Style:            {style}\n  \
              Batch size:       {batch_size}\n  \
              Days:             <time_until_done>\n  \
+             Fermenter:        {fermenter}\n  \
              Ferment Temp:     {fermentation_temp}\n  \
              Mash pH:          <mash_ph>\n  \
-             Mash Thicknesses: <mash_thicknesses>\n  \
+             Mash Thicknesses: {mash_thicknesses}\n  \
              Wort FAN:         <wort_fan>\n  \
              Yeast Pitch:      <yeast_amount>\n  \
              Bitterness:       <ibu>   [style: {min_ibu:.1} .. {max_ibu:.1}]\n  \
@@ -146,20 +149,16 @@ pub fn print_process(
     ));
      */
 
-    /*
     steps.header.push(format!(
         "Grain Bill:\n{}",
-        &indent(&recipe.grain_bill_string(), 2, char_width)
-));
-    */
+        &indent(&process.grain_bill_string(), 2, char_width)
+    ));
 
     // -- acquire ------------
 
-    /*
     steps
         .acquire
         .push(format!("Aquire all ingredients:\n\n{ingredient_list}"));
-     */
 
     let mut bits: String = "Acquire sanitizer, iodine (optional), yeast nutrient".to_string();
     if process.recipe.fining_desired {
@@ -167,15 +166,13 @@ pub fn print_process(
     }
     steps.acquire.push(bits);
 
-    /*
-    if recipe.process.ice_bath {
+    if process.equipment.ice_bath {
         steps.acquire.push(format!(
             "Acquire {ice_weight} of ice. Also place a good part of \
                  {ice_bath_volume} of tap water into refrigerator to chill for \
                  ice bath usage.",
         ));
     }
-     */
 
     /*
     steps.acquire.push(format!(
@@ -228,11 +225,11 @@ pub fn print_process(
 
     // -- mash ------------
 
-    /*
     steps.mash.push(format!(
         "Fill the mash tun with {strike_volume} of the treated source water."
     ));
 
+    /*
     steps
         .mash
         .push(format!("Bring the strike water up to {strike_temp}"));
@@ -299,12 +296,12 @@ pub fn print_process(
     steps
         .mash
         .push("Lauter the mash into the boil kettle.".to_string());
+     */
 
     steps.mash.push(format!(
         "Sparge the mash with {sparge_volume} water of about 77°C and let it \
          drain into the boil kettle."
     ));
-     */
 
     // -- boil ------------
 
@@ -358,8 +355,9 @@ pub fn print_process(
     } else {
         steps.boil.push("Do not add yeast nutrient.".to_string());
     }
+    */
 
-    if recipe.process.ice_bath {
+    if process.equipment.ice_bath {
         steps.boil.push(
             "Prepare the ice bath before the boil is complete. \
              Place all the prepared chilled water and ice into the bath."
@@ -380,6 +378,7 @@ pub fn print_process(
          adjusted for future runs."
     ));
 
+    /*
     steps
         .boil
         .push(format!("After {boil_minutes}, turn off the burner."));
@@ -414,8 +413,9 @@ pub fn print_process(
                 .to_string(),
         );
     }
+     */
 
-    if recipe.process.ice_bath {
+    if process.equipment.ice_bath {
         steps.chill.push(
             "Remove the kettle from the stove and dunk into the ice bath to rapidly \
              chill in the ice bath."
@@ -435,6 +435,7 @@ pub fn print_process(
             .push("Chill the wart according to your setup and equipment".to_string());
     }
 
+    /*
     steps
         .chill
         .push("Chill until the temperature gets to 20°C.".to_string());
@@ -556,7 +557,7 @@ pub fn print_process(
     if let Packaging::Bottle(bottle_volume, sugar) = recipe.process.packaging {
         steps.package.push(
             "Sanitize all equipment including siphon racking cane and tube, bottles, \
-	         sampler and measuring devices."
+             sampler and measuring devices."
                 .to_string(),
         );
 
@@ -583,7 +584,7 @@ pub fn print_process(
              now using a secondary fermenter, or if you use a bottling bucket, \
              then mix in {total_priming_amount} of {sugar}. \
              Try not to oxygenate, but do mix in \
-	         the sugar until fully dissolved and distributed.",
+             the sugar until fully dissolved and distributed.",
         ));
 
         let bottle_priming_amount = sugar.priming_amount(

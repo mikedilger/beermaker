@@ -21,24 +21,51 @@ pub enum Warning {
     /// None of the fermenters are large enough
     FermentersTooSmall {
         /// How much space is needed in the fermenter
-        needed: Liters
+        needed: Liters,
+    },
+
+    /// Excess dilution required, as the kettle is not large enough.
+    ExcessDilutionRequired {
+        /// The dilution ratio required
+        dilution_ratio: f32,
+
+        /// The maximum dilution ratio specified in the recipe
+        maximum: f32,
     },
 }
-
 
 impl fmt::Display for Warning {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
         match *self {
             Self::ChlorideSulfateRatioLow { current_ratio } => {
-                write!(f, "Chloride-Sulfate ratio is too low ({current_ratio}), and \
-                           we have no salt to fix it with.")
-            },
+                write!(
+                    f,
+                    "Chloride-Sulfate ratio is too low ({current_ratio}), and \
+                           we have no salt to fix it with."
+                )
+            }
             Self::ChlorideSulfateRatioHigh { current_ratio } => {
-                write!(f, "Chloride-Sulfate ratio is too high ({current_ratio}), and \
-                           we have no salt to fix it with.")
-            },
+                write!(
+                    f,
+                    "Chloride-Sulfate ratio is too high ({current_ratio}), and \
+                           we have no salt to fix it with."
+                )
+            }
             Self::FermentersTooSmall { needed } => {
-                write!(f, "You don't have a fermenter big enough. You need {needed}.")
+                write!(
+                    f,
+                    "You don't have a fermenter big enough. You need {needed}."
+                )
+            }
+            Self::ExcessDilutionRequired {
+                dilution_ratio,
+                maximum,
+            } => {
+                write!(
+                    f,
+                    "Excess partial-boil dilution is required. The recipe allows \
+                           up to {maximum} but we had to use {dilution_ratio}."
+                )
             }
         }
     }

@@ -22,7 +22,6 @@ pub struct Recipe2 {
     // TBD water hardness requirements
 
     // TBD pH requirements
-
     /// The malts that will be mashed, in proportion to all malts and sugars
     /// by weight. The actual weights are calculated.
     pub malts: Vec<MaltProportion>,
@@ -58,12 +57,35 @@ pub struct Recipe2 {
     /// The yeast to ferment with
     pub yeast: Yeast,
 
-    /// If a partial boil dilution is allowable. If false, and the wort
-    /// can't fit into the boil kettle, an error will be generated.
-    pub allow_partial_boil_dilution: bool,
+    /// How much dilution to allow when moving from boil kettle to
+    /// fermenter. This is typically 1.0 (meaning none), but this can
+    /// allow a larger batch to be brewed from a smaller kettle.
+    ///
+    /// This is expressed as a fraction, so 1.2 means up to 20% dilution.
+    ///
+    /// If this is too small, and the wort cannot fit in the kettle, an
+    /// error (Warning) will be generated.
+    ///
+    /// Keep in mind that partial boils are done at higher gravity in order
+    /// to hit the target original gravity, and this will affect the beer.
+    pub max_partial_boil_dilution: f32,
 
     /// The temperature to ferment at
     pub ferment_temperature: Celsius,
+
+    /// Target ABV. ABV is mainly determined by the original gravity and
+    /// the attenuation of the yeast. If you set this, and the natural ABV
+    /// is to high, the product will be diluted up to the maximum
+    /// post ferment dilution level to try to achieve this ABV. Note that
+    /// this is not the only way to lower ABV, and usually other techniques
+    /// are used in low alcohol beers.
+    pub target_abv: Option<f32>,
+
+    /// Maximum post-fermentation dilution to allow in persuit of the target
+    /// ABV.
+    ///
+    /// This is expressed as a fraction, so 1.2 means up to 20% dilution.
+    pub max_post_ferment_dilution: f32,
 }
 
 impl Recipe2 {
@@ -72,18 +94,18 @@ impl Recipe2 {
 
     /// Ferment losses, as a fraction
     pub(crate) fn ferment_loss_fraction(&self) -> f32 {
-
         // Start out based on gravity. More sugar leads to
         // more yeast
         let mut fraction: f32 = (self.original_gravity.0 - 1.0) * 2.2;
 
         // Next, reduce this under low flocculation conditions
-        if ! self.fining_desired {
-            fraction = fraction *  match self.yeast.flocculation() {
-                Flocculation::Low => 0.94,
-                Flocculation::LowMedium => 0.97,
-                _ => 1.0,
-            };
+        if !self.fining_desired {
+            fraction = fraction
+                * match self.yeast.flocculation() {
+                    Flocculation::Low => 0.94,
+                    Flocculation::LowMedium => 0.97,
+                    _ => 1.0,
+                };
         }
 
         // TBD:

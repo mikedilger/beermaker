@@ -1,6 +1,6 @@
 use beermaker::prelude::*;
+use beermaker::v2::{Equipment, Process2, Recipe2, print_process};
 use beermaker::{MashRest, Packaging, Style};
-use beermaker::v2::{Equipment, Recipe2, Process2, print_process};
 
 /// This is a very small 4.25 L batch experiment that I did.
 /// I would not consider this a great recipe, because I made
@@ -29,9 +29,7 @@ fn main() {
             Salt::Gypsum,
             Salt::BakingSoda,
         ],
-        acids_available: vec![
-            Acid::LacticAcid,
-        ],
+        acids_available: vec![Acid::LacticAcid],
 
         // I mash in my kettle
         mash_tun_volume: Liters(11.0),
@@ -56,6 +54,10 @@ fn main() {
         // entire mash through a sieve
         mash_efficiency: 0.83,
 
+        // I use boiling water, but within seconds it isn't boiling
+        // anymore
+        infusion_temperature: Celsius(98.5),
+
         // It is summer, the house runs a bit warmer
         room_temperature: Celsius(22.0),
 
@@ -65,16 +67,16 @@ fn main() {
         // I have a number of different vessels I could use to ferment and lager
         fermenters: vec![
             Gallons(1.0).into(), // 1 gallon carboy
-            Liters(5.0), // 5L carboy
-            Liters(8.0), // oxebar 8L keg
-            Liters(24.0), // 24L glass demijohn
-            Liters(30.0), // 30L bucket
+            Liters(5.0),         // 5L carboy
+            Liters(8.0),         // oxebar 8L keg
+            Liters(24.0),        // 24L glass demijohn
+            Liters(30.0),        // 30L bucket
         ],
         lagerers: vec![
             Gallons(1.0).into(), // 1 gallon carboy
-            Liters(5.0), // 5L carboy
-            Liters(8.0), // oxebar 8L keg
-            Liters(24.0), // 24L glass demijohn
+            Liters(5.0),         // 5L carboy
+            Liters(8.0),         // oxebar 8L keg
+            Liters(24.0),        // 24L glass demijohn
         ],
 
         // I use these double-sized big brown bottles that NZ bottle
@@ -148,17 +150,19 @@ fn main() {
         // White Labs German X Lager Yeast WLP835
         yeast: Yeast::WLP835,
 
-        allow_partial_boil_dilution: true,
+        // Do not allow partial boils
+        max_partial_boil_dilution: 1.0,
 
         // Just use the optimal temp for that yeast
         ferment_temperature: Yeast::WLP835.temp(),
+
+        // We are not targetting a low ABV and do not
+        // allow post ferment dilutions in persuit of it.
+        target_abv: None,
+        max_post_ferment_dilution: 1.0,
     };
 
-    let process = Process2::new(
-        equipment,
-        recipe,
-        Liters(6.0),
-    );
+    let process = Process2::new(equipment, recipe, Liters(7.0));
 
     println!("{}", print_process(&process, None, Some(70)));
 

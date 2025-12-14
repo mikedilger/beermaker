@@ -14,14 +14,13 @@ impl fmt::Display for Milliliters {
     }
 }
 
-impl Eq for Milliliters { }
+impl Eq for Milliliters {}
 
 impl Ord for Milliliters {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
         self.0.total_cmp(&other.0)
     }
 }
-
 
 /// Volume in Liters (L, metric)
 #[derive(
@@ -35,7 +34,7 @@ impl fmt::Display for Liters {
     }
 }
 
-impl Eq for Liters { }
+impl Eq for Liters {}
 
 impl Ord for Liters {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
@@ -55,7 +54,7 @@ impl fmt::Display for Gallons {
     }
 }
 
-impl Eq for Gallons { }
+impl Eq for Gallons {}
 
 impl Ord for Gallons {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
@@ -75,7 +74,7 @@ impl fmt::Display for Quarts {
     }
 }
 
-impl Eq for Quarts { }
+impl Eq for Quarts {}
 
 impl Ord for Quarts {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {

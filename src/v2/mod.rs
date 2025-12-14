@@ -1,4 +1,3 @@
-
 mod equipment;
 pub use equipment::Equipment;
 
@@ -13,4 +12,3 @@ pub use warnings::Warning;
 
 mod printer;
 pub use printer::{Steps2, print_process};
-

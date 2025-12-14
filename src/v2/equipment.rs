@@ -1,6 +1,6 @@
-use crate::prelude::*;
 use crate::Packaging;
 use crate::ingredients::{Salt, WaterProfile};
+use crate::prelude::*;
 use crate::units::prelude::*;
 use serde::{Deserialize, Serialize};
 
@@ -61,6 +61,11 @@ pub struct Equipment {
     /// Best to measure this and average it over time.
     pub mash_efficiency: f32,
 
+    /// The temperature of water added during mash infusions.
+    /// Often people use boiling water, but it might be somewhat
+    /// off boiling. You be the judge.
+    pub infusion_temperature: Celsius,
+
     /// Room temperature, used as the initial temperature of the grains
     /// for strike and mash infusions.
     pub room_temperature: Celsius,
@@ -101,5 +106,17 @@ impl Equipment {
         } else {
             None
         }
+    }
+
+    /// Ice bath ice weight
+    #[must_use]
+    pub fn ice_weight(&self) -> Kilograms {
+        Kilograms(self.max_kettle_volume.0 / 2.0)
+    }
+
+    /// Chilled water for ice bath
+    #[must_use]
+    pub fn chilled_water_volume(&self) -> Liters {
+        self.max_kettle_volume
     }
 }
