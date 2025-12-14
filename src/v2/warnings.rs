@@ -80,6 +80,36 @@ pub enum Warning {
 
     /// Fermentation temperature is unusual
     UnusualFermentationTemperature(Celsius),
+
+    /// Fermentation temperature is too hot for the yeast
+    TooHot {
+        /// Fermentation temp
+        ferment_temp: Celsius,
+
+        /// The max the yeast should be at
+        yeast_max: Celsius,
+    },
+
+    /// Fermentation temperature is too cold for the yeast
+    TooCold {
+        /// Fermentation temp
+        ferment_temp: Celsius,
+
+        /// The min the yeast should be at
+        yeast_min: Celsius,
+    },
+
+    /// Yeast cannot tolerate the alcohol
+    TooMuchAlcohol {
+        /// abv
+        abv: Abv,
+
+        /// Yeast max
+        yeast_max: Abv,
+    },
+
+    /// Mash pH out of range
+    MashPhOutOfRange(Ph),
 }
 
 impl fmt::Display for Warning {
@@ -146,11 +176,38 @@ impl fmt::Display for Warning {
                     "Too much mash by {overfull}. This means the mash thickness of \
                      {mash_thickness} is too thin and not achievable."
                 )
-            },
+            }
             Self::UnusualRoomTemperature(c) => write!(f, "Unusual room temp: {c}"),
-            Self::ImpossibleInfusionTemperature(c) => write!(f, "Infusion temp is above boiling!: {c}"),
+            Self::ImpossibleInfusionTemperature(c) => {
+                write!(f, "Infusion temp is above boiling!: {c}")
+            }
             Self::UnusualInfusionTemperature(c) => write!(f, "Unusual infusion temp: {c}"),
             Self::UnusualFermentationTemperature(c) => write!(f, "Unusual fermentation temp: {c}"),
+            Self::TooHot {
+                ferment_temp,
+                yeast_max,
+            } => {
+                write!(
+                    f,
+                    "The fermentation temp of {ferment_temp} is hotter than the yesat maximum of {yeast_max}"
+                )
+            }
+            Self::TooCold {
+                ferment_temp,
+                yeast_min,
+            } => {
+                write!(
+                    f,
+                    "The fermentation temp of {ferment_temp} is colder than the yesat minimum of {yeast_min}"
+                )
+            }
+            Self::TooMuchAlcohol { abv, yeast_max } => {
+                write!(
+                    f,
+                    "The ABV of {abv} is too high, the yeast can only tolerate up to {yeast_max}"
+                )
+            }
+            Self::MashPhOutOfRange(ph) => write!(f, "Mash {ph} is out of pH range 5.2..5.6"),
         }
     }
 }
@@ -165,9 +222,9 @@ impl Warning {
         matches!(
             *self,
             Self::FermentersTooSmall { .. }
-            | Self::BoilKettleTooSmall { .. }
-            | Self::TooMuchMash { .. }
-            | Self::ImpossibleInfusionTemperature(_)
+                | Self::BoilKettleTooSmall { .. }
+                | Self::TooMuchMash { .. }
+                | Self::ImpossibleInfusionTemperature(_)
         )
     }
 }

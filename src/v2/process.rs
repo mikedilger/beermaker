@@ -942,6 +942,7 @@ impl Process2 {
 
     /// Get warnings
     #[must_use]
+    #[allow(clippy::too_many_lines)]
     pub fn get_warnings(&self) -> Vec<Warning> {
         let mut warnings: Vec<Warning> = Vec::new();
 
@@ -1039,80 +1040,82 @@ impl Process2 {
 
         if self.equipment.room_temperature > Celsius(35.0) {
             warnings.push(Warning::UnusualRoomTemperature(
-                self.equipment.room_temperature
+                self.equipment.room_temperature,
             ));
         }
         if self.equipment.room_temperature < Celsius(10.0) {
             warnings.push(Warning::UnusualRoomTemperature(
-                self.equipment.room_temperature
+                self.equipment.room_temperature,
             ));
         }
 
         if self.equipment.infusion_temperature > Celsius(100.0) {
             warnings.push(Warning::ImpossibleInfusionTemperature(
-                self.equipment.infusion_temperature
+                self.equipment.infusion_temperature,
             ));
         }
         if self.equipment.infusion_temperature < Celsius(67.0) {
             warnings.push(Warning::UnusualInfusionTemperature(
-                self.equipment.infusion_temperature
+                self.equipment.infusion_temperature,
             ));
         }
 
         if self.recipe.ferment_temperature < Celsius(6.0) {
             warnings.push(Warning::UnusualFermentationTemperature(
-                self.recipe.ferment_temperature
+                self.recipe.ferment_temperature,
             ));
         }
         if self.recipe.ferment_temperature > Celsius(35.0) {
             warnings.push(Warning::UnusualFermentationTemperature(
-                self.recipe.ferment_temperature
+                self.recipe.ferment_temperature,
             ));
         }
 
-
-        /*
-        if !self.yeast.temp_range().contains(&self.ferment_temperature) {
-            errors.push(format!(
-                "Ferment temp {} is out of range {:?} for the yeast {}",
-                self.ferment_temperature,
-                self.yeast.temp_range(),
-                self.yeast,
-            ));
+        if self.recipe.ferment_temperature < self.recipe.yeast.temp_range().start {
+            warnings.push(Warning::TooCold {
+                ferment_temp: self.recipe.ferment_temperature,
+                yeast_min: self.recipe.yeast.temp_range().start,
+            });
         }
-        if self.abv() > self.yeast.alcohol_tolerance() * 100.0 {
-            errors.push(format!(
-                "{} ABV is too high, yeast can only tolerate {}% - {}%.",
-                self.abv(),
-                self.yeast.alcohol_tolerance_range().start * 100.0,
-                self.yeast.alcohol_tolerance_range().end * 100.0,
-            ));
+
+        if self.recipe.ferment_temperature > self.recipe.yeast.temp_range().end {
+            warnings.push(Warning::TooHot {
+                ferment_temp: self.recipe.ferment_temperature,
+                yeast_max: self.recipe.yeast.temp_range().end,
+            });
+        }
+
+        if self.abv() > Abv(self.recipe.yeast.alcohol_tolerance() * 100.0) {
+            warnings.push(Warning::TooMuchAlcohol {
+                abv: self.abv(),
+                yeast_max: Abv(self.recipe.yeast.alcohol_tolerance() * 100.0),
+            });
         }
 
         // Verify the mash pH
         if !(5.2..5.6).contains(&self.mash_ph().0) {
-            errors.push(format!(
-                "Estimated Mash {} is out of range 5.2..5.6",
-                self.mash_ph()
-            ));
+            warnings.push(Warning::MashPhOutOfRange(self.mash_ph()));
         }
 
+        /*
         // Verify the style OG
         if !self
+            .recipe
             .style
             .original_gravity_range()
             .contains(&self.original_gravity())
         {
             errors.push(format!(
                 "Original Gravity {:.3} out of range {:?} for {}",
-                self.original_gravity(),
-                self.style.original_gravity_range(),
-                self.style
+                self.recipe.original_gravity,
+                self.recipe.style.original_gravity_range(),
+                self.recipe.style
             ));
         }
 
         // Verify the style FG
         if !self
+            .recipe
             .style
             .final_gravity_range()
             .contains(&self.final_gravity())
@@ -1120,38 +1123,38 @@ impl Process2 {
             errors.push(format!(
                 "Final Gravity {:.3} out of range {:?} for {}",
                 self.final_gravity(),
-                self.style.final_gravity_range(),
-                self.style
+                self.recipe.style.final_gravity_range(),
+                self.recipe.style
             ));
         }
 
         // Verify the style ABV
-        if !self.style.abv_range().contains(&self.abv()) {
+        if !self.recipe.style.abv_range().contains(&self.abv()) {
             errors.push(format!(
                 "ABV {:.2} out of range {:?} for {}",
                 self.abv(),
-                self.style.abv_range(),
-                self.style
+                self.recipe.style.abv_range(),
+                self.recipe.style
             ));
         }
 
         // Verify the style IBU
-        if !self.style.ibu_range().contains(&self.ibu_tinseth()) {
+        if !self.recipe.style.ibu_range().contains(&self.ibu()) {
             errors.push(format!(
                 "IBU {:.1} out of range {:?} for {}",
-                self.ibu_tinseth(),
-                self.style.ibu_range(),
-                self.style
+                self.ibu(),
+                self.recipe.style.ibu_range(),
+                self.recipe.style
             ));
         }
 
         // Verify the style SRM
-        if !self.style.color_range().contains(&self.color()) {
+        if !self.recipe.style.color_range().contains(&self.color()) {
             errors.push(format!(
                 "SRM {:.1} out of range {:?} for {}",
                 self.color(),
-                self.style.color_range(),
-                self.style
+                self.recipe.style.color_range(),
+                self.recipe.style
             ));
         }
 
