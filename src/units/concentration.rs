@@ -1,3 +1,5 @@
+use super::prelude::*;
+use crate::ingredients::{MaltDose, SugarDose};
 use derive_more::{Add, Div, Mul, Sub, Sum};
 use serde::{Deserialize, Serialize};
 use std::fmt;
@@ -72,6 +74,36 @@ impl From<SpecificGravity> for Brix {
 impl From<Brix> for SpecificGravity {
     fn from(b: Brix) -> SpecificGravity {
         SpecificGravity(1.000 + (b.0 / (258.6 - ((b.0 / 258.2) * 227.1))))
+    }
+}
+
+impl SpecificGravity {
+    /// Compute the specific gravity of the given malts and sugars
+    /// in the given volume of waters, at the given mash efficiency.
+    #[must_use]
+    pub fn from_recipe(
+        malts: &[MaltDose],
+        sugars: &[SugarDose],
+        volume: Gallons,
+        mash_efficiency: f32,
+    ) -> Self {
+        let mut points: f32 = 0.0;
+
+        for malt_dose in malts {
+            let pounds: Pounds = malt_dose.weight.into();
+            let pts = malt_dose.malt.ppg() * pounds.0 * mash_efficiency;
+            let points_added = pts / volume.0;
+            points += points_added;
+        }
+
+        for sugar_dose in sugars {
+            let pounds: Pounds = sugar_dose.weight.into();
+            let pts = sugar_dose.sugar.ppg() * pounds.0;
+            let points_added = pts / volume.0;
+            points += points_added;
+        }
+
+        SpecificGravity(1.0 + points / 1000.0)
     }
 }
 

@@ -182,9 +182,6 @@ impl Recipe {
     /// Strike volume
     #[must_use]
     pub fn strike_volume(&self) -> Liters {
-        // Use a hardcoded correct value until we get this working.
-        // Liters(4.627)
-
         // To compute the strike volume, we have to calculate backwards.
         // This is the only place we do this.  Everywhere else, we will
         // calculate forwards from this strike volume to double-check
@@ -304,10 +301,11 @@ impl Recipe {
             })
             .collect();
 
-        let sg = self.specific_gravity(
-            self.process.ferment_volume.into(),
+        let sg = SpecificGravity::from_recipe(
             &malt_doses,
             &sugar_doses,
+            self.process.ferment_volume.into(),
+            self.process.mash_efficiency,
         );
         let actual_points = sg.0 - 1.0;
 
@@ -479,44 +477,23 @@ impl Recipe {
     #[must_use]
     pub fn pre_boil_gravity(&self) -> SpecificGravity {
         let pre_boil_volume: Gallons = self.pre_boil_volume().into();
-        self.specific_gravity(pre_boil_volume, &self.malt_doses(), &self.sugar_doses())
+        SpecificGravity::from_recipe(
+            &self.malt_doses(),
+            &self.sugar_doses(),
+            pre_boil_volume,
+            self.process.mash_efficiency,
+        )
     }
 
     /// The post-boil original gravity (OG) of the wort
     #[must_use]
     pub fn original_gravity(&self) -> SpecificGravity {
-        self.specific_gravity(
-            self.process.ferment_volume.into(),
+        SpecificGravity::from_recipe(
             &self.malt_doses(),
             &self.sugar_doses(),
+            self.process.ferment_volume.into(),
+            self.process.mash_efficiency,
         )
-    }
-
-    fn specific_gravity(
-        &self,
-        volume: Gallons,
-        malts: &[MaltDose],
-        sugars: &[SugarDose],
-    ) -> SpecificGravity {
-        let mut points: f32 = 0.0;
-
-        for malt_dose in malts {
-            let pounds: Pounds = malt_dose.weight.into();
-            let pts = malt_dose.malt.ppg() * pounds.0 * self.process.mash_efficiency;
-            let points_added = pts / volume.0;
-
-            points += points_added;
-        }
-
-        for sugar_dose in sugars {
-            let pounds: Pounds = sugar_dose.weight.into();
-            let pts = sugar_dose.sugar.ppg() * pounds.0;
-            let points_added = pts / volume.0;
-
-            points += points_added;
-        }
-
-        SpecificGravity(1.0 + points / 1000.0)
     }
 
     /// The amount of whirlfloc tablet to use

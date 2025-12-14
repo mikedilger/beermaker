@@ -5,7 +5,7 @@ use std::ops::Range;
 use strum::EnumIter;
 
 /// Flocculation
-#[derive(Debug, Clone, Copy, Serialize, Deserialize, EnumIter)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, EnumIter, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Flocculation {
     /// Low
     Low,
