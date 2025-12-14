@@ -167,11 +167,16 @@ fn main() {
 
     println!("{}", print_process(&process, None, Some(70)));
 
-    for warning in process.get_warnings() {
-        if warning.is_error() {
-            println!("*ERROR*: {}", warning);
-        } else {
-            println!("WARNING: {}", warning);
+    let warnings = process.get_warnings();
+    if warnings.is_empty() {
+        println!("No warnings. Recipe is good.");
+    } else {
+        for warning in &warnings {
+            if warning.is_error() {
+                println!("*ERROR*: {}", warning);
+            } else {
+                println!("WARNING: {}", warning);
+            }
         }
     }
 }

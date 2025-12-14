@@ -68,6 +68,18 @@ pub enum Warning {
         /// What was the requested mash thickness?
         mash_thickness: f32,
     },
+
+    /// Room temperature is unusual
+    UnusualRoomTemperature(Celsius),
+
+    /// Infusion temperature is above boiling
+    ImpossibleInfusionTemperature(Celsius),
+
+    /// Infusion temperature is unusual
+    UnusualInfusionTemperature(Celsius),
+
+    /// Fermentation temperature is unusual
+    UnusualFermentationTemperature(Celsius),
 }
 
 impl fmt::Display for Warning {
@@ -134,7 +146,11 @@ impl fmt::Display for Warning {
                     "Too much mash by {overfull}. This means the mash thickness of \
                      {mash_thickness} is too thin and not achievable."
                 )
-            }
+            },
+            Self::UnusualRoomTemperature(c) => write!(f, "Unusual room temp: {c}"),
+            Self::ImpossibleInfusionTemperature(c) => write!(f, "Infusion temp is above boiling!: {c}"),
+            Self::UnusualInfusionTemperature(c) => write!(f, "Unusual infusion temp: {c}"),
+            Self::UnusualFermentationTemperature(c) => write!(f, "Unusual fermentation temp: {c}"),
         }
     }
 }
@@ -149,8 +165,9 @@ impl Warning {
         matches!(
             *self,
             Self::FermentersTooSmall { .. }
-                | Self::BoilKettleTooSmall { .. }
-                | Self::TooMuchMash { .. }
+            | Self::BoilKettleTooSmall { .. }
+            | Self::TooMuchMash { .. }
+            | Self::ImpossibleInfusionTemperature(_)
         )
     }
 }

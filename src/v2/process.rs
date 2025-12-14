@@ -1037,43 +1037,41 @@ impl Process2 {
             });
         }
 
+        if self.equipment.room_temperature > Celsius(35.0) {
+            warnings.push(Warning::UnusualRoomTemperature(
+                self.equipment.room_temperature
+            ));
+        }
+        if self.equipment.room_temperature < Celsius(10.0) {
+            warnings.push(Warning::UnusualRoomTemperature(
+                self.equipment.room_temperature
+            ));
+        }
+
+        if self.equipment.infusion_temperature > Celsius(100.0) {
+            warnings.push(Warning::ImpossibleInfusionTemperature(
+                self.equipment.infusion_temperature
+            ));
+        }
+        if self.equipment.infusion_temperature < Celsius(67.0) {
+            warnings.push(Warning::UnusualInfusionTemperature(
+                self.equipment.infusion_temperature
+            ));
+        }
+
+        if self.recipe.ferment_temperature < Celsius(6.0) {
+            warnings.push(Warning::UnusualFermentationTemperature(
+                self.recipe.ferment_temperature
+            ));
+        }
+        if self.recipe.ferment_temperature > Celsius(35.0) {
+            warnings.push(Warning::UnusualFermentationTemperature(
+                self.recipe.ferment_temperature
+            ));
+        }
+
+
         /*
-        if self.process.room_temperature > Celsius(35.0) {
-            errors.push(format!(
-                "Room temp is unusually high: {}",
-                self.process.room_temperature
-            ));
-        }
-        if self.process.room_temperature < Celsius(10.0) {
-            errors.push(format!(
-                "Room temp is unusually low: {}",
-                self.process.room_temperature
-            ));
-        }
-        if self.strike_temperature() > Celsius(100.0) {
-            errors.push(format!(
-                "Strike temp {} is above boiling!",
-                self.strike_temperature()
-            ));
-        }
-        if self.strike_temperature() < Celsius(35.0) {
-            errors.push(format!(
-                "Strike temp {} is very low",
-                self.strike_temperature()
-            ));
-        }
-        if self.ferment_temperature < Celsius(6.0) {
-            errors.push(format!(
-                "Ferment temp {} is very low",
-                self.ferment_temperature
-            ));
-        }
-        if self.ferment_temperature > Celsius(35.0) {
-            errors.push(format!(
-                "Ferment temp {} is very high",
-                self.ferment_temperature
-            ));
-        }
         if !self.yeast.temp_range().contains(&self.ferment_temperature) {
             errors.push(format!(
                 "Ferment temp {} is out of range {:?} for the yeast {}",
