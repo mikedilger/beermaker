@@ -66,6 +66,8 @@ use std::ops::Range;
 use units::concentration::{Brix, SpecificGravity};
 use units::temperature::{Celsius, Fahrenheit};
 
+pub mod v2;
+
 /// Correct a specific gravity reading from a hydrometer when the
 /// sample is not at the calibration temperature of the hydrometer.
 // should be close to the table:
