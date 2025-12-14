@@ -14,6 +14,14 @@ impl fmt::Display for Grams {
     }
 }
 
+impl Eq for Grams { }
+
+impl Ord for Grams {
+    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+        self.0.total_cmp(&other.0)
+    }
+}
+
 /// Weight in Kilograms (kg, metric)
 #[derive(
     Debug, Clone, Copy, PartialEq, PartialOrd, Serialize, Deserialize, Add, Sum, Sub, Mul, Div,
@@ -23,6 +31,14 @@ pub struct Kilograms(pub f32);
 impl fmt::Display for Kilograms {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{:.3} kg", self.0)
+    }
+}
+
+impl Eq for Kilograms { }
+
+impl Ord for Kilograms {
+    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+        self.0.total_cmp(&other.0)
     }
 }
 
@@ -38,6 +54,14 @@ impl fmt::Display for Milligrams {
     }
 }
 
+impl Eq for Milligrams { }
+
+impl Ord for Milligrams {
+    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+        self.0.total_cmp(&other.0)
+    }
+}
+
 /// Weight in Ounces (oz, imperial)
 #[derive(
     Debug, Clone, Copy, PartialEq, PartialOrd, Serialize, Deserialize, Add, Sum, Sub, Mul, Div,
@@ -50,6 +74,14 @@ impl fmt::Display for Ounces {
     }
 }
 
+impl Eq for Ounces { }
+
+impl Ord for Ounces {
+    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+        self.0.total_cmp(&other.0)
+    }
+}
+
 /// Weight in Pounds (lbs, imperial)
 #[derive(
     Debug, Clone, Copy, PartialEq, PartialOrd, Serialize, Deserialize, Add, Sum, Sub, Mul, Div,
@@ -59,6 +91,14 @@ pub struct Pounds(pub f32);
 impl fmt::Display for Pounds {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{:.2} lbs", self.0)
+    }
+}
+
+impl Eq for Pounds { }
+
+impl Ord for Pounds {
+    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+        self.0.total_cmp(&other.0)
     }
 }
 

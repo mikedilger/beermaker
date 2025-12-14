@@ -14,6 +14,15 @@ impl fmt::Display for Milliliters {
     }
 }
 
+impl Eq for Milliliters { }
+
+impl Ord for Milliliters {
+    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+        self.0.total_cmp(&other.0)
+    }
+}
+
+
 /// Volume in Liters (L, metric)
 #[derive(
     Debug, Clone, Copy, PartialEq, PartialOrd, Serialize, Deserialize, Add, Sum, Sub, Mul, Div,
@@ -23,6 +32,14 @@ pub struct Liters(pub f32);
 impl fmt::Display for Liters {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{:.3} L", self.0)
+    }
+}
+
+impl Eq for Liters { }
+
+impl Ord for Liters {
+    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+        self.0.total_cmp(&other.0)
     }
 }
 
@@ -38,6 +55,14 @@ impl fmt::Display for Gallons {
     }
 }
 
+impl Eq for Gallons { }
+
+impl Ord for Gallons {
+    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+        self.0.total_cmp(&other.0)
+    }
+}
+
 /// Volume in U.S liquid quarts (qt, US imperial)
 #[derive(
     Debug, Clone, Copy, PartialEq, PartialOrd, Serialize, Deserialize, Add, Sum, Sub, Mul, Div,
@@ -47,6 +72,14 @@ pub struct Quarts(pub f32);
 impl fmt::Display for Quarts {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{:.1} qts", self.0)
+    }
+}
+
+impl Eq for Quarts { }
+
+impl Ord for Quarts {
+    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+        self.0.total_cmp(&other.0)
     }
 }
 
