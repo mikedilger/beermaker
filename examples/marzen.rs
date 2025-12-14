@@ -1,5 +1,6 @@
 use beermaker::prelude::*;
-use beermaker::*;
+use beermaker::{Equipment, Process, Recipe, print_process};
+use beermaker::{MashRest, Packaging, Style};
 
 /// This is a very small 4.25 L batch experiment that I did.
 /// I would not consider this a great recipe, because I made
@@ -18,33 +19,24 @@ fn main() {
         ph: Ph(8.0), //  not reported, guessed
     };
 
-    // And this is my process
-    let process = Process {
+    // And this is my equipment
+    let equipment = Equipment {
         water_profile: PAPAIOEA_PARK_BORE,
-
-        // These are probably wrong.
-        // A future version of the beermaker will figure this
-        // out for me automatically
-        water_salts: vec![
-            SaltConcentration {
-                salt: Salt::Gypsum,
-                ppm: Ppm(60.0),
-            },
-            SaltConcentration {
-                salt: Salt::Epsom,
-                ppm: Ppm(20.0),
-            },
-            SaltConcentration {
-                salt: Salt::MagnesiumChloride,
-                ppm: Ppm(140.0),
-            },
-            SaltConcentration {
-                salt: Salt::BakingSoda,
-                ppm: Ppm(10.0),
-            },
+        salts_available: vec![
+            Salt::CalciumChloride,
+            Salt::TableSalt,
+            Salt::Epsom,
+            Salt::Gypsum,
+            Salt::BakingSoda,
         ],
+        acids_available: vec![Acid::LacticAcid],
 
-        water_acids: vec![],
+        // I mash in my kettle
+        mash_tun_volume: Liters(11.0),
+
+        // I leave 1.5 liters of headroom on the 11L kettle so that it
+        // doesn't boil over
+        max_kettle_volume: Liters(9.5),
 
         // This is very small since I tip out the entire kettle
         // except the hops goo at the bottom
@@ -54,45 +46,38 @@ fn main() {
         // `pi * (kettle_opening_radius in cm)^2 * 0.00428`
         boil_evaporation_per_hour: Liters(2.27),
 
-        // This depends on your method. See the docs.
-        grain_absorption_per_kg: Liters(0.66),
-
+        // Standard figures here
+        grain_absorption_per_kg: Liters(1.0),
         hops_absorption_per_kg: Liters(5.0),
-
-        // The reason the batch size is small is because I only
-        // have this 11L kettle that I run on my kitchen hob.
-        //
-        // I leave a 1.5L buffer for foam and space to prevent
-        // boil-over.
-        kettle_volume: Liters(9.5),
 
         // This looks high, but is fairly accurate when you tip the
         // entire mash through a sieve
         mash_efficiency: 0.83,
 
-        // I don't have a plate chiller. Somebody send me a plate
-        // chiller ;-)
-        ice_bath: true,
-
-        // Batch size.  I'm using a 5L glass carboy and I want
-        // head space for the Krausen
-        ferment_volume: Liters(6.0),
-
-        // Yeast grow and steal this much of my beer!
-        ferment_loss_percent: 0.10,
-
-        room_temperature: Celsius(20.0),
-
         // I use boiling water, but within seconds it isn't boiling
         // anymore
         infusion_temperature: Celsius(98.5),
 
-        // This is for recipes where you dilute the wort after
-        // boiling to make the full volume, called a partial boil.
-        partial_boil_dilution: Liters(0.0),
+        // It is summer, the house runs a bit warmer
+        room_temperature: Celsius(22.0),
 
-        // Post ferment dilution
-        post_ferment_dilution: Liters(0.0),
+        // I don't have a plate chiller, or a pump, or hoses.
+        ice_bath: true,
+
+        // I have a number of different vessels I could use to ferment and lager
+        fermenters: vec![
+            Gallons(1.0).into(), // 1 gallon carboy
+            Liters(5.0),         // 5L carboy
+            Liters(8.0),         // oxebar 8L keg
+            Liters(24.0),        // 24L glass demijohn
+            Liters(30.0),        // 30L bucket
+        ],
+        lagerers: vec![
+            Gallons(1.0).into(), // 1 gallon carboy
+            Liters(5.0),         // 5L carboy
+            Liters(8.0),         // oxebar 8L keg
+            Liters(24.0),        // 24L glass demijohn
+        ],
 
         // I use these double-sized big brown bottles that NZ bottle
         // shops charged me a deposit on, but wont take back anymore.
@@ -103,10 +88,11 @@ fn main() {
     // Here is my experimental Märzen recipe
     let recipe = Recipe {
         name: "Example Märzen".to_owned(),
-
         style: Style::Marzen,
 
-        process,
+        // The salts aren't that important, but I don't want too much
+        // sulfate relative to chloride.
+        chloride_sulfate_ratio_range: Some(3.0..4.5),
 
         // The malt bill.  The proportions don't have to add up
         // to anything in particular.
@@ -156,7 +142,7 @@ fn main() {
             timing: Minutes(60),
         }],
 
-        boil_length_override: None,
+        boil_length: Minutes(80),
 
         // Yes, lagers should clear
         fining_desired: true,
@@ -164,18 +150,33 @@ fn main() {
         // White Labs German X Lager Yeast WLP835
         yeast: Yeast::WLP835,
 
+        // Do not allow partial boils
+        max_partial_boil_dilution: 1.0,
+
         // Just use the optimal temp for that yeast
         ferment_temperature: Yeast::WLP835.temp(),
+
+        // Lets drop the ABV a little bit, just for an example.
+        // Do not do this with a real Märzen or you will go straight
+        // to hell(es).
+        target_abv: Some(Abv(0.05)),
+        max_post_ferment_dilution: 1.3,
     };
 
-    // Finally, instruct the beermaker to print out my
-    // recipe in detail (no custom steps)
-    println!("{}", print_recipe(&recipe, None, Some(70)));
+    let process = Process::new(equipment, recipe, Liters(7.0));
 
-    // Printout any warnings
-    if let Err(warnings) = recipe.verify() {
+    println!("{}", print_process(&process, None, Some(70)));
+
+    let warnings = process.get_warnings();
+    if warnings.is_empty() {
+        println!("No warnings. Recipe is good.");
+    } else {
         for warning in &warnings {
-            println!("WARNING: {}", warning);
+            if warning.is_error() {
+                println!("*ERROR*: {}", warning);
+            } else {
+                println!("WARNING: {}", warning);
+            }
         }
     }
 }

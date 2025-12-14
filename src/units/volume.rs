@@ -3,9 +3,7 @@ use serde::{Deserialize, Serialize};
 use std::fmt;
 
 /// Volume in Milliliters (mL, metric)
-#[derive(
-    Debug, Clone, Copy, PartialEq, PartialOrd, Serialize, Deserialize, Add, Sum, Sub, Mul, Div,
-)]
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize, Add, Sum, Sub, Mul, Div)]
 pub struct Milliliters(pub f32);
 
 impl fmt::Display for Milliliters {
@@ -14,7 +12,7 @@ impl fmt::Display for Milliliters {
     }
 }
 
-impl Eq for Milliliters { }
+impl Eq for Milliliters {}
 
 impl Ord for Milliliters {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
@@ -22,11 +20,14 @@ impl Ord for Milliliters {
     }
 }
 
+impl PartialOrd for Milliliters {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        Some(self.cmp(other))
+    }
+}
 
 /// Volume in Liters (L, metric)
-#[derive(
-    Debug, Clone, Copy, PartialEq, PartialOrd, Serialize, Deserialize, Add, Sum, Sub, Mul, Div,
-)]
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize, Add, Sum, Sub, Mul, Div)]
 pub struct Liters(pub f32);
 
 impl fmt::Display for Liters {
@@ -35,7 +36,7 @@ impl fmt::Display for Liters {
     }
 }
 
-impl Eq for Liters { }
+impl Eq for Liters {}
 
 impl Ord for Liters {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
@@ -43,10 +44,14 @@ impl Ord for Liters {
     }
 }
 
+impl PartialOrd for Liters {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        Some(self.cmp(other))
+    }
+}
+
 /// Volume in Gallons (gal, imperial)
-#[derive(
-    Debug, Clone, Copy, PartialEq, PartialOrd, Serialize, Deserialize, Add, Sum, Sub, Mul, Div,
-)]
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize, Add, Sum, Sub, Mul, Div)]
 pub struct Gallons(pub f32);
 
 impl fmt::Display for Gallons {
@@ -55,7 +60,7 @@ impl fmt::Display for Gallons {
     }
 }
 
-impl Eq for Gallons { }
+impl Eq for Gallons {}
 
 impl Ord for Gallons {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
@@ -63,10 +68,14 @@ impl Ord for Gallons {
     }
 }
 
+impl PartialOrd for Gallons {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        Some(self.cmp(other))
+    }
+}
+
 /// Volume in U.S liquid quarts (qt, US imperial)
-#[derive(
-    Debug, Clone, Copy, PartialEq, PartialOrd, Serialize, Deserialize, Add, Sum, Sub, Mul, Div,
-)]
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize, Add, Sum, Sub, Mul, Div)]
 pub struct Quarts(pub f32);
 
 impl fmt::Display for Quarts {
@@ -75,11 +84,17 @@ impl fmt::Display for Quarts {
     }
 }
 
-impl Eq for Quarts { }
+impl Eq for Quarts {}
 
 impl Ord for Quarts {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
         self.0.total_cmp(&other.0)
+    }
+}
+
+impl PartialOrd for Quarts {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        Some(self.cmp(other))
     }
 }
 
