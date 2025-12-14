@@ -63,17 +63,17 @@ pub fn print_process(
     for f in process.mash_thicknesses() {
         let _ = write!(mash_thicknesses, "{f:.1}L/kg, ");
     }
-    //    let wort_fan = recipe.wort_fan();
-    //    let yeast_amount = if let Some(g) = recipe.yeast_grams() {
-    //        format!("{g}")
-    //    } else {
-    //        format!("{} billion cells", recipe.yeast_cells() / 1_000_000_000)
-    //    };
-    //    let ibu = process.ibu_tinseth();
-    let target_ibu = process.recipe.ibu;
+    let wort_fan = process.wort_fan();
+    let yeast_amount = if let Some(g) = process.yeast_grams() {
+        format!("{g}")
+    } else {
+        format!("{} billion cells", process.yeast_cells() / 1_000_000_000)
+    };
+    let yeast_max_temperature = process.recipe.yeast.temp_range().end;
+    let ibu = process.ibu();
     let min_ibu = process.recipe.style.ibu_range().start.0;
     let max_ibu = process.recipe.style.ibu_range().end.0;
-    //    let color = recipe.color();
+    let color = process.color();
     let min_color = process.recipe.style.color_range().start.0;
     let max_color = process.recipe.style.color_range().end.0;
     let og = process.recipe.original_gravity;
@@ -92,8 +92,8 @@ pub fn print_process(
     let adjusted_water_profile = process.adjusted_water_profile();
     let ingredient_list = process.ingredient_list_string();
     let strike_volume = process.strike_volume();
-    //    let strike_temp = recipe.strike_temperature();
-    //    let infusion_temp = recipe.process.infusion_temperature;
+    let strike_temp = process.strike_temperature();
+    let infusion_temp = process.equipment.infusion_temperature;
     let sparge_volume = process.sparge_volume();
     //    let pre_boil_additions = recipe.pre_boil_additions_string();
     //    let pre_boil_gravity = recipe.pre_boil_gravity();
@@ -133,22 +133,20 @@ pub fn print_process(
              Ferment Temp:     {fermentation_temp}\n  \
              Mash pH:          {mash_ph}\n  \
              Mash Thicknesses: {mash_thicknesses}\n  \
-             Wort FAN:         <wort_fan>\n  \
-             Yeast Pitch:      <yeast_amount>\n  \
-             Bitterness:       <ibu>   [style: {min_ibu:.1} .. {max_ibu:.1}]\n  \
-             Color:            <color>    [style: {min_color:.1} .. {max_color:.1}]\n  \
+             Wort FAN:         {wort_fan}\n  \
+             Yeast Pitch:      {yeast_amount}\n  \
+             Bitterness:       {ibu}   [style: {min_ibu:.1} .. {max_ibu:.1}]\n  \
+             Color:            {color}    [style: {min_color:.1} .. {max_color:.1}]\n  \
              Original Gravity: {og} [style: {min_og:.3} .. {max_og:.3}]\n  \
              Final Gravity:    {fg} [style: {min_fg:.3} .. {max_fg:.3}]\n  \
              ABV:              {abv}       [style: {min_abv:.1} .. {max_abv:.1}]\n  \
              Bottles:          <bottles_nz>x330ml <bottles_eu>x500ml <bottles_large>x750ml\n",
     ));
 
-    /*
     steps.header.push(format!(
         "Volume History:\n{}",
-        &indent(&recipe.volume_history_string(), 2, char_width)
+        &indent(&process.volume_history_string(), 2, char_width)
     ));
-     */
 
     steps.header.push(format!(
         "Grain Bill:\n{}",
@@ -180,12 +178,10 @@ pub fn print_process(
              recipe."
     ));
 
-    /*
     steps.acquire.push(format!(
         "You will need {yeast_amount} of {yeast}. You may need \
          to start a yeast starter a day before."
     ));
-     */
 
     // -- prep ------------
 
@@ -194,7 +190,6 @@ pub fn print_process(
              \n{water_doses}\n\nThis Yields:\n\n{adjusted_water_profile}"
     ));
 
-    /*
     steps.prep.push("Calibrate the pH meter.".to_string());
 
     steps
@@ -220,20 +215,17 @@ pub fn print_process(
         .prep
         .push("Sanitize equipment now, or during the mash.".to_string());
 
-     */
-
     // -- mash ------------
 
     steps.mash.push(format!(
         "Fill the mash tun with {strike_volume} of the treated source water."
     ));
 
-    /*
     steps
         .mash
         .push(format!("Bring the strike water up to {strike_temp}"));
 
-    if recipe.mash_rests.len() > 1 {
+    if process.recipe.mash_rests.len() > 1 {
         steps
             .mash
             .push("Since we are doing a step mash, boil water for step additions.".to_string());
@@ -257,8 +249,8 @@ pub fn print_process(
             .to_string(),
     );
 
-    let infusions = recipe.mash_infusions();
-    for (i, rest) in recipe.mash_rests.iter().enumerate() {
+    let infusions = process.mash_infusions();
+    for (i, rest) in process.recipe.mash_rests.iter().enumerate() {
         let temp = rest.target_temperature;
         let dur = rest.duration;
 
@@ -295,7 +287,6 @@ pub fn print_process(
     steps
         .mash
         .push("Lauter the mash into the boil kettle.".to_string());
-     */
 
     steps.mash.push(format!(
         "Sparge the mash with {sparge_volume} water of about 77°C and let it \
@@ -320,6 +311,7 @@ pub fn print_process(
          'cargo run --bin hydrometer_correct'\n\
          The target temp-correct pre-boil gravity is {pre_boil_gravity}"
     ));
+     */
 
     steps
         .boil
@@ -333,6 +325,7 @@ pub fn print_process(
         .boil
         .push(format!("We will be boiling for {boil_minutes}."));
 
+    /*
     steps.boil.push(format!(
         "At various times, add hops:\n\
              \
@@ -386,14 +379,12 @@ pub fn print_process(
 
     // -- chill ------------
 
-    /*
     if partial_boil_dilution > Liters(0.0) {
         steps.chill.push(format!(
             "Dilute the wort with {partial_boil_dilution} of \
                      boiled-then-cooled water"
         ));
     }
-     */
 
     steps
         .chill
@@ -456,7 +447,6 @@ pub fn print_process(
 
     // -- pitch ------------
 
-    /*
     steps
         .pitch
         .push("Sanitize the fermenter and any equipment used for transfer.".to_string());
@@ -469,21 +459,18 @@ pub fn print_process(
 
     steps
         .pitch
-        .push("Verify the temperature is correct for the yeast.".to_string());
+        .push(format!("Verify the wort temperature is below {yeast_max_temperature}.",));
 
     steps
         .pitch
         .push(format!("Pitch {yeast_amount} of {yeast}.",));
 
-     */
 
     // -- ferment ------------
 
-    /*
     steps
         .ferment
         .push("Close the fermenter and install or setup airlock.".to_string());
-     */
 
     steps.ferment.push(format!(
         "Place the fermenter under temperature control. We need it to \

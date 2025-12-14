@@ -148,4 +148,10 @@ impl Recipe2 {
 
         Days((base * temp_range_multiplier * floc_multiplier) as usize)
     }
+
+    /// Estimated FAN requirement of yeast
+    #[must_use]
+    pub fn fan_requirement_of_yeast(&self) -> Ppm {
+        self.yeast.fan_requirement() * ((self.original_gravity.0 - 1.0) / 0.050)
+    }
 }
