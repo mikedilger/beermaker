@@ -151,9 +151,9 @@ impl Style {
         crate::union_ranges(self.abv_ranges())
     }
 
-    /// Ranges of IBU for the style, BJCP then BA
+    /// Ranges of bitterness (IBU) for the style, BJCP then BA
     #[must_use]
-    pub fn ibu_ranges(&self) -> &[Range<Ibu>] {
+    pub fn bitterness_ranges(&self) -> &[Range<Ibu>] {
         match *self {
             Style::Dunkelweizen => &[Ibu(10.0)..Ibu(18.0), Ibu(10.0)..Ibu(15.0)],
             Style::Marzen => &[Ibu(18.0)..Ibu(24.0), Ibu(18.0)..Ibu(25.0)],
@@ -165,8 +165,8 @@ impl Style {
 
     /// Range of IBU for the style
     #[must_use]
-    pub fn ibu_range(&self) -> Range<Ibu> {
-        crate::union_ranges(self.ibu_ranges())
+    pub fn bitterness_range(&self) -> Range<Ibu> {
+        crate::union_ranges(self.bitterness_ranges())
     }
 
     /// Ranges of SRM for the style, BJCP then BA

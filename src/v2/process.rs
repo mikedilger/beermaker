@@ -900,10 +900,10 @@ impl Process2 {
         output
     }
 
-    /// Compute IBU
+    /// Compute bitterness in IBU
     #[must_use]
     #[allow(clippy::cast_precision_loss)]
-    pub fn ibu(&self) -> Ibu {
+    pub fn bitterness(&self) -> Ibu {
         // We use Tinseth
 
         let bigness_factor = 1.65 * (0.000_125_f32).powf(self.recipe.original_gravity.0 - 1.0);
@@ -1132,10 +1132,15 @@ impl Process2 {
         }
 
         // Verify the style IBU
-        if !self.recipe.style.ibu_range().contains(&self.ibu()) {
+        if !self
+            .recipe
+            .style
+            .bitterness_range()
+            .contains(&self.bitterness())
+        {
             warnings.push(Warning::IbuOutOfRange {
-                ibu: self.ibu(),
-                range: self.recipe.style.ibu_range(),
+                ibu: self.bitterness(),
+                range: self.recipe.style.bitterness_range(),
             });
         }
 

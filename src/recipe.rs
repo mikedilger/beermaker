@@ -835,11 +835,11 @@ impl Recipe {
         Celsius(self.ferment_temperature.0 * (5.0 / 6.0) + (20.0 / 3.0))
     }
 
-    /// IBU (Tinseth formula)
+    /// Bitterness in IBU (Tinseth formula)
     // FIXME: use the mIBU model which is more accurate
     #[must_use]
     #[allow(clippy::cast_precision_loss)]
-    pub fn ibu_tinseth(&self) -> Ibu {
+    pub fn bitterness(&self) -> Ibu {
         let bigness_factor = 1.65 * (0.000_125_f32).powf(self.original_gravity().0 - 1.0);
         let gallons: Gallons = self.process.ferment_volume.into();
 
@@ -1048,11 +1048,11 @@ impl Recipe {
         }
 
         // Verify the style IBU
-        if !self.style.ibu_range().contains(&self.ibu_tinseth()) {
+        if !self.style.bitterness_range().contains(&self.bitterness()) {
             errors.push(format!(
                 "IBU {:.1} out of range {:?} for {}",
-                self.ibu_tinseth(),
-                self.style.ibu_range(),
+                self.bitterness(),
+                self.style.bitterness_range(),
                 self.style
             ));
         }

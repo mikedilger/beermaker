@@ -71,9 +71,9 @@ pub fn print_process(
         format!("{} billion cells", process.yeast_cells() / 1_000_000_000)
     };
     let yeast_max_temperature = process.recipe.yeast.temp_range().end;
-    let ibu = process.ibu();
-    let min_ibu = process.recipe.style.ibu_range().start.0;
-    let max_ibu = process.recipe.style.ibu_range().end.0;
+    let ibu = process.bitterness();
+    let min_ibu = process.recipe.style.bitterness_range().start.0;
+    let max_ibu = process.recipe.style.bitterness_range().end.0;
     let color = process.color();
     let min_color = process.recipe.style.color_range().start.0;
     let max_color = process.recipe.style.color_range().end.0;

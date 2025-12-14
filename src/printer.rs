@@ -67,9 +67,9 @@ pub fn print_recipe(
     } else {
         format!("{} billion cells", recipe.yeast_cells() / 1_000_000_000)
     };
-    let ibu = recipe.ibu_tinseth();
-    let min_ibu = recipe.style.ibu_range().start.0;
-    let max_ibu = recipe.style.ibu_range().end.0;
+    let ibu = recipe.bitterness();
+    let min_ibu = recipe.style.bitterness_range().start.0;
+    let max_ibu = recipe.style.bitterness_range().end.0;
     let color = recipe.color();
     let min_color = recipe.style.color_range().start.0;
     let max_color = recipe.style.color_range().end.0;
