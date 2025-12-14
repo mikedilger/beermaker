@@ -10,3 +10,7 @@ pub use process::Process2;
 
 mod warnings;
 pub use warnings::Warning;
+
+mod printer;
+pub use printer::{Steps2, print_process};
+

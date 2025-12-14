@@ -1,6 +1,6 @@
 use beermaker::prelude::*;
 use beermaker::{MashRest, Packaging, Style};
-use beermaker::v2::{Equipment, Recipe2, Process2};
+use beermaker::v2::{Equipment, Recipe2, Process2, print_process};
 
 /// This is a very small 4.25 L batch experiment that I did.
 /// I would not consider this a great recipe, because I made
@@ -159,6 +159,8 @@ fn main() {
         recipe,
         Liters(6.0),
     );
+
+    println!("{}", print_process(&process, None, Some(70)));
 
     for warning in process.get_warnings() {
         if warning.is_error() {
