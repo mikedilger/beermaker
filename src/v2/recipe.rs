@@ -115,4 +115,37 @@ impl Recipe2 {
 
         fraction
     }
+
+    /// Estimated length of the fermentation
+    ///
+    /// Warning, this calculation is completely made up and not validated
+    /// against anything.  But most calculators, websites, etc, just say
+    /// something even less data-driven like "7 days".
+    #[must_use]
+    #[allow(clippy::cast_possible_truncation)]
+    #[allow(clippy::cast_sign_loss)]
+    pub fn fermentation_time(&self) -> Days {
+        // Higher temperature ferments run faster
+        // This fails however if you ferment at or above 35 C.
+        let base = (35.0 - self.ferment_temperature.0) / 2.0;
+
+        // If you ferment lower in the temp range of the given
+        // yeast, you slow down the fermentation.
+        let temp_range = self.yeast.temp_range();
+        let temp_range_adjuster = (self.ferment_temperature.0 - temp_range.start.0)
+            / (temp_range.end.0 - temp_range.start.0);
+        let temp_range_multiplier = 1.2 - 0.4 * temp_range_adjuster;
+
+        // TODO: only include if the style requires clearing?
+        let floc_multiplier = match self.yeast.flocculation() {
+            Flocculation::Low => 1.2,
+            Flocculation::LowMedium => 1.1,
+            Flocculation::Medium => 1.0,
+            Flocculation::MediumHigh => 0.9,
+            Flocculation::High => 0.8,
+            Flocculation::VeryHigh => 0.75,
+        };
+
+        Days((base * temp_range_multiplier * floc_multiplier) as usize)
+    }
 }

@@ -1,3 +1,4 @@
+use crate::prelude::*;
 use crate::v2::Process2;
 use std::fmt::Write;
 
@@ -53,11 +54,11 @@ pub fn print_process(
     // Local variables for format! substitutions
 
     let style = process.recipe.style;
-    //    let time_until_done = process.recipe.time_until_done();
+    let time_until_done = process.time_until_done();
     let batch_size = process.batch_size;
     let fermenter = process.fermenter_volume();
 
-    //    let mash_ph = process.mash_ph();
+    let mash_ph = process.mash_ph();
     let mut mash_thicknesses = String::new();
     for f in process.mash_thicknesses() {
         let _ = write!(mash_thicknesses, "{f:.1}L/kg, ");
@@ -108,8 +109,8 @@ pub fn print_process(
     let partial_boil_dilution = process.partial_boil_dilution();
     let fermentation_temp = process.recipe.ferment_temperature;
     let yeast = process.recipe.yeast;
-    //    let fermentation_time = recipe.fermentation_time();
-    //    let lagering_time = recipe.style.recommended_conditioning_time();
+    let fermentation_time = process.recipe.fermentation_time();
+    let lagering_time = process.recipe.style.recommended_conditioning_time();
     //    let diacetyl_rest_temp = recipe.diacetyl_rest_temperature();
     //    let post_ferment_dilution = recipe.process.post_ferment_dilution;
     //    let bottles_nz = (recipe.process.product_volume().0 / 0.330).floor();
@@ -127,10 +128,10 @@ pub fn print_process(
         "Specification:\n  \
              Style:            {style}\n  \
              Batch size:       {batch_size}\n  \
-             Days:             <time_until_done>\n  \
+             Days:             {time_until_done}\n  \
              Fermenter:        {fermenter}\n  \
              Ferment Temp:     {fermentation_temp}\n  \
-             Mash pH:          <mash_ph>\n  \
+             Mash pH:          {mash_ph}\n  \
              Mash Thicknesses: {mash_thicknesses}\n  \
              Wort FAN:         <wort_fan>\n  \
              Yeast Pitch:      <yeast_amount>\n  \
@@ -392,12 +393,13 @@ pub fn print_process(
                      boiled-then-cooled water"
         ));
     }
+     */
 
     steps
         .chill
         .push("From this point on, sanitization is important.".to_string());
 
-    if recipe.style.is_a_lager() {
+    if process.recipe.style.is_a_lager() {
         steps.chill.push(
             "Rapid chilling is important for multiple reasons to avoid to \
              off-flavors (including DMS), contamination, and drop haze \
@@ -411,7 +413,6 @@ pub fn print_process(
                 .to_string(),
         );
     }
-     */
 
     if process.equipment.ice_bath {
         steps.chill.push(
@@ -482,12 +483,14 @@ pub fn print_process(
     steps
         .ferment
         .push("Close the fermenter and install or setup airlock.".to_string());
+     */
 
     steps.ferment.push(format!(
         "Place the fermenter under temperature control. We need it to \
          be and remain at {fermentation_temp} for about {fermentation_time}."
     ));
 
+    /*
     steps.ferment.push(
         "Keep an eye on fermentation. At some point it will start to \
          slow down."
@@ -515,7 +518,6 @@ pub fn print_process(
          Target is {fg}",
     ));
 
-    /*
     if lagering_time > Days(28) {
         steps.ferment.push(
             "With sanitized equipment, rack off the trub from primary \
@@ -524,7 +526,7 @@ pub fn print_process(
         );
     }
 
-    if recipe.fining_desired {
+    if process.recipe.fining_desired {
         steps.ferment.push("Fining: Add fining agent.".to_string());
     }
 
@@ -542,6 +544,7 @@ pub fn print_process(
         ));
     }
 
+    /*
     if post_ferment_dilution > Liters(0.0) {
         steps.ferment.push(format!(
             "Dilute the fermented beer with {post_ferment_dilution} \

@@ -1,5 +1,6 @@
 use super::{Equipment, Recipe2, Warning};
 use crate::prelude::*;
+use crate::Packaging;
 use serde::{Deserialize, Serialize};
 use std::fmt::Write;
 
@@ -84,7 +85,195 @@ impl Process2 {
             }
         }
 
+        // Verify diastatic power of the mash
+        {
+            // TODO: use degrees Lintner
+            let mut diastatic_weight: Kilograms = Kilograms(0.0);
+            for malt_dose in &self.malt_doses() {
+                if malt_dose.malt.category() == MaltCategory::Base {
+                    diastatic_weight = diastatic_weight + malt_dose.weight;
+                }
+            }
+
+            let fraction_base_malts = diastatic_weight.0 / self.grain_weight().0;
+
+            if fraction_base_malts < 0.7 {
+                warnings.push(Warning::LowDiastaticPower {
+                    fraction_base_malts,
+                });
+            }
+        }
+
+        // Verify malts are not in excess of recommendations
+        for malt_dose in &self.malt_doses() {
+            let percent = 100.0 * malt_dose.weight.0 / self.grain_weight().0;
+            if percent > malt_dose.malt.recommended_max_percent() {
+                warnings.push(Warning::ExcessMalt {
+                    malt: malt_dose.malt,
+                    percent,
+                    max_recommended_percent: malt_dose.malt.recommended_max_percent(),
+                });
+            }
+        }
+
+        // Verify the pre-boil volume fits into the kettle
+        if self.pre_boil_volume() > self.equipment.max_kettle_volume {
+            warnings.push(Warning::BoilKettleTooSmall {
+                needed: self.pre_boil_volume(),
+                available: self.equipment.max_kettle_volume,
+            });
+        }
+
+        // Verify sparge volume is not negative
+        if self.sparge_volume().0 < 0.0 {
+            warnings.push(Warning::TooMuchMash {
+                overfull: Liters(-self.sparge_volume().0),
+                mash_thickness: self.recipe.mash_thickness,
+            });
+        }
+
+        /*
+        if self.process.room_temperature > Celsius(35.0) {
+            errors.push(format!(
+                "Room temp is unusually high: {}",
+                self.process.room_temperature
+            ));
+        }
+        if self.process.room_temperature < Celsius(10.0) {
+            errors.push(format!(
+                "Room temp is unusually low: {}",
+                self.process.room_temperature
+            ));
+        }
+        if self.strike_temperature() > Celsius(100.0) {
+            errors.push(format!(
+                "Strike temp {} is above boiling!",
+                self.strike_temperature()
+            ));
+        }
+        if self.strike_temperature() < Celsius(35.0) {
+            errors.push(format!(
+                "Strike temp {} is very low",
+                self.strike_temperature()
+            ));
+        }
+        if self.ferment_temperature < Celsius(6.0) {
+            errors.push(format!(
+                "Ferment temp {} is very low",
+                self.ferment_temperature
+            ));
+        }
+        if self.ferment_temperature > Celsius(35.0) {
+            errors.push(format!(
+                "Ferment temp {} is very high",
+                self.ferment_temperature
+            ));
+        }
+        if !self.yeast.temp_range().contains(&self.ferment_temperature) {
+            errors.push(format!(
+                "Ferment temp {} is out of range {:?} for the yeast {}",
+                self.ferment_temperature,
+                self.yeast.temp_range(),
+                self.yeast,
+            ));
+        }
+        if self.abv() > self.yeast.alcohol_tolerance() * 100.0 {
+            errors.push(format!(
+                "{} ABV is too high, yeast can only tolerate {}% - {}%.",
+                self.abv(),
+                self.yeast.alcohol_tolerance_range().start * 100.0,
+                self.yeast.alcohol_tolerance_range().end * 100.0,
+            ));
+        }
+
+        // Verify the mash pH
+        if !(5.2..5.6).contains(&self.mash_ph().0) {
+            errors.push(format!(
+                "Estimated Mash {} is out of range 5.2..5.6",
+                self.mash_ph()
+            ));
+        }
+
+        // Verify the style OG
+        if !self
+            .style
+            .original_gravity_range()
+            .contains(&self.original_gravity())
+        {
+            errors.push(format!(
+                "Original Gravity {:.3} out of range {:?} for {}",
+                self.original_gravity(),
+                self.style.original_gravity_range(),
+                self.style
+            ));
+        }
+
+        // Verify the style FG
+        if !self
+            .style
+            .final_gravity_range()
+            .contains(&self.final_gravity())
+        {
+            errors.push(format!(
+                "Final Gravity {:.3} out of range {:?} for {}",
+                self.final_gravity(),
+                self.style.final_gravity_range(),
+                self.style
+            ));
+        }
+
+        // Verify the style ABV
+        if !self.style.abv_range().contains(&self.abv()) {
+            errors.push(format!(
+                "ABV {:.2} out of range {:?} for {}",
+                self.abv(),
+                self.style.abv_range(),
+                self.style
+            ));
+        }
+
+        // Verify the style IBU
+        if !self.style.ibu_range().contains(&self.ibu_tinseth()) {
+            errors.push(format!(
+                "IBU {:.1} out of range {:?} for {}",
+                self.ibu_tinseth(),
+                self.style.ibu_range(),
+                self.style
+            ));
+        }
+
+        // Verify the style SRM
+        if !self.style.color_range().contains(&self.color()) {
+            errors.push(format!(
+                "SRM {:.1} out of range {:?} for {}",
+                self.color(),
+                self.style.color_range(),
+                self.style
+            ));
+        }
+
+         */
+
+
+
         warnings
+    }
+
+    /// The length of time before the beer is ready
+    #[must_use]
+    pub fn time_until_done(&self) -> Days {
+        let mut conditioning = self.recipe.style.recommended_conditioning_time();
+
+        if let Packaging::Bottle(_, _) = self.equipment.packaging {
+            // At least bottle conditioning time.
+            // NOTE: Bottle conditioning counts as conditioning time.
+            if conditioning < Days(14) {
+                conditioning = Days(14);
+            }
+        }
+
+        // 2 days of diacetyl rest
+        self.recipe.fermentation_time() + Days(2) + conditioning
     }
 
     /// Water salts to adjust ions
@@ -328,6 +517,44 @@ impl Process2 {
     #[must_use]
     pub fn grain_weight(&self) -> Kilograms {
         self.malt_doses().iter().map(|dose| dose.weight).sum()
+    }
+
+    /// Estimated mash pH
+    #[must_use]
+    pub fn mash_ph(&self) -> Ph {
+        // FIXME: use Certificate of Analysis of malt to get wort pH
+        // (we hard coded 5.4 below), combine different malts somehow.
+
+        let residual_alkalinity = self.equipment.water_profile.residual_alkalinity().0;
+
+        let mut light_weight: f32 = 0.0;
+        let mut dark_weight: f32 = 0.0;
+        let mut crystal_weight: f32 = 0.0;
+        let mut acidulated_weight: f32 = 0.0;
+
+        for dose in &self.malt_doses() {
+            match dose.malt.acid_category() {
+                MaltAcidCategory::Light => light_weight += dose.weight.0,
+                MaltAcidCategory::Dark => dark_weight += dose.weight.0,
+                MaltAcidCategory::Crystal => crystal_weight += dose.weight.0,
+                MaltAcidCategory::Acidulated => acidulated_weight += dose.weight.0,
+                MaltAcidCategory::None => (),
+            }
+        }
+
+        let total = self.grain_weight().0;
+
+        let ph = 5.4 // FIXME, get this from malt Cert of Analysis, combine malts somehow
+            + (residual_alkalinity/10.0) * 0.3 // each 10 units of RA add 0.3 pH
+            - 100.0 * (light_weight / total) * 0.03
+            - 100.0 * (dark_weight / total) * 0.05
+            - 100.0 * (crystal_weight / total) * 0.025
+            - 100.0 * (acidulated_weight / total) * 0.1;
+
+        // TODO mash thickness (only changes by 0.05 for doubling/halving)
+        // https://byo.com/mr-wizard/predicting-mash-ph/
+
+        Ph(ph)
     }
 
     /// The weight of all the fermentables
