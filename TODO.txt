@@ -1,4 +1,7 @@
+ABV test is wrong (off by 100 probably)
 Abv type exists now, stop using f32
+
+Lagering vessel is not selected, lagering steps are missing.
 
 pH calculation could use some love.
 
