@@ -18,6 +18,9 @@ pub struct Process2 {
 
     /// Warnings
     warnings: Vec<String>,
+
+    /// Errors
+    errors: Vec<String>,
 }
 
 impl Process2 {
@@ -38,10 +41,9 @@ impl Process2 {
             equipment,
             recipe,
             batch_size,
-            warnings: vec![]
+            warnings: vec![],
+            errors: vec![],
         }
-
-        // tbd: compute it all here
     }
 
     /// Water salts to adjust ions
@@ -207,6 +209,62 @@ impl Process2 {
         self.equipment.grain_absorption_per_kg * self.grain_weight().0
     }
 
+    /// The mount of water that evaporates during the boil
+    #[must_use]
+    #[allow(clippy::cast_precision_loss)]
+    pub fn boil_evaporation(&self) -> Liters {
+        self.equipment.boil_evaporation_per_hour / 60.0 * self.recipe.boil_length.0 as f32
+    }
+
+    /// How much volume is required in the fermenter for head space?
+    pub fn fermentation_head_space(&self) -> Liters {
+        // In general 10-20% or 15-25% for aggressive ones
+        // TBD: compute how aggressive the fermentation is
+        // aggressive: high gravity, high temperature
+
+        self.batch_size * 0.20
+    }
+
+    /// Chosen fermenter volume
+    //
+    /// This is `&mut self` because it may add errors.
+    pub fn fermenter_volume(&mut self) -> Option<Liters> {
+        let needed = self.batch_size + self.fermentation_head_space();
+
+        // Choose the smallest fermenter that handles this
+        let chosen = self.equipment.fermenters.iter()
+            .map(|&f| f)
+            .filter(|&f| f >= needed)
+            .min();
+
+        if chosen.is_none() {
+            self.errors.push(
+                format!("You don't have a fermenter large enough for this batch size.")
+            );
+        }
+
+        chosen
+    }
+
+    // BUT  we do not know the pre_boil_volume, and can't also calculate it from partial
+    //      boil dilution.
+
+    /// Partial boil dilution
+    pub fn partial_boil_dilution(&self) -> Liters {
+        if self.batch_size > self.equipment.max_kettle_volume && self.recipe.allow_partial_boil_dilution {
+            self.batch_size
+                + self.equipment.kettle_losses
+                + self.boil_evaporation()
+                - self.pre_boil_volume()
+        } else {
+            Liters(0.0)
+        }
+    }
+
+
+
+
+    // post_boil_volume = f(ferment_volume, partial_boil_dilution)
 
 
 

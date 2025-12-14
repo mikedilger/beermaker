@@ -58,6 +58,10 @@ pub struct Recipe2 {
     /// The yeast to ferment with
     pub yeast: Yeast,
 
+    /// If a partial boil dilution is allowable. If false, and the wort
+    /// can't fit into the boil kettle, an error will be generated.
+    pub allow_partial_boil_dilutions: bool,
+
     /// The temperature to ferment at
     pub ferment_temperature: Celsius,
 }
@@ -89,5 +93,4 @@ impl Recipe2 {
 
         fraction
     }
-
 }
