@@ -104,7 +104,7 @@ impl WaterProfile {
         distinct_ions.sort();
         distinct_ions.dedup();
 
-        for ion in distinct_ions.iter() {
+        for ion in &distinct_ions {
             let ion_fraction = salt_conc.salt.ion_fraction(*ion);
             let ppm = Ppm(salt_conc.ppm.0 * ion_fraction);
 

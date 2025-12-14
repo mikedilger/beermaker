@@ -100,12 +100,11 @@ impl Recipe2 {
 
         // Next, reduce this under low flocculation conditions
         if !self.fining_desired {
-            fraction = fraction
-                * match self.yeast.flocculation() {
-                    Flocculation::Low => 0.94,
-                    Flocculation::LowMedium => 0.97,
-                    _ => 1.0,
-                };
+            fraction *= match self.yeast.flocculation() {
+                Flocculation::Low => 0.94,
+                Flocculation::LowMedium => 0.97,
+                _ => 1.0,
+            };
         }
 
         // TBD:

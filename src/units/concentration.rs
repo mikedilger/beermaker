@@ -121,6 +121,7 @@ impl Abv {
     /// Compute Abv from original and final gravity.
     ///
     /// `dilution_fraction` must be 1.0 or greater.
+    #[must_use]
     pub fn from_gravity(
         original_gravity: SpecificGravity,
         final_gravity: SpecificGravity,

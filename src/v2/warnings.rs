@@ -144,12 +144,13 @@ impl Warning {
     ///
     /// Errors mean the process cannot work. Warnings just mean that the output
     /// might not be as great as it could be.
+    #[must_use]
     pub fn is_error(&self) -> bool {
-        match *self {
-            Self::FermentersTooSmall { .. } => true,
-            Self::BoilKettleTooSmall { .. } => true,
-            Self::TooMuchMash { .. } => true,
-            _ => false,
-        }
+        matches!(
+            *self,
+            Self::FermentersTooSmall { .. }
+                | Self::BoilKettleTooSmall { .. }
+                | Self::TooMuchMash { .. }
+        )
     }
 }

@@ -3,9 +3,7 @@ use serde::{Deserialize, Serialize};
 use std::fmt;
 
 /// Weight in Grams (g, metric)
-#[derive(
-    Debug, Clone, Copy, PartialEq, PartialOrd, Serialize, Deserialize, Add, Sum, Sub, Mul, Div,
-)]
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize, Add, Sum, Sub, Mul, Div)]
 pub struct Grams(pub f32);
 
 impl fmt::Display for Grams {
@@ -22,10 +20,14 @@ impl Ord for Grams {
     }
 }
 
+impl PartialOrd for Grams {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        Some(self.cmp(other))
+    }
+}
+
 /// Weight in Kilograms (kg, metric)
-#[derive(
-    Debug, Clone, Copy, PartialEq, PartialOrd, Serialize, Deserialize, Add, Sum, Sub, Mul, Div,
-)]
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize, Add, Sum, Sub, Mul, Div)]
 pub struct Kilograms(pub f32);
 
 impl fmt::Display for Kilograms {
@@ -42,10 +44,14 @@ impl Ord for Kilograms {
     }
 }
 
+impl PartialOrd for Kilograms {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        Some(self.cmp(other))
+    }
+}
+
 /// Weight in Milligrams (mg, metric)
-#[derive(
-    Debug, Clone, Copy, PartialEq, PartialOrd, Serialize, Deserialize, Add, Sum, Sub, Mul, Div,
-)]
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize, Add, Sum, Sub, Mul, Div)]
 pub struct Milligrams(pub f32);
 
 impl fmt::Display for Milligrams {
@@ -62,10 +68,14 @@ impl Ord for Milligrams {
     }
 }
 
+impl PartialOrd for Milligrams {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        Some(self.cmp(other))
+    }
+}
+
 /// Weight in Ounces (oz, imperial)
-#[derive(
-    Debug, Clone, Copy, PartialEq, PartialOrd, Serialize, Deserialize, Add, Sum, Sub, Mul, Div,
-)]
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize, Add, Sum, Sub, Mul, Div)]
 pub struct Ounces(pub f32);
 
 impl fmt::Display for Ounces {
@@ -82,10 +92,14 @@ impl Ord for Ounces {
     }
 }
 
+impl PartialOrd for Ounces {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        Some(self.cmp(other))
+    }
+}
+
 /// Weight in Pounds (lbs, imperial)
-#[derive(
-    Debug, Clone, Copy, PartialEq, PartialOrd, Serialize, Deserialize, Add, Sum, Sub, Mul, Div,
-)]
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize, Add, Sum, Sub, Mul, Div)]
 pub struct Pounds(pub f32);
 
 impl fmt::Display for Pounds {
@@ -99,6 +113,12 @@ impl Eq for Pounds {}
 impl Ord for Pounds {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
         self.0.total_cmp(&other.0)
+    }
+}
+
+impl PartialOrd for Pounds {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        Some(self.cmp(other))
     }
 }
 

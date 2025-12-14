@@ -1,3 +1,4 @@
+use crate::Packaging;
 use crate::prelude::*;
 use crate::v2::Process2;
 use std::fmt::Write;
@@ -111,10 +112,10 @@ pub fn print_process(
     let fermentation_time = process.recipe.fermentation_time();
     let lagering_time = process.recipe.style.recommended_conditioning_time();
     let diacetyl_rest_temp = process.recipe.diacetyl_rest_temperature();
-    //    let post_ferment_dilution = recipe.process.post_ferment_dilution;
-    //    let bottles_nz = (recipe.process.product_volume().0 / 0.330).floor();
-    //    let bottles_eu = (recipe.process.product_volume().0 / 0.500).floor();
-    //    let bottles_large = (recipe.process.product_volume().0 / 0.750).floor();
+    let post_ferment_dilution = process.post_fermentation_dilution();
+    let bottles_nz = (process.product_volume().0 / 0.330).floor();
+    let bottles_eu = (process.product_volume().0 / 0.500).floor();
+    let bottles_large = (process.product_volume().0 / 0.750).floor();
 
     // -- header ------------
 
@@ -139,7 +140,7 @@ pub fn print_process(
              Original Gravity: {og} [style: {min_og:.3} .. {max_og:.3}]\n  \
              Final Gravity:    {fg} [style: {min_fg:.3} .. {max_fg:.3}]\n  \
              ABV:              {abv}       [style: {min_abv:.1} .. {max_abv:.1}]\n  \
-             Bottles:          <bottles_nz>x330ml <bottles_eu>x500ml <bottles_large>x750ml\n",
+             Bottles:          {bottles_nz}x330ml {bottles_eu}x500ml {bottles_large}x750ml\n",
     ));
 
     steps.header.push(format!(
@@ -366,12 +367,9 @@ pub fn print_process(
          adjusted for future runs."
     ));
 
-    /*
     steps
         .boil
         .push(format!("After {boil_minutes}, turn off the burner."));
-
-     */
 
     // -- chill ------------
 
@@ -421,7 +419,6 @@ pub fn print_process(
             .push("Chill the wart according to your setup and equipment".to_string());
     }
 
-    /*
     steps
         .chill
         .push("Chill until the temperature gets to 20°C.".to_string());
@@ -430,16 +427,14 @@ pub fn print_process(
         "Original Gravity Reading\n\n\
              When the temperature is down to 20°C, take an Original Gravity reading. \
              Optionally return the sample after testing. Target is {og}.\n\n\
-             If the calculator is needed it is at ( \n\
-             'cargo run --bin hydrometer_correct' )."
+             If the calculator is needed it is at \n\
+             ( 'cargo run --bin hydrometer_correct' )."
     ));
 
     steps.chill.push(format!(
         "Chill further until fermentation temperature is reached, which \
              is {fermentation_temp}"
     ));
-
-     */
 
     // -- pitch ------------
 
@@ -524,7 +519,6 @@ pub fn print_process(
         ));
     }
 
-    /*
     if post_ferment_dilution > Liters(0.0) {
         steps.ferment.push(format!(
             "Dilute the fermented beer with {post_ferment_dilution} \
@@ -532,12 +526,9 @@ pub fn print_process(
         ));
     }
 
-     */
-
     // -- package ------------
 
-    /*
-    if let Packaging::Bottle(bottle_volume, sugar) = recipe.process.packaging {
+    if let Packaging::Bottle(bottle_volume, sugar) = process.equipment.packaging {
         steps.package.push(
             "Sanitize all equipment including siphon racking cane and tube, bottles, \
              sampler and measuring devices."
@@ -557,9 +548,9 @@ pub fn print_process(
         //));
 
         let total_priming_amount = sugar.priming_amount(
-            recipe.style.carbonation_volume(),
-            recipe.process.product_volume(),
-            recipe.process.room_temperature,
+            process.recipe.style.carbonation_volume(),
+            process.product_volume(),
+            process.equipment.room_temperature,
         );
 
         steps.package.push(format!(
@@ -571,12 +562,12 @@ pub fn print_process(
         ));
 
         let bottle_priming_amount = sugar.priming_amount(
-            recipe.style.carbonation_volume(),
+            process.recipe.style.carbonation_volume(),
             bottle_volume,
-            recipe.process.room_temperature,
+            process.equipment.room_temperature,
         );
 
-        let num_bottles = (recipe.process.product_volume().0 / bottle_volume.0).ceil();
+        let num_bottles = (process.product_volume().0 / bottle_volume.0).ceil();
 
         steps.package.push(format!(
             "If priming each bottle separately, add {bottle_priming_amount} \
@@ -602,7 +593,7 @@ pub fn print_process(
                 .to_string(),
         );
     } else {
-        let carb_volume = recipe.style.carbonation_volume();
+        let carb_volume = process.recipe.style.carbonation_volume();
         steps.package.push(format!(
             "Kegging instructions are TBD. Carbonation volume target is {carb_volume}"
         ));
@@ -610,7 +601,6 @@ pub fn print_process(
 
     steps.package.push("The beer is done.".to_string());
 
-    */
     // -------------------------------
 
     let mut output = String::new();

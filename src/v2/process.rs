@@ -28,6 +28,7 @@ impl Process2 {
     /// Due to equipment limitations, the actual batch size may compute
     /// differently to the desired one.  If no size is specified, the
     /// maximum batch size will be computed.
+    #[must_use]
     pub fn new(equipment: Equipment, recipe: Recipe2, batch_size: Liters) -> Process2 {
         Process2 {
             equipment,
@@ -54,6 +55,7 @@ impl Process2 {
     }
 
     /// Water salts to adjust ions
+    #[must_use]
     pub fn water_salts(&self) -> Vec<SaltConcentration> {
         let mut output: Vec<SaltConcentration> = Vec::new();
         // tbd: right now we only push at most one salt to fix
@@ -99,6 +101,7 @@ impl Process2 {
     }
 
     /// Water acids to adjust mash pH
+    #[must_use]
     pub fn water_acids(&self) -> Vec<AcidConcentration> {
         // TODO: compute acid additions
         vec![]
@@ -121,6 +124,7 @@ impl Process2 {
     }
 
     /// How much volume is required in the fermenter for head space?
+    #[must_use]
     pub fn fermentation_head_space(&self) -> Liters {
         // In general 10-20% or 15-25% for aggressive ones
         // TBD: compute how aggressive the fermentation is
@@ -130,6 +134,7 @@ impl Process2 {
     }
 
     /// Chosen fermenter volume
+    #[must_use]
     pub fn fermenter_volume(&self) -> Liters {
         let needed = self.batch_size + self.fermentation_head_space();
 
@@ -138,7 +143,7 @@ impl Process2 {
             .equipment
             .fermenters
             .iter()
-            .map(|&f| f)
+            .copied()
             .filter(|&f| f >= needed)
             .min();
 
@@ -163,13 +168,13 @@ impl Process2 {
     }
 
     /// Partial boil dilution
+    #[must_use]
     pub fn partial_boil_dilution(&self) -> Liters {
         let volume_needed =
             self.batch_size + self.equipment.kettle_losses + self.boil_evaporation();
 
         if self.equipment.max_kettle_volume < volume_needed {
-            let dilution = volume_needed - self.equipment.max_kettle_volume;
-            return dilution;
+            volume_needed - self.equipment.max_kettle_volume
         } else {
             Liters(0.0)
         }
@@ -195,6 +200,7 @@ impl Process2 {
 
     /// Multipler on the grain bill that achieves the original
     /// gravity at the batch size.
+    #[must_use]
     pub fn grain_bill_multiplier(&self) -> f32 {
         let malt_doses: Vec<MaltDose> = self
             .recipe
@@ -935,6 +941,7 @@ impl Process2 {
     }
 
     /// Get warnings
+    #[must_use]
     pub fn get_warnings(&self) -> Vec<Warning> {
         let mut warnings: Vec<Warning> = Vec::new();
 
@@ -962,7 +969,7 @@ impl Process2 {
                 .equipment
                 .fermenters
                 .iter()
-                .map(|&f| f)
+                .copied()
                 .filter(|&f| f >= needed)
                 .min();
 
