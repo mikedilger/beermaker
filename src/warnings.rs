@@ -159,6 +159,7 @@ pub enum Warning {
 }
 
 impl fmt::Display for Warning {
+    #[allow(clippy::too_many_lines)]
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
         match self {
             Self::ChlorideSulfateRatioLow { current_ratio } => {

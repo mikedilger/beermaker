@@ -1,17 +1,5 @@
+Abv type exists now, stop using f32
+
 pH calculation could use some love.
-
-Partial Boil Dilution:  Right now we have to specify it in
-     liters (in the process). But we could compute it
-     automatically as whatever reaches the  max kettle
-     volume.
-
-Post Ferment Dilution:  Right now we have to specify it in
-     liters. But we could compute it automatically by
-     specifying the target product ABV in the recipe, and
-     then applying whatever dilution provides the ABV
-     specified in the recipe. We should error if the ABV
-     is too low to reach the target.  This field should be
-     called a dilution_abv_target so users don't think
-     it adjusts gravity.
 
 Terminology: use the terms liquor and grist.

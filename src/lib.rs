@@ -44,6 +44,9 @@ pub mod prelude {
     pub use crate::units::{Ibu, Ph};
 }
 
+mod equipment;
+pub use equipment::Equipment;
+
 mod style;
 pub use style::Style;
 
@@ -60,14 +63,14 @@ mod recipe;
 pub use recipe::Recipe;
 
 mod printer;
-pub use printer::{Steps, print_recipe};
+pub use printer::{Steps, print_process};
+
+mod warnings;
+pub use warnings::Warning;
 
 use std::ops::Range;
 use units::concentration::{Brix, SpecificGravity};
 use units::temperature::{Celsius, Fahrenheit};
-
-/// Version 2, development in progress
-pub mod v2;
 
 /// Correct a specific gravity reading from a hydrometer when the
 /// sample is not at the calibration temperature of the hydrometer.
