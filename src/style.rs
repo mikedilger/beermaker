@@ -32,6 +32,9 @@ pub enum Style {
 
     /// Irish Red Ale
     IrishRedAle,
+
+    /// Belgian Qudrupel, Grand Cru, Belgian Dark Strong
+    BelgianQuadrupel,
 }
 
 impl Style {
@@ -65,6 +68,9 @@ impl Style {
                  roasted dryness in the finish. Some versions can emphasize the \
                  caramel and sweetness more, while others will favor the grainy \
                  palate and roasted dryness."
+            },
+            Style::BelgianQuadrupel => {
+                "(not listed with BJCP 2021)"
             }
         }
     }
@@ -91,6 +97,9 @@ impl Style {
             Style::IrishRedAle => &[
                 SpecificGravity(1.036)..SpecificGravity(1.046), // BJCP
                 SpecificGravity(1.040)..SpecificGravity(1.048), // BA
+            ],
+            Style::BelgianQuadrupel => &[
+                SpecificGravity(1.092)..SpecificGravity(1.120), // BA
             ],
         }
     }
@@ -124,6 +133,9 @@ impl Style {
                 SpecificGravity(1.010)..SpecificGravity(1.014), // BJCP
                 SpecificGravity(1.010)..SpecificGravity(1.014), // BA
             ],
+            Style::BelgianQuadrupel => &[
+                SpecificGravity(1.014)..SpecificGravity(1.020), // BA
+            ],
         }
     }
 
@@ -142,6 +154,7 @@ impl Style {
             Style::Hefeweizen => &[4.3..5.6, 4.9..5.6],
             Style::LeichtesWeizen => &[2.5..3.5],
             Style::IrishRedAle => &[3.8..5.0, 4.0..4.8],
+            Style::BelgianQuadrupel => &[10.0..14.2],
         }
     }
 
@@ -160,6 +173,7 @@ impl Style {
             Style::Hefeweizen => &[Ibu(8.0)..Ibu(15.0), Ibu(10.0)..Ibu(15.0)],
             Style::LeichtesWeizen => &[Ibu(10.0)..Ibu(15.0)],
             Style::IrishRedAle => &[Ibu(18.0)..Ibu(28.0), Ibu(20.0)..Ibu(28.0)],
+            Style::BelgianQuadrupel => &[Ibu(25.0)..Ibu(50.0)],
         }
     }
 
@@ -178,6 +192,7 @@ impl Style {
             Style::Hefeweizen => &[Srm(2.0)..Srm(6.0), Srm(3.0)..Srm(9.0)],
             Style::LeichtesWeizen => &[Srm(3.5)..Srm(15.0)],
             Style::IrishRedAle => &[Srm(9.0)..Srm(14.0), Srm(11.0)..Srm(18.0)],
+            Style::BelgianQuadrupel => &[Srm(16.0)..Srm(36.0)],
         }
     }
 
@@ -220,7 +235,7 @@ impl Style {
         // euro lager 2.2 - 2.7
         // wheat beer 2.8, or 3.3-4.5
         // lambic 2.4-2.8
-        // belgian ale 3.0  1n.9-2.4
+        // belgian ale 3.0  1.9-2.4
 
         match *self {
             Self::Dunkelweizen => 3.5,
@@ -228,6 +243,7 @@ impl Style {
             Self::Hefeweizen => 3.3,
             Self::LeichtesWeizen => 4.0,
             Self::IrishRedAle => 2.1,
+            Self::BelgianQuadrupel => 3.0,
         }
     }
 
@@ -297,6 +313,7 @@ impl fmt::Display for Style {
             Style::Hefeweizen => write!(f, "Hefeweissen/Weissbier"),
             Style::LeichtesWeizen => write!(f, "Leichtes Weizen"),
             Style::IrishRedAle => write!(f, "Irish Red Ale"),
+            Style::BelgianQuadrupel => write!(f, "Belgian Quadrupel"),
         }
     }
 }
