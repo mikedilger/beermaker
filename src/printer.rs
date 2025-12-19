@@ -317,6 +317,10 @@ pub fn print_process(
 
     steps
         .boil
+        .push("Optionally at hot-break, skim off and discard the protein foam.".to_string());
+
+    steps
+        .boil
         .push("Maintain the boil at a rapid rolling boil for the duration.".to_string());
 
     steps
