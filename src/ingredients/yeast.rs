@@ -262,7 +262,7 @@ impl Yeast {
             Yeast::LutraKveik => Ppm(180.0),
             Yeast::LallemandMunichClassic => Ppm(180.0),
             Yeast::SafaleT58 => Ppm(150.0),     // ale
-            Yeast::SafaleUS05 => Ppm(150.0),     // ale
+            Yeast::SafaleUS05 => Ppm(150.0),    // ale
             Yeast::SafaleW68 => Ppm(150.0),     // ale
             Yeast::SafaleWB06 => Ppm(150.0),    // ale
             Yeast::SaflagerW3470 => Ppm(100.0), // lager

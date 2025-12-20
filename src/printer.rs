@@ -508,18 +508,28 @@ pub fn print_process(
         steps.ferment.push("Fining: Add fining agent.".to_string());
     }
 
-    if lagering_time > Days(0) {
-        steps.ferment.push(format!(
-            "Slowly lower the temperature by 1°C per day until you get near 0°C. \
-             Or optionally crash to near 0°C (but Germans dont do that). Hold at \
-             this low temperature for {lagering_time}.  BEWARE, if you crash it, \
-             the fermenter will suck in whatever is in your airlock and a bunch \
-             of atmosphere (with oxygen) besides, potentially ruining your beer. \
-             So consider these: Replace sanitizer in the airlock with strong alcohol; \
-             Apply continuous low pressure CO2; use a Co2-filled balloon as the \
-             airlock; use a blow-off tube long enough that the water wont be sucked \
-             all the way into the fermenter."
-        ));
+    match process.recipe.style.lager_style() {
+        None => {}
+        Some(LagerStyle::European) => {
+            steps.ferment.push(format!(
+                "Slowly lower the temperature by 1°C per day until you get near to \
+                 the lagering temperature range of 4°C - 7°C. Hold at \
+                 this low temperature for {lagering_time}."
+            ));
+        }
+        Some(LagerStyle::American) => {
+            steps.ferment.push(format!(
+                "Crash the temperature down to  0°C - 1°C, and then hold \
+                 at this low temperature for {lagering_time}. Be aware that without \
+                 taking some kind of remedial action, the fermenter will suck in \
+                 whatever is in your airlock and a bunch of atmosphere (with oxygen) \
+                 as the cooling creates a vacuum. \
+                 So consider these: Replace sanitizer in the airlock with strong alcohol; \
+                 Apply continuous low pressure CO2; use a Co2-filled balloon as the \
+                 airlock; use a blow-off tube long enough that the water wont be sucked \
+                 all the way into the fermenter."
+            ));
+        }
     }
 
     if post_ferment_dilution > Liters(0.0) {

@@ -3,6 +3,16 @@ use serde::{Deserialize, Serialize};
 use std::fmt;
 use std::ops::Range;
 
+/// Lager style
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
+pub enum LagerStyle {
+    /// European
+    European,
+
+    /// American
+    American,
+}
+
 /// Style of beer
 ///
 /// Styles are defined by a few different groups. Of course they disagree.
@@ -68,10 +78,8 @@ impl Style {
                  roasted dryness in the finish. Some versions can emphasize the \
                  caramel and sweetness more, while others will favor the grainy \
                  palate and roasted dryness."
-            },
-            Style::BelgianQuadrupel => {
-                "(not listed with BJCP 2021)"
             }
+            Style::BelgianQuadrupel => "(not listed with BJCP 2021)",
         }
     }
 
@@ -247,14 +255,21 @@ impl Style {
         }
     }
 
+    /// Lager style
+    #[must_use]
+    #[allow(clippy::match_like_matches_macro)]
+    pub fn lager_style(&self) -> Option<LagerStyle> {
+        match *self {
+            Self::Marzen => Some(LagerStyle::European),
+            _ => None,
+        }
+    }
+
     /// Is a lager
     #[must_use]
     #[allow(clippy::match_like_matches_macro)]
     pub fn is_a_lager(&self) -> bool {
-        match *self {
-            Self::Marzen => true,
-            _ => false,
-        }
+        self.lager_style().is_some()
     }
 
     /// Is a wheat beer

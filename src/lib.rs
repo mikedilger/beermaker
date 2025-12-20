@@ -42,13 +42,16 @@ pub mod prelude {
     pub use crate::units::volume::*;
     pub use crate::units::weight::*;
     pub use crate::units::{Ibu, Ph};
+    pub use crate::{
+        Equipment, LagerStyle, MashRest, Packaging, Process, Recipe, Steps, Style, Warning,
+    };
 }
 
 mod equipment;
 pub use equipment::Equipment;
 
 mod style;
-pub use style::Style;
+pub use style::{LagerStyle, Style};
 
 mod process;
 pub use process::Process;
