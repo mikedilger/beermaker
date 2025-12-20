@@ -1,12 +1,13 @@
 use crate::prelude::*;
 use crate::{Packaging, Process};
+use serde::{Deserialize, Serialize};
 use std::fmt::Write;
 
 /// Instructions for each major step of the process.
 ///
 /// These instructions can have values substituted in, see the
 /// source code file.
-#[derive(Debug, Clone, Default)]
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Steps {
     /// Header
     pub header: Vec<String>,
@@ -36,6 +37,21 @@ pub struct Steps {
     pub package: Vec<String>,
 }
 
+impl Steps {
+    /// Merge other steps in (at the end)
+    pub fn merge(&mut self, other: &Steps) {
+        self.header.extend_from_slice(&other.header);
+        self.acquire.extend_from_slice(&other.acquire);
+        self.prep.extend_from_slice(&other.prep);
+        self.mash.extend_from_slice(&other.mash);
+        self.boil.extend_from_slice(&other.boil);
+        self.chill.extend_from_slice(&other.chill);
+        self.pitch.extend_from_slice(&other.pitch);
+        self.ferment.extend_from_slice(&other.ferment);
+        self.package.extend_from_slice(&other.package);
+    }
+}
+
 /// Print a process in full detail to a String.
 ///
 /// If you pass in custom_steps, they will be the first steps in each
@@ -49,7 +65,11 @@ pub fn print_process(
     char_width: Option<usize>,
 ) -> String {
     let char_width = char_width.unwrap_or(78);
+
     let mut steps = custom_steps.unwrap_or_default();
+    if let Some(ref more_steps) = process.recipe.custom_steps {
+        steps.merge(more_steps);
+    }
 
     // Local variables for format! substitutions
 

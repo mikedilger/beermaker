@@ -83,6 +83,8 @@ fn main() {
         // shops charged me a deposit on, but wont take back anymore.
         // That's ok, they are useful.
         packaging: Packaging::Bottle(Liters(0.750), Sugar::Dextrose),
+
+        custom_steps: None,
     };
 
     // Here is my experimental Märzen recipe

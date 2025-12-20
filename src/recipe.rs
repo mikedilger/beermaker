@@ -86,6 +86,11 @@ pub struct Recipe {
     ///
     /// This is expressed as a fraction, so 1.2 means up to 20% dilution.
     pub max_post_ferment_dilution: f32,
+
+    /// Custom steps
+    ///
+    /// Custom steps will be printed per-section at the top of the section.
+    pub custom_steps: Option<Steps>,
 }
 
 impl Recipe {

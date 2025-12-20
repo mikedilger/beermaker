@@ -33,8 +33,8 @@ pub struct Equipment {
     /// For a 5 gallon homebrew, this is typically 4 - 5 liters.
     /// You can do better by using the radius of your pot: Area(in square cm) * 0.00428
     /// = pi * (radius cm)^2 * 0.00428
-    /// So 35 cm loses 4.1 liters per hour
-    /// So 26 cm loses 2.27238 liters per hour
+    /// So 35 cm diameter loses 4.1 liters per hour
+    /// So 26 cm diameter loses 2.27238 liters per hour
     ///
     /// You can do even better by measuring them under your conditions.
     /// Because the actual losses depend on heat input (the strength of
