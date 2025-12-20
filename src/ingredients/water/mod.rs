@@ -7,7 +7,8 @@ use std::fmt;
 use std::ops::Add;
 
 /// Tool for adjusting water with salt
-pub mod water_adjustment;
+mod water_adjustment;
+pub use water_adjustment::WaterAdjustment;
 
 /// Water profile
 #[allow(clippy::doc_markdown)]

@@ -84,30 +84,6 @@ pub struct Equipment {
 }
 
 impl Equipment {
-    pub(crate) fn chloride_salt(&self) -> Option<Salt> {
-        if self.salts_available.contains(&Salt::MagnesiumChloride) {
-            Some(Salt::MagnesiumChloride)
-        } else if self.salts_available.contains(&Salt::CalciumChloride) {
-            Some(Salt::CalciumChloride)
-        } else if self.salts_available.contains(&Salt::TableSalt) {
-            Some(Salt::TableSalt)
-        } else {
-            None
-        }
-    }
-
-    pub(crate) fn sulfate_salt(&self) -> Option<Salt> {
-        if self.salts_available.contains(&Salt::Epsom) {
-            Some(Salt::Epsom)
-        } else if self.salts_available.contains(&Salt::Gypsum) {
-            Some(Salt::Gypsum)
-        } else if self.salts_available.contains(&Salt::SodiumSulfate) {
-            Some(Salt::SodiumSulfate)
-        } else {
-            None
-        }
-    }
-
     /// Ice bath ice weight
     #[must_use]
     pub fn ice_weight(&self) -> Kilograms {

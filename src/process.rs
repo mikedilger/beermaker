@@ -57,47 +57,13 @@ impl Process {
     /// Water salts to adjust ions
     #[must_use]
     pub fn water_salts(&self) -> Vec<SaltConcentration> {
-        let mut output: Vec<SaltConcentration> = Vec::new();
-        // tbd: right now we only push at most one salt to fix
-        // the chloride-sulfate concentration.
+        let mut water_adjustment = WaterAdjustment::new(
+            self.equipment.water_profile,
+            self.recipe.chloride_sulfate_ratio_range.clone(),
+            self.equipment.salts_available.clone(),
+        );
 
-        if let Some(range) = &self.recipe.chloride_sulfate_ratio_range {
-            let water_profile = self.equipment.water_profile;
-
-            let current = water_profile.cl.0 / water_profile.so4.0;
-
-            if current < range.start {
-                // We need Chloride
-                if let Some(salt) = self.equipment.chloride_salt() {
-                    let cl_needed = range.start * water_profile.so4.0 - water_profile.cl.0;
-
-                    let ion_fraction = salt.ion_fraction(Ion::Chloride);
-
-                    let salt_ppm_needed = cl_needed / ion_fraction;
-
-                    output.push(SaltConcentration {
-                        salt,
-                        ppm: Ppm(salt_ppm_needed),
-                    });
-                }
-            } else if current > range.end {
-                // We need sulfate
-                if let Some(salt) = self.equipment.sulfate_salt() {
-                    let so4_needed = water_profile.cl.0 / range.end - water_profile.so4.0;
-
-                    let ion_fraction = salt.ion_fraction(Ion::Sulfate);
-
-                    let salt_ppm_needed = so4_needed / ion_fraction;
-
-                    output.push(SaltConcentration {
-                        salt,
-                        ppm: Ppm(salt_ppm_needed),
-                    });
-                }
-            }
-        }
-
-        output
+        water_adjustment.salts_needed()
     }
 
     /// Water acids to adjust mash pH

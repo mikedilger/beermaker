@@ -1,74 +1,187 @@
 use super::WaterProfile;
-use crate::units::concentration::Ppm;
-use serde::{Deserialize, Serialize};
+use crate::prelude::*;
+use std::ops::Range;
 
-/// Water balance (what we need, or have too much of)
-#[allow(clippy::doc_markdown)]
-#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
-pub struct WaterBalance {
-    /// ca defecit or surplus
-    pub ca: Ppm,
-
-    /// mg defecit or surplus
-    pub mg: Ppm,
-
-    /// na defecit or surplus
-    pub na: Ppm,
-
-    /// so4 defecit or surplus
-    pub so4: Ppm,
-
-    /// cl defecit or surplus
-    pub cl: Ppm,
-
-    /// alkalinity defecit or surplus
-    pub alkalinity_caco3: Ppm,
+/// Compute how much salt adds the specified ppm of the
+/// specified ion
+fn salt_concentration_for_ion(salt: Salt, ion: Ion, additional_ppm: Ppm) -> SaltConcentration {
+    if !salt.ions().contains(&ion) {
+        panic!("{} does not contain {:?}", salt, ion);
+    }
+    let ion_fraction = salt.ion_fraction(ion);
+    let salt_ppm = additional_ppm / ion_fraction;
+    SaltConcentration {
+        salt,
+        ppm: salt_ppm,
+    }
 }
 
-/// Water ratio (what fraction of target are we at)
-#[allow(clippy::doc_markdown)]
-#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
-pub struct WaterRatio {
-    /// ca fraction of target
-    pub ca: f32,
+/// A WaterAdjustment tool
+#[derive(Debug, Clone)]
+pub struct WaterAdjustment {
+    profile: WaterProfile,
+    salts_available: Vec<Salt>,
 
-    /// mg fraction of target
-    pub mg: f32,
+    /// The target concentration of Calcium
+    pub ca_target: Ppm,
 
-    /// na fraction of target
-    pub na: f32,
+    /// The target concentration of Chloride
+    pub cl_target: Ppm,
 
-    /// so4 fraction of target
-    pub so4: f32,
-
-    /// cl fraction of target
-    pub cl: f32,
-
-    /// alkalinity fraction of target
-    pub alkalinity_caco3: f32,
+    /// The target concentration of Sulfate
+    pub so4_target: Ppm,
 }
 
-/// Compare a water profile, to a target water profile to see how
-/// they compare by amount and by ratio.
-#[must_use]
-pub fn compare_to_target(source: WaterProfile, target: WaterProfile) -> (WaterBalance, WaterRatio) {
-    let balance = WaterBalance {
-        ca: source.ca - target.ca,
-        mg: source.mg - target.mg,
-        na: source.na - target.na,
-        so4: source.so4 - target.so4,
-        cl: source.cl - target.cl,
-        alkalinity_caco3: source.alkalinity_caco3 - target.alkalinity_caco3,
-    };
+impl WaterAdjustment {
+    /// Create a new WaterAdjustment tool with reasonable default
+    /// Ion desires (you can edit them after).
+    pub fn new(
+        profile: WaterProfile,
+        chloride_sulfate_ratio_range: Option<Range<f32>>,
+        salts_available: Vec<Salt>,
+    ) -> WaterAdjustment {
+        let mut cl_target = profile.cl;
+        let mut so4_target = profile.so4;
 
-    let ratio = WaterRatio {
-        ca: source.ca.0 / target.ca.0,
-        mg: source.mg.0 / target.mg.0,
-        na: source.na.0 / target.na.0,
-        so4: source.so4.0 / target.so4.0,
-        cl: source.cl.0 / target.cl.0,
-        alkalinity_caco3: source.alkalinity_caco3.0 / target.alkalinity_caco3.0,
-    };
+        if let Some(range) = &chloride_sulfate_ratio_range {
+            // Cl and SO4 ratio should achieve the range specified
+            let start_ratio = profile.cl.0 / profile.so4.0;
+            if start_ratio < range.start {
+                cl_target = profile.so4 * range.start;
+            } else if start_ratio > range.end {
+                so4_target = profile.cl / range.end;
+            }
+        }
 
-    (balance, ratio)
+        WaterAdjustment {
+            profile,
+            salts_available,
+            ca_target: Ppm(50.0),
+            cl_target,
+            so4_target,
+        }
+    }
+
+    /// Salts needed to achieve what we want
+    pub fn salts_needed(&mut self) -> Vec<SaltConcentration> {
+        let mut output: Vec<SaltConcentration> = Vec::new();
+
+        // If we need both Ca and Cl, add CalciumChloride
+        {
+            let salt = Salt::CalciumChloride;
+
+            if self.ca_target > self.profile.ca
+                && self.cl_target > self.profile.cl
+                && self.salts_available.contains(&salt)
+            {
+                let amount_for_ca = salt_concentration_for_ion(
+                    salt,
+                    Ion::Calcium,
+                    self.ca_target - self.profile.ca,
+                )
+                .ppm
+                .0;
+
+                let amount_for_cl = salt_concentration_for_ion(
+                    salt,
+                    Ion::Chloride,
+                    self.cl_target - self.profile.cl,
+                )
+                .ppm
+                .0;
+
+                let min = amount_for_ca.min(amount_for_cl);
+
+                let saltconc = SaltConcentration {
+                    salt: salt,
+                    ppm: Ppm(min),
+                };
+
+                self.profile.add_salt(saltconc);
+                output.push(saltconc);
+            }
+        }
+
+        // If we need Ca and SO4, add Gypsum
+        {
+            let salt = Salt::Gypsum;
+
+            if self.ca_target > self.profile.ca
+                && self.so4_target > self.profile.so4
+                && self.salts_available.contains(&salt)
+            {
+                let amount_for_ca = salt_concentration_for_ion(
+                    salt,
+                    Ion::Calcium,
+                    self.ca_target - self.profile.ca,
+                )
+                .ppm
+                .0;
+
+                let amount_for_so4 = salt_concentration_for_ion(
+                    salt,
+                    Ion::Sulfate,
+                    self.so4_target - self.profile.so4,
+                )
+                .ppm
+                .0;
+
+                let min = amount_for_ca.min(amount_for_so4);
+
+                let saltconc = SaltConcentration {
+                    salt: salt,
+                    ppm: Ppm(min),
+                };
+
+                self.profile.add_salt(saltconc);
+                output.push(saltconc);
+            }
+        }
+
+        // If we still need Cl, add TableSalt
+        {
+            let salt = Salt::TableSalt;
+
+            if self.cl_target > self.profile.cl && self.salts_available.contains(&salt) {
+                let amount_for_cl = salt_concentration_for_ion(
+                    salt,
+                    Ion::Chloride,
+                    self.cl_target - self.profile.cl,
+                )
+                .ppm;
+
+                let saltconc = SaltConcentration {
+                    salt: salt,
+                    ppm: amount_for_cl,
+                };
+
+                self.profile.add_salt(saltconc);
+                output.push(saltconc);
+            }
+        }
+
+        // If we still need SO4, add Epsom
+        {
+            let salt = Salt::Epsom;
+
+            if self.so4_target > self.profile.so4 && self.salts_available.contains(&salt) {
+                let amount_for_so4 = salt_concentration_for_ion(
+                    salt,
+                    Ion::Sulfate,
+                    self.so4_target - self.profile.so4,
+                )
+                .ppm;
+
+                let saltconc = SaltConcentration {
+                    salt: salt,
+                    ppm: amount_for_so4,
+                };
+
+                self.profile.add_salt(saltconc);
+                output.push(saltconc);
+            }
+        }
+
+        output
+    }
 }

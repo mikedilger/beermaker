@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 mod water;
-pub use water::{WaterProfile, water_adjustment};
+pub use water::{WaterAdjustment, WaterProfile};
 
 mod salt;
 pub use salt::{Ion, Salt};
