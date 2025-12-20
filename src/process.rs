@@ -913,18 +913,16 @@ impl Process {
         let mut warnings: Vec<Warning> = Vec::new();
 
         // Check chloride-sulfate ratio
-        if let Some(range) = &self.recipe.chloride_sulfate_ratio_range {
-            let water_profile = self.adjusted_water_profile();
-            let current = water_profile.cl.0 / water_profile.so4.0;
-            if current < range.start {
-                warnings.push(Warning::ChlorideSulfateRatioLow {
-                    current_ratio: current,
-                });
-            } else if current > range.end {
-                warnings.push(Warning::ChlorideSulfateRatioHigh {
-                    current_ratio: current,
-                });
-            }
+        let water_profile = self.adjusted_water_profile();
+        let current = water_profile.cl.0 / water_profile.so4.0;
+        if current < self.recipe.chloride_sulfate_ratio_range.start {
+            warnings.push(Warning::ChlorideSulfateRatioLow {
+                current_ratio: current,
+            });
+        } else if current > self.recipe.chloride_sulfate_ratio_range.end {
+            warnings.push(Warning::ChlorideSulfateRatioHigh {
+                current_ratio: current,
+            });
         }
 
         // Check fermenter volume

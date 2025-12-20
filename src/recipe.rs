@@ -15,7 +15,7 @@ pub struct Recipe {
     pub style: Style,
 
     /// Water profile requirements, Cl to SO4 ratio
-    pub chloride_sulfate_ratio_range: Option<Range<f32>>,
+    pub chloride_sulfate_ratio_range: Range<f32>,
 
     // TBD water alkalinity requirements
 

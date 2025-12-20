@@ -92,7 +92,7 @@ fn main() {
 
         // The salts aren't that important, but I don't want too much
         // sulfate relative to chloride.
-        chloride_sulfate_ratio_range: Some(3.0..4.5),
+        chloride_sulfate_ratio_range: 3.0..4.5,
 
         // The malt bill.  The proportions don't have to add up
         // to anything in particular.
