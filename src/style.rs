@@ -25,6 +25,9 @@ pub enum LagerStyle {
 /// <https://www.brewersassociation.org/edu/brewers-association-beer-style-guidelines/>
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
 pub enum Style {
+    /// Dark Mild
+    DarkMild,
+
     /// Dunkelweizen
     Dunkelweizen,
 
@@ -52,6 +55,12 @@ impl Style {
     #[must_use]
     pub fn overall_impression_bjcp(&self) -> &str {
         match *self {
+            Style::DarkMild => {
+                "A dark, low-gravity, malt-focused British session ale readily \
+                 suited to drinking in quantity. Refreshing, yet flavorful for \
+                 its strength, with a wide range of dark malt or dark sugar \
+                 expression."
+            }
             Style::Dunkelweizen => {
                 "A moderately dark German wheat beer \
                  with a distinctive banana-and-clove weizen yeast fermentation \
@@ -87,6 +96,9 @@ impl Style {
     #[must_use]
     pub fn original_gravity_ranges(&self) -> &[Range<SpecificGravity>] {
         match *self {
+            Style::DarkMild => &[
+                SpecificGravity(1.030)..SpecificGravity(1.038), // BJCP
+            ],
             Style::Dunkelweizen => &[
                 SpecificGravity(1.044)..SpecificGravity(1.057), // BJCP
                 SpecificGravity(1.048)..SpecificGravity(1.056), // BA
@@ -122,6 +134,9 @@ impl Style {
     #[must_use]
     pub fn final_gravity_ranges(&self) -> &[Range<SpecificGravity>] {
         match *self {
+            Style::DarkMild => &[
+                SpecificGravity(1.008)..SpecificGravity(1.013), // BJCP
+            ],
             Style::Dunkelweizen => &[
                 SpecificGravity(1.008)..SpecificGravity(1.014), // BJCP
                 SpecificGravity(1.008)..SpecificGravity(1.016), // BA
@@ -157,6 +172,7 @@ impl Style {
     #[must_use]
     pub fn abv_ranges(&self) -> Vec<Range<Abv>> {
         let ranges = match *self {
+            Style::DarkMild => vec![3.0..3.8],
             Style::Dunkelweizen => vec![4.3..5.6, 4.8..5.4],
             Style::Marzen => vec![5.6..6.3, 5.1..6.0],
             Style::Hefeweizen => vec![4.3..5.6, 4.9..5.6],
@@ -181,6 +197,7 @@ impl Style {
     #[must_use]
     pub fn bitterness_ranges(&self) -> &[Range<Ibu>] {
         match *self {
+            Style::DarkMild => &[Ibu(10.0)..Ibu(25.0)],
             Style::Dunkelweizen => &[Ibu(10.0)..Ibu(18.0), Ibu(10.0)..Ibu(15.0)],
             Style::Marzen => &[Ibu(18.0)..Ibu(24.0), Ibu(18.0)..Ibu(25.0)],
             Style::Hefeweizen => &[Ibu(8.0)..Ibu(15.0), Ibu(10.0)..Ibu(15.0)],
@@ -200,6 +217,7 @@ impl Style {
     #[must_use]
     pub fn color_ranges(&self) -> &[Range<Srm>] {
         match *self {
+            Style::DarkMild => &[Srm(14.0)..Srm(25.0)],
             Style::Dunkelweizen => &[Srm(14.0)..Srm(23.0), Srm(10.0)..Srm(25.0)],
             Style::Marzen => &[Srm(8.0)..Srm(17.0), Srm(4.0)..Srm(15.0)],
             Style::Hefeweizen => &[Srm(2.0)..Srm(6.0), Srm(3.0)..Srm(9.0)],
@@ -251,11 +269,12 @@ impl Style {
         // belgian ale 3.0  1.9-2.4
 
         match *self {
+            Style::DarkMild => 1.8,
             Self::Dunkelweizen => 3.5,
             Self::Marzen => 2.7,
             Self::Hefeweizen => 3.3,
             Self::LeichtesWeizen => 4.0,
-            Self::IrishRedAle => 2.1,
+            Self::IrishRedAle => 1.9,
             Self::BelgianQuadrupel => 3.0,
         }
     }
@@ -328,6 +347,7 @@ impl Style {
 impl fmt::Display for Style {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match *self {
+            Style::DarkMild => write!(f, "Dark Mild"),
             Style::Dunkelweizen => write!(f, "Dunkelweizen"),
             Style::Marzen => write!(f, "Märzen"),
             Style::Hefeweizen => write!(f, "Hefeweissen/Weissbier"),

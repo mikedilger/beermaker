@@ -42,6 +42,9 @@ pub enum Yeast {
     /// Lallemand Munich Classic German Wheat-Style Ale Yeast
     LallemandMunichClassic,
 
+    /// Lallemand Nottingham high performance English Ale yeast
+    LallemandNottingham,
+
     /// Safale T-58, Phenolic for English/Belgian
     /// high banana, clove, pepper, great with wheat beers
     SafaleT58,
@@ -107,6 +110,7 @@ impl Yeast {
             Yeast::KveikVoss => Celsius(25.0)..Celsius(40.0),
             Yeast::LutraKveik => Celsius(12.0)..Celsius(35.0),
             Yeast::LallemandMunichClassic => Celsius(17.0)..Celsius(25.0),
+            Yeast::LallemandNottingham => Celsius(10.0)..Celsius(25.0),
             Yeast::SafaleT58 => Celsius(18.0)..Celsius(26.0),
             Yeast::SafaleUS05 => Celsius(18.0)..Celsius(26.0),
             Yeast::SafaleW68 => Celsius(18.0)..Celsius(26.0),
@@ -138,6 +142,7 @@ impl Yeast {
             Yeast::KveikVoss => 0.76..0.82,
             Yeast::LutraKveik => 0.75..0.82,
             Yeast::LallemandMunichClassic => 0.76..0.83,
+            Yeast::LallemandNottingham => 0.78..0.84,
             Yeast::SafaleT58 => 0.72..0.78,
             Yeast::SafaleUS05 => 0.78..0.82,
             Yeast::SafaleW68 => 0.78..0.84,
@@ -169,6 +174,7 @@ impl Yeast {
             Yeast::KveikVoss => 0.12..0.12,
             Yeast::LutraKveik => 0.15..0.15,
             Yeast::LallemandMunichClassic => 0.12..0.12,
+            Yeast::LallemandNottingham => 0.14..0.14,
             Yeast::SafaleT58 => 0.09..0.11,
             Yeast::SafaleUS05 => 0.09..0.11,
             Yeast::SafaleW68 => 0.09..0.11, // unlisted on specs
@@ -201,6 +207,7 @@ impl Yeast {
             Yeast::KveikVoss => Flocculation::VeryHigh,
             Yeast::LutraKveik => Flocculation::MediumHigh,
             Yeast::LallemandMunichClassic => Flocculation::Low,
+            Yeast::LallemandNottingham => Flocculation::High,
             Yeast::SafaleT58 => Flocculation::Medium,
             Yeast::SafaleUS05 => Flocculation::Medium,
             Yeast::SafaleW68 => Flocculation::Medium,
@@ -225,6 +232,7 @@ impl Yeast {
             Yeast::KveikVoss => true,
             Yeast::LutraKveik => false,
             Yeast::LallemandMunichClassic => true,
+            Yeast::LallemandNottingham => true,
             Yeast::SafaleT58 => true,
             Yeast::SafaleUS05 => true,
             Yeast::SafaleW68 => true,
@@ -247,6 +255,8 @@ impl Yeast {
         match *self {
             // 50-100g/hL
             Yeast::LallemandMunichClassic => Some((Grams(75.0), Liters(100.0))),
+            // 50-100g/hL
+            Yeast::LallemandNottingham => Some((Grams(75.0), Liters(100.0))),
             _ => None,
         }
     }
@@ -261,6 +271,7 @@ impl Yeast {
             Yeast::KveikVoss => Ppm(180.0),
             Yeast::LutraKveik => Ppm(180.0),
             Yeast::LallemandMunichClassic => Ppm(180.0),
+            Yeast::LallemandNottingham => Ppm(150.0), // ale
             Yeast::SafaleT58 => Ppm(150.0),     // ale
             Yeast::SafaleUS05 => Ppm(150.0),    // ale
             Yeast::SafaleW68 => Ppm(150.0),     // ale
@@ -286,6 +297,7 @@ impl fmt::Display for Yeast {
             Yeast::LallemandMunichClassic => {
                 write!(f, "[Lallemand Munich Classic German Wheat-Style Ale Yeast]")
             }
+            Yeast::LallemandNottingham => write!(f, "[Lallemand Nottingham Ale Yeast]"),
             Yeast::SafaleT58 => write!(f, "[Safale T58]"),
             Yeast::SafaleUS05 => write!(f, "[Safale US-05]"),
             Yeast::SafaleW68 => write!(f, "[Safale W68)]"),

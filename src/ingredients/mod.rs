@@ -10,7 +10,7 @@ mod acid;
 pub use acid::Acid;
 
 mod malt;
-pub use malt::{Malt, MaltAcidCategory, MaltCategory};
+pub use malt::{Malt, MaltCategory};
 
 mod sugar;
 pub use sugar::Sugar;

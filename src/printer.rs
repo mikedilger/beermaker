@@ -242,15 +242,14 @@ pub fn print_process(
              recipe."
     ));
 
-    steps.acquire.push(format!(
-        "You will need {yeast_amount} of {yeast}."
-    ));
+    steps
+        .acquire
+        .push(format!("You will need {yeast_amount} of {yeast}."));
 
-    if ! process.recipe.yeast.is_dry() {
-        steps.acquire.push(
-            "You will need to start a yeast starter the day before."
-                .to_string()
-        )
+    if !process.recipe.yeast.is_dry() {
+        steps
+            .acquire
+            .push("You will need to start a yeast starter the day before.".to_string());
     }
 
     // -- prep ------------
@@ -519,10 +518,10 @@ pub fn print_process(
         .pitch
         .push("Transfer the wort into the fermenter.".to_string());
 
-    if ! process.recipe.yeast.is_dry() {
-        steps.pitch.push("Oxygenate the wort.".to_string());
-    } else {
+    if process.recipe.yeast.is_dry() {
         steps.pitch.push("Wort wxygenation is not required for dry yeast since they have plenty of sterols already.".to_string());
+    } else {
+        steps.pitch.push("Oxygenate the wort.".to_string());
     }
 
     steps.pitch.push(format!(
