@@ -413,7 +413,6 @@ pub fn print_process(
         ));
     }
 
-
     if process.equipment.ice_bath {
         steps.boil.push(
             "Prepare the ice bath before the boil is complete. \

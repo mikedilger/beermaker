@@ -47,6 +47,10 @@ impl Sugar {
     }
 
     /// Fermentability
+    ///
+    /// This is what fraction will ferment, via yeast, like pure sugar.
+    /// The part that doesn't ferment may be water, unfermentable sugars,
+    /// or other things.
     #[must_use]
     #[allow(clippy::match_same_arms)]
     pub fn fermentability(&self) -> f32 {
@@ -57,11 +61,33 @@ impl Sugar {
             Sugar::Dextrose => 0.91, // brewersfriend and omnicalculator agree 0.91
             Sugar::InvertSugar => 0.91, // as a hydrate
             Sugar::BrownSugar => 0.89,
-            Sugar::Maltodextrin => 0.86,
+            Sugar::Maltodextrin => 0.03, // 0.86 from somewhere
             Sugar::MapleSyrup => 0.77,
             Sugar::Honey => 0.74, // omnicalculator says 0.78
             Sugar::CornSyrup => 0.69,
             Sugar::DME => 0.68, // brewersfriend and omnicalculator agree 0.68
+        }
+    }
+
+    /// Unfermentability, percentage that remains as final gravity
+    ///
+    /// Note that this is not just `1.0 - fermentability` because
+    /// some parts are not even sugar (e.g. water).
+    #[must_use]
+    #[allow(clippy::match_same_arms)]
+    pub fn unfermentability(&self) -> f32 {
+        match *self {
+            Sugar::Sucrose => 0.0,
+            Sugar::Fructose => 0.0,
+            Sugar::Turbinado => 0.0,
+            Sugar::Dextrose => 0.0,
+            Sugar::InvertSugar => 0.0,
+            Sugar::BrownSugar => 0.0,
+            Sugar::Maltodextrin => 0.97,
+            Sugar::MapleSyrup => 0.02, // wild guess, sugars mostly ferm.
+            Sugar::Honey => 0.075,     // honey is 17-20% water, 5-10% unferm
+            Sugar::CornSyrup => 0.05,  // wild guess
+            Sugar::DME => 0.12,        // 20% water
         }
     }
 

@@ -374,9 +374,10 @@ impl Process {
         let mut output: Vec<Ph> = Vec::new();
 
         for t2 in &specialty_malt_ph_term_two {
-            output.push(Ph(
-                base_malt_ph + specialty_malt_ph_term_one + t2 + alkalinity_component
-            ));
+            output.push(Ph(base_malt_ph
+                + specialty_malt_ph_term_one
+                + t2
+                + alkalinity_component));
         }
 
         output
