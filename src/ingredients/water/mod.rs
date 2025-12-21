@@ -77,6 +77,12 @@ impl WaterProfile {
     /// Compute residual alkalinity (RA)
     #[must_use]
     pub fn residual_alkalinity(&self) -> Ppm {
+        // Defined by Kolbach as KH - ((CH - MH/2) / 3.5)
+        //   KH = carbonate hardness, CH = calcium hardness, MH = magnesium hardness
+        //   measured in dH units.
+        // Every 10 dH of residual alkalinity adds 0.3 pH
+        // 50ppm as CaCO3 = 2.81 dH
+
         self.alkalinity_caco3 - self.effective_water_hardness_caco3()
     }
 
