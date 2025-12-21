@@ -347,7 +347,7 @@ impl Process {
         };
 
         let specialty_malt_ph_term_two: Vec<f32> = {
-            let mut sum: f32 = 0.0;
+            let mut acidity: f32 = 0.0;
             for dose in self.malt_doses() {
                 if dose.malt.category() == MaltCategory::Base {
                     continue;
@@ -355,13 +355,14 @@ impl Process {
 
                 let proportion = dose.weight.0 / grain_weight.0;
 
-                sum += dose.malt.acidity() * proportion;
+                acidity += dose.malt.acidity() * proportion;
             }
 
             let mut output: Vec<f32> = Vec::new();
             let mash_thicknesses = self.mash_thicknesses();
             for mt in &mash_thicknesses {
-                output.push(-0.14 * sum / mt);
+                let ph_adjust = -0.14 * acidity / mt;
+                output.push(ph_adjust);
             }
 
             output
@@ -374,7 +375,7 @@ impl Process {
 
         for t2 in &specialty_malt_ph_term_two {
             output.push(Ph(
-                base_malt_ph + specialty_malt_ph_term_one - t2 + alkalinity_component
+                base_malt_ph + specialty_malt_ph_term_one + t2 + alkalinity_component
             ));
         }
 
