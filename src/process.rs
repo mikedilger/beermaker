@@ -1088,7 +1088,7 @@ impl Process {
         }
 
         // Verify the style ABV
-        if !self.recipe.style.abv_range().contains(&self.abv().0) {
+        if !self.recipe.style.abv_range().contains(&self.abv()) {
             warnings.push(Warning::AbvOutOfRange {
                 abv: self.abv(),
                 range: self.recipe.style.abv_range(),

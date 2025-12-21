@@ -136,7 +136,7 @@ pub enum Warning {
         abv: Abv,
 
         /// range acceptable for the style
-        range: Range<f32>,
+        range: Range<Abv>,
     },
 
     /// IBU out of range for the style

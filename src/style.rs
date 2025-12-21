@@ -155,21 +155,26 @@ impl Style {
 
     /// Ranges of ABV for the style, BJCP then BA
     #[must_use]
-    pub fn abv_ranges(&self) -> &[Range<f32>] {
-        match *self {
-            Style::Dunkelweizen => &[4.3..5.6, 4.8..5.4],
-            Style::Marzen => &[5.6..6.3, 5.1..6.0],
-            Style::Hefeweizen => &[4.3..5.6, 4.9..5.6],
-            Style::LeichtesWeizen => &[2.5..3.5],
-            Style::IrishRedAle => &[3.8..5.0, 4.0..4.8],
-            Style::BelgianQuadrupel => &[10.0..14.2],
-        }
+    pub fn abv_ranges(&self) -> Vec<Range<Abv>> {
+        let ranges = match *self {
+            Style::Dunkelweizen => vec![4.3..5.6, 4.8..5.4],
+            Style::Marzen => vec![5.6..6.3, 5.1..6.0],
+            Style::Hefeweizen => vec![4.3..5.6, 4.9..5.6],
+            Style::LeichtesWeizen => vec![2.5..3.5],
+            Style::IrishRedAle => vec![3.8..5.0, 4.0..4.8],
+            Style::BelgianQuadrupel => vec![10.0..14.2],
+        };
+
+        ranges
+            .iter()
+            .map(|range| Percent(range.start).into()..Percent(range.end).into())
+            .collect()
     }
 
     /// Range of ABV for the style
     #[must_use]
-    pub fn abv_range(&self) -> Range<f32> {
-        crate::union_ranges(self.abv_ranges())
+    pub fn abv_range(&self) -> Range<Abv> {
+        crate::union_ranges(&self.abv_ranges())
     }
 
     /// Ranges of bitterness (IBU) for the style, BJCP then BA

@@ -113,7 +113,8 @@ pub struct Abv(pub f32);
 
 impl fmt::Display for Abv {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{:.2}% ABV", self.0 * 100.0)
+        let p: Percent = (*self).into();
+        write!(f, "{p} ABV")
     }
 }
 
@@ -131,6 +132,30 @@ impl Abv {
         let fg = final_gravity.0;
         let abv = (76.08 * (og - fg) / (1.775 - og)) * (fg / 0.794) / 100.0;
         Abv(abv / dilution_fraction)
+    }
+}
+
+/// A concentration by percentage
+#[derive(
+    Debug, Clone, Copy, PartialEq, PartialOrd, Serialize, Deserialize, Add, Sum, Sub, Mul, Div,
+)]
+pub struct Percent(pub f32);
+
+impl fmt::Display for Percent {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{:.2}%", self.0)
+    }
+}
+
+impl From<Percent> for Abv {
+    fn from(p: Percent) -> Abv {
+        Abv(p.0 / 100.0)
+    }
+}
+
+impl From<Abv> for Percent {
+    fn from(a: Abv) -> Percent {
+        Percent(a.0 * 100.0)
     }
 }
 
