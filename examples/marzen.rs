@@ -83,9 +83,15 @@ fn main() {
         // shops charged me a deposit on, but wont take back anymore.
         // That's ok, they are useful.
         packaging: Packaging::Bottle(Liters(0.750), Sugar::Dextrose),
-
-        custom_steps: None,
     };
+
+    let mut custom_steps = Steps::default();
+    custom_steps.boil.push(
+        "DO NOT add yeast nutrient, but you can add 1 drop zinc sulfate (1mg per drop)".to_string(),
+    );
+    custom_steps
+        .ferment
+        .push("DO NOT lager below 4 C. Generally lager between 4 C and 7 C.".to_string());
 
     // Here is my experimental Märzen recipe
     let recipe = Recipe {
@@ -163,6 +169,8 @@ fn main() {
         // to hell(es).
         target_abv: Some(Abv(0.05)),
         max_post_ferment_dilution: 1.3,
+
+        custom_steps: Some(custom_steps),
     };
 
     let process = Process::new(equipment, recipe, Liters(7.0));
