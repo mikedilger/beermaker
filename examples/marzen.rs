@@ -15,7 +15,7 @@ fn main() {
         na: Ppm(15.6),
         so4: Ppm(12.5),
         cl: Ppm(21.9),
-        alkalinity_caco3: Ppm(120.),
+        alkalinity_caco3: CaCO3(120.),
         ph: Ph(8.0), //  not reported, guessed
     };
 

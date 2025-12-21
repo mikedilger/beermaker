@@ -1,7 +1,4 @@
-use super::salt::Ion;
-use super::{AcidConcentration, SaltConcentration};
-use crate::units::Ph;
-use crate::units::concentration::Ppm;
+use crate::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::fmt;
 use std::ops::Add;
@@ -30,7 +27,7 @@ pub struct WaterProfile {
     pub cl: Ppm,
 
     /// Alkalinity
-    pub alkalinity_caco3: Ppm,
+    pub alkalinity_caco3: CaCO3,
 
     /// Acidity in pH
     pub ph: Ph,
@@ -44,7 +41,7 @@ impl WaterProfile {
         na: Ppm(4.),
         so4: Ppm(18.),
         cl: Ppm(8.),
-        alkalinity_caco3: Ppm(100.0 * 1.22),
+        alkalinity_caco3: CaCO3(100.0 * 1.22),
         ph: Ph(7.5), // guess
                      // cations 2.2, anions 2.2
                      // hardness 100, alkalinity 82,
@@ -58,7 +55,7 @@ impl WaterProfile {
         na: Ppm(0.),
         so4: Ppm(17.),
         cl: Ppm(17.),
-        alkalinity_caco3: Ppm(46.0 * 1.22),
+        alkalinity_caco3: CaCO3(46.0 * 1.22),
         ph: Ph(7.5), // guess
     };
 
@@ -70,13 +67,13 @@ impl WaterProfile {
 
     /// Effective water hardness as `CaCO3` ppm
     #[must_use]
-    pub fn effective_water_hardness_caco3(&self) -> Ppm {
-        (self.ca / 1.4) + (self.mg / 1.7)
+    pub fn effective_water_hardness_caco3(&self) -> CaCO3 {
+        CaCO3((self.ca.0 / 1.4) + (self.mg.0 / 1.7))
     }
 
     /// Compute residual alkalinity (RA)
     #[must_use]
-    pub fn residual_alkalinity(&self) -> Ppm {
+    pub fn residual_alkalinity(&self) -> CaCO3 {
         // Defined by Kolbach as KH - ((CH - MH/2) / 3.5)
         //   KH = carbonate hardness, CH = calcium hardness, MH = magnesium hardness
         //   measured in dH units.
@@ -120,8 +117,7 @@ impl WaterProfile {
                 Ion::Hydroxide => {} // raises pH (TBD)
                 Ion::Water => {}     // no effect
                 Ion::Bicarbonate => {
-                    // Convert into CaCO3 first
-                    self.alkalinity_caco3 = self.alkalinity_caco3 + (ppm / 1.22);
+                    self.alkalinity_caco3 = self.alkalinity_caco3 + HCO3(ppm.0).into();
                 }
                 Ion::Sodium => self.na = self.na + ppm,
                 Ion::Magnesium => self.mg = self.mg + ppm,

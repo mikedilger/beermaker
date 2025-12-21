@@ -20,7 +20,7 @@ pub enum MaltCategory {
 }
 
 /// A pH category of Malt
-#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq)]
 pub enum MaltAcidCategory {
     /// No acid effect
     None,
@@ -36,11 +36,17 @@ pub enum MaltAcidCategory {
 
     /// Acidulated malt
     Acidulated,
+
+    /// pH specified, measured when mashed in distilled water
+    PhSpecified(Ph),
 }
 
 /// A type of Malt
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, EnumIter)]
 pub enum Malt {
+    /// Maris Otter Pale
+    BairdsMarisOtterPale,
+
     /// Dingemans Special-B
     DingemansSpecialB,
 
@@ -58,6 +64,12 @@ pub enum Malt {
 
     /// Gladfield Crystal Dark
     GladfieldCrystalDark,
+
+    /// Gladfield Crystal Light
+    GladfieldCrystalLight,
+
+    /// Gladfield Crystal Medium
+    GladfieldCrystalMedium,
 
     /// Gladfield base malt, German Pilsner Malt
     GladfieldGermanPilsner,
@@ -123,12 +135,15 @@ impl Malt {
     #[allow(clippy::match_same_arms)]
     pub fn category(&self) -> MaltCategory {
         match *self {
+            Malt::BairdsMarisOtterPale => MaltCategory::Base,
             Malt::DingemansSpecialB => MaltCategory::Crystal,
             Malt::GladfieldAle => MaltCategory::Base,
             Malt::GladfieldAmericanAle => MaltCategory::Base,
             Malt::GladfieldBiscuit => MaltCategory::Roasted,
             Malt::GladfieldBrown => MaltCategory::Roasted,
             Malt::GladfieldCrystalDark => MaltCategory::Crystal,
+            Malt::GladfieldCrystalLight => MaltCategory::Crystal,
+            Malt::GladfieldCrystalMedium => MaltCategory::Crystal,
             Malt::GladfieldGermanPilsner => MaltCategory::Base,
             Malt::GladfieldLagerLight => MaltCategory::Base,
             Malt::GladfieldMunich => MaltCategory::Base,
@@ -151,36 +166,113 @@ impl Malt {
         }
     }
 
+    /// Distilled water mash pH
+    #[must_use]
+    pub fn distilled_water_mash_ph(&self) -> Option<Ph> {
+        match *self {
+            Malt::BairdsMarisOtterPale => Some(Ph(5.77)), // [1]
+            Malt::DingemansSpecialB => None,
+            Malt::GladfieldAle => Some(Ph(f32::midpoint(5.7, 6.0))), // [2]
+            Malt::GladfieldAmericanAle => Some(Ph(f32::midpoint(5.7, 6.0))), // [2]
+            Malt::GladfieldBiscuit => Some(Ph(5.15)),                // [2]
+            Malt::GladfieldBrown => Some(Ph(4.81)),                  // [2]
+            Malt::GladfieldCrystalDark => Some(Ph(4.7)),             // [2]
+            Malt::GladfieldCrystalLight => Some(Ph(5.15)),           // [2]
+            Malt::GladfieldCrystalMedium => Some(Ph(4.84)),          // [2]
+            Malt::GladfieldGermanPilsner => Some(Ph(f32::midpoint(5.7, 6.0))), // [2]
+            Malt::GladfieldLagerLight => Some(Ph(f32::midpoint(5.8, 6.1))), // [2]
+            Malt::GladfieldMunich => Some(Ph(f32::midpoint(5.6, 5.9))), // [2]
+            Malt::GladfieldPilsner => Some(Ph(f32::midpoint(5.7, 6.0))), // [2]
+            Malt::GladfieldShepherdsDelight => Some(Ph(4.53)),       // [2]
+            Malt::GladfieldVienna => Some(Ph(f32::midpoint(5.6, 5.9))), // [2]
+            Malt::GladfieldWheat => Some(Ph(f32::midpoint(5.7, 6.2))), // [2]
+            Malt::OatHulls => None,
+            Malt::RiceHulls => None,
+            Malt::WeyermannAcidulated => None,
+            Malt::WeyermannBohemianPilsner => Some(Ph(5.76)), // [1] presumed pilsner
+            Malt::WeyermannCarafaSpecial2 => None,
+            Malt::WeyermannCaramunich2 => None,
+            Malt::WeyermannMelanoidin => None,
+            Malt::WeyermannMunich1 => Some(Ph(5.3)),  // [1]
+            Malt::WeyermannMunich2 => Some(Ph(5.43)), // [1]
+            Malt::WeyermannPilsner => Some(Ph(5.76)), // [1]
+            Malt::WeyermannVienna => Some(Ph(5.56)),  // [1]
+            Malt::WeyermannWheatPale => Some(Ph(6.04)), // [1]
+        }
+
+        // [1] http://braukaiser.com/documents/effect_of_water_and_grist_on_mash_pH.pdf
+        // [2] https://www.gladfieldmalt.co.nz/
+    }
+
+    /// Malt acidity in mEq/kg
+    #[must_use]
+    pub fn acidity(&self) -> f32 {
+        match *self {
+            // Tested malts
+            Malt::WeyermannCarafaSpecial2 => 45.0,
+            Malt::WeyermannCaramunich2 => 49.0,
+            Malt::WeyermannMunich1 => 8.4,
+            Malt::WeyermannMunich2 => 5.6,
+            Malt::WeyermannVienna => 1.6,
+            Malt::WeyermannAcidulated => f32::midpoint(315.2, 358.2),
+            _ => {
+                // Formula for crystal malts
+                if self.category() == MaltCategory::Crystal {
+                    14.0 + 0.13 * self.ebc().0 // [1] formula for crystal malts
+                }
+                // Formula for malts with a known distilled water mash pH
+                else if let Some(ph) = self.distilled_water_mash_ph() {
+                    814_984.25 * 0.12_f32.powf(ph.0)
+                } else {
+                    match self.category() {
+                        MaltCategory::Base => 2.5,
+                        MaltCategory::Crystal => unreachable!(),
+                        MaltCategory::Roasted => 42.0,
+                        MaltCategory::Special => 0.0, // unknown
+                    }
+                }
+            }
+        }
+
+        // [1] http://braukaiser.com/documents/effect_of_water_and_grist_on_mash_pH.pdf
+        // note: all roasted malts are about 40.
+        // formula to estimate for crystals:  acidity = 14 + 0.13 EBC
+        // formula to estimate from distilled water mash ph:  814984.25 * 0.12^x
+    }
+
     /// Acid Category of malt
     #[must_use]
     #[allow(clippy::match_same_arms)]
     pub fn acid_category(&self) -> MaltAcidCategory {
         match *self {
+            Malt::BairdsMarisOtterPale => MaltAcidCategory::PhSpecified(Ph(5.77)),
             Malt::DingemansSpecialB => MaltAcidCategory::Crystal,
             Malt::GladfieldAle => MaltAcidCategory::Light,
             Malt::GladfieldAmericanAle => MaltAcidCategory::Light,
             Malt::GladfieldBiscuit => MaltAcidCategory::Crystal,
             Malt::GladfieldBrown => MaltAcidCategory::Dark,
-            Malt::GladfieldCrystalDark => MaltAcidCategory::Crystal,
-            Malt::GladfieldGermanPilsner => MaltAcidCategory::Light,
+            Malt::GladfieldCrystalDark => MaltAcidCategory::PhSpecified(Ph(4.7)),
+            Malt::GladfieldCrystalLight => MaltAcidCategory::PhSpecified(Ph(5.15)),
+            Malt::GladfieldCrystalMedium => MaltAcidCategory::PhSpecified(Ph(4.84)),
+            Malt::GladfieldGermanPilsner => MaltAcidCategory::PhSpecified(Ph(5.76)),
             Malt::GladfieldLagerLight => MaltAcidCategory::Light,
             Malt::GladfieldMunich => MaltAcidCategory::Light,
-            Malt::GladfieldPilsner => MaltAcidCategory::Light,
+            Malt::GladfieldPilsner => MaltAcidCategory::PhSpecified(Ph(5.76)),
             Malt::GladfieldShepherdsDelight => MaltAcidCategory::Dark,
             Malt::GladfieldVienna => MaltAcidCategory::Light,
-            Malt::GladfieldWheat => MaltAcidCategory::Light,
+            Malt::GladfieldWheat => MaltAcidCategory::PhSpecified(Ph(6.4)),
             Malt::OatHulls => MaltAcidCategory::None,
             Malt::RiceHulls => MaltAcidCategory::None,
             Malt::WeyermannAcidulated => MaltAcidCategory::Acidulated,
-            Malt::WeyermannBohemianPilsner => MaltAcidCategory::Light,
+            Malt::WeyermannBohemianPilsner => MaltAcidCategory::PhSpecified(Ph(5.76)),
             Malt::WeyermannCarafaSpecial2 => MaltAcidCategory::Dark,
             Malt::WeyermannCaramunich2 => MaltAcidCategory::Crystal,
             Malt::WeyermannMelanoidin => MaltAcidCategory::Crystal,
-            Malt::WeyermannMunich1 => MaltAcidCategory::Light,
-            Malt::WeyermannMunich2 => MaltAcidCategory::Light,
-            Malt::WeyermannPilsner => MaltAcidCategory::Light,
-            Malt::WeyermannVienna => MaltAcidCategory::Light,
-            Malt::WeyermannWheatPale => MaltAcidCategory::Light,
+            Malt::WeyermannMunich1 => MaltAcidCategory::PhSpecified(Ph(5.3)), // [1]
+            Malt::WeyermannMunich2 => MaltAcidCategory::PhSpecified(Ph(5.43)), // [1]
+            Malt::WeyermannPilsner => MaltAcidCategory::PhSpecified(Ph(5.76)),
+            Malt::WeyermannVienna => MaltAcidCategory::PhSpecified(Ph(5.57)), // [1]
+            Malt::WeyermannWheatPale => MaltAcidCategory::PhSpecified(Ph(6.4)),
         }
     }
 
@@ -189,12 +281,15 @@ impl Malt {
     #[allow(clippy::match_same_arms)]
     pub fn ebc_range(&self) -> (Ebc, Ebc) {
         match *self {
+            Malt::BairdsMarisOtterPale => (Ebc(4.0), Ebc(6.0)),
             Malt::DingemansSpecialB => (Ebc(300.0), Ebc(300.0)),
             Malt::GladfieldAle => (Ebc(5.0), Ebc(6.0)),
             Malt::GladfieldAmericanAle => (Ebc(4.5), Ebc(5.5)),
             Malt::GladfieldBiscuit => (Ebc(40.0), Ebc(80.0)),
             Malt::GladfieldBrown => (Ebc(150.0), Ebc(200.0)),
-            Malt::GladfieldCrystalDark => (Ebc(200.0), Ebc(200.0)),
+            Malt::GladfieldCrystalDark => (Ebc(175.0), Ebc(225.0)),
+            Malt::GladfieldCrystalLight => (Ebc(40.0), Ebc(70.0)),
+            Malt::GladfieldCrystalMedium => (Ebc(90.0), Ebc(130.0)),
             Malt::GladfieldGermanPilsner => (Ebc(3.0), Ebc(4.5)), // 2.03
             Malt::GladfieldLagerLight => (Ebc(2.5), Ebc(2.9)),
             Malt::GladfieldMunich => (Ebc(14.0), Ebc(17.0)),
@@ -228,12 +323,15 @@ impl Malt {
     #[allow(clippy::match_same_arms)]
     pub fn recommended_max_percent(&self) -> f32 {
         match *self {
+            Malt::BairdsMarisOtterPale => 100.0,
             Malt::DingemansSpecialB => 15.0,
             Malt::GladfieldAle => 100.0,
             Malt::GladfieldAmericanAle => 100.0,
             Malt::GladfieldBiscuit => 15.0,
             Malt::GladfieldBrown => 15.0,
             Malt::GladfieldCrystalDark => 25.0,
+            Malt::GladfieldCrystalLight => 25.0,
+            Malt::GladfieldCrystalMedium => 25.0,
             Malt::GladfieldGermanPilsner => 100.0,
             Malt::GladfieldLagerLight => 100.0,
             Malt::GladfieldMunich => 100.0,
@@ -262,12 +360,15 @@ impl Malt {
     #[allow(clippy::match_same_arms)]
     pub fn ppg(&self) -> f32 {
         match *self {
+            Malt::BairdsMarisOtterPale => 37.5,
             Malt::DingemansSpecialB => 33.1,
             Malt::GladfieldAle => 37.4,
             Malt::GladfieldAmericanAle => 37.3,
             Malt::GladfieldBiscuit => 35.0,
             Malt::GladfieldBrown => 34.0,
             Malt::GladfieldCrystalDark => 35.4,
+            Malt::GladfieldCrystalLight => 35.4,
+            Malt::GladfieldCrystalMedium => 35.4,
             Malt::GladfieldGermanPilsner => 36.3,
             Malt::GladfieldLagerLight => 35.0,
             Malt::GladfieldMunich => 36.8,
@@ -295,12 +396,15 @@ impl Malt {
     #[allow(clippy::match_same_arms)]
     pub fn percent_protein(&self) -> Option<f32> {
         match *self {
+            Malt::BairdsMarisOtterPale => Some(1.6),
             Malt::DingemansSpecialB => None,
             Malt::GladfieldAle => None,
             Malt::GladfieldAmericanAle => None,
             Malt::GladfieldBiscuit => None,
             Malt::GladfieldBrown => None,
             Malt::GladfieldCrystalDark => None,
+            Malt::GladfieldCrystalLight => None,
+            Malt::GladfieldCrystalMedium => None,
             Malt::GladfieldGermanPilsner => None,
             Malt::GladfieldLagerLight => None,
             Malt::GladfieldMunich => None,
@@ -324,17 +428,20 @@ impl Malt {
     }
 
     /// Kolbach index (percent of protein that is soluble)
-    /// Alco called the Soluble Nitrogen Ratio
+    /// Also called the Soluble Nitrogen Ratio
     #[must_use]
     #[allow(clippy::match_same_arms)]
     pub fn kolbach_index(&self) -> Option<f32> {
         match *self {
+            Malt::BairdsMarisOtterPale => Some(f32::midpoint(36.0, 42.0)),
             Malt::DingemansSpecialB => None,
             Malt::GladfieldAle => Some(38.0), // spec 35 - 41
             Malt::GladfieldAmericanAle => Some(38.0), // spec 35 - 41
             Malt::GladfieldBiscuit => Some(37.0), // of zero
             Malt::GladfieldBrown => Some(37.0), // of zero
             Malt::GladfieldCrystalDark => None,
+            Malt::GladfieldCrystalLight => None,
+            Malt::GladfieldCrystalMedium => None,
             Malt::GladfieldGermanPilsner => Some(41.0), // spec 37 - 42
             Malt::GladfieldLagerLight => Some(39.0),    // spec 35 - 41
             Malt::GladfieldMunich => Some(40.0),        // spec 37 - 43
@@ -362,22 +469,25 @@ impl Malt {
     #[must_use]
     pub fn fan_from_spec(&self) -> Option<Ppm> {
         match *self {
-            Malt::DingemansSpecialB => Some(Ppm(0.0)),      // assume 0
-            Malt::GladfieldAle => Some(Ppm(130.0)),         // min spec 120.0
+            Malt::BairdsMarisOtterPale => None,
+            Malt::DingemansSpecialB => Some(Ppm(0.0)), // assume 0
+            Malt::GladfieldAle => Some(Ppm(130.0)),    // min spec 120.0
             Malt::GladfieldAmericanAle => Some(Ppm(135.0)), // min spec 120.0
-            Malt::GladfieldBiscuit => Some(Ppm(0.0)),       // assume 0
-            Malt::GladfieldBrown => Some(Ppm(0.0)),         // assume 0
-            Malt::GladfieldCrystalDark => Some(Ppm(0.0)),   // assume 0
+            Malt::GladfieldBiscuit => Some(Ppm(0.0)),  // assume 0
+            Malt::GladfieldBrown => Some(Ppm(0.0)),    // assume 0
+            Malt::GladfieldCrystalDark => Some(Ppm(0.0)), // assume 0
+            Malt::GladfieldCrystalLight => Some(Ppm(0.0)), // assume 0
+            Malt::GladfieldCrystalMedium => Some(Ppm(0.0)), // assume 0
             Malt::GladfieldGermanPilsner => Some(Ppm(140.0)), // min spec 135.0
-            Malt::GladfieldLagerLight => Some(Ppm(130.0)),  // min spec 120.0
-            Malt::GladfieldMunich => Some(Ppm(125.0)),      // min spec 120
-            Malt::GladfieldPilsner => Some(Ppm(130.0)),     // min spec 120.0
+            Malt::GladfieldLagerLight => Some(Ppm(130.0)), // min spec 120.0
+            Malt::GladfieldMunich => Some(Ppm(125.0)), // min spec 120
+            Malt::GladfieldPilsner => Some(Ppm(130.0)), // min spec 120.0
             Malt::GladfieldShepherdsDelight => Some(Ppm(0.0)), // assume 0
-            Malt::GladfieldVienna => Some(Ppm(140.0)),      // min spec 120
-            Malt::GladfieldWheat => Some(Ppm(85.0)),        // no spec
-            Malt::OatHulls => Some(Ppm(0.0)),               // assume 0
-            Malt::RiceHulls => Some(Ppm(0.0)),              // assume 0
-            Malt::WeyermannAcidulated => Some(Ppm(0.0)),    // assume 0
+            Malt::GladfieldVienna => Some(Ppm(140.0)), // min spec 120
+            Malt::GladfieldWheat => Some(Ppm(85.0)),   // no spec
+            Malt::OatHulls => Some(Ppm(0.0)),          // assume 0
+            Malt::RiceHulls => Some(Ppm(0.0)),         // assume 0
+            Malt::WeyermannAcidulated => Some(Ppm(0.0)), // assume 0
             Malt::WeyermannBohemianPilsner => None,
             Malt::WeyermannCarafaSpecial2 => Some(Ppm(0.0)), // assume 0
             Malt::WeyermannCaramunich2 => Some(Ppm(0.0)),    // assume 0
@@ -416,12 +526,15 @@ impl Malt {
 impl fmt::Display for Malt {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match *self {
+            Malt::BairdsMarisOtterPale => write!(f, "[Bairds Maris Otter Pale]"),
             Malt::DingemansSpecialB => write!(f, "[Dingemans Special B]"),
             Malt::GladfieldAle => write!(f, "[Gladfield Ale Malt]"),
             Malt::GladfieldAmericanAle => write!(f, "[Gladfield American Ale Malt]"),
             Malt::GladfieldBiscuit => write!(f, "[Gladfield Biscuit Malt]"),
             Malt::GladfieldBrown => write!(f, "[Gladfield Brown Malt]"),
             Malt::GladfieldCrystalDark => write!(f, "[Gladfield Dark Crystal]"),
+            Malt::GladfieldCrystalLight => write!(f, "[Gladfield Light Crystal]"),
+            Malt::GladfieldCrystalMedium => write!(f, "[Gladfield Medium Crystal]"),
             Malt::GladfieldGermanPilsner => write!(f, "[Gladfield German Pilsner Malt]"),
             Malt::GladfieldLagerLight => write!(f, "[Gladfield Lager Light Malt]"),
             Malt::GladfieldMunich => write!(f, "[Gladfield Munich Malt]"),

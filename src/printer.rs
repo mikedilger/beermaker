@@ -112,8 +112,12 @@ pub fn print_process(
     let time_until_done = process.time_until_done();
     let batch_size = process.batch_size;
     let fermenter = process.fermenter_volume();
-
-    let mash_ph = process.mash_ph();
+    let mash_ph = process
+        .mash_ph()
+        .iter()
+        .map(|s| format!("{s}"))
+        .collect::<Vec<_>>()
+        .join(", ");
     let mut mash_thicknesses = String::new();
     for f in process.mash_thicknesses() {
         let _ = write!(mash_thicknesses, "{f:.1}L/kg, ");

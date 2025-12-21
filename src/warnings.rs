@@ -110,7 +110,7 @@ pub enum Warning {
     },
 
     /// Mash pH out of range
-    MashPhOutOfRange(Ph),
+    MashPhOutOfRange(usize, Ph),
 
     /// Original Gravity out of range for the style
     OriginalGravityOutOfRange {
@@ -254,7 +254,9 @@ impl fmt::Display for Warning {
                     "The ABV of {abv} is too high, the yeast can only tolerate up to {yeast_max}"
                 )
             }
-            Self::MashPhOutOfRange(ph) => write!(f, "Mash {ph} is out of pH range 5.2..5.6"),
+            Self::MashPhOutOfRange(step, ph) => {
+                write!(f, "Mash {ph} in step {step} is out of pH range 5.2..5.6")
+            }
             Self::OriginalGravityOutOfRange { gravity, range } => {
                 write!(
                     f,

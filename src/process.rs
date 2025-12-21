@@ -310,40 +310,75 @@ impl Process {
 
     /// Estimated mash pH
     #[must_use]
-    pub fn mash_ph(&self) -> Ph {
-        // FIXME: use Certificate of Analysis of malt to get wort pH
-        // (we hard coded 5.4 below), combine different malts somehow.
+    pub fn mash_ph(&self) -> Vec<Ph> {
+        // http://braukaiser.com/documents/effect_of_water_and_grist_on_mash_pH.pdf
 
-        let residual_alkalinity = self.equipment.water_profile.residual_alkalinity().0;
+        let grain_weight = self.grain_weight();
 
-        let mut light_weight: f32 = 0.0;
-        let mut dark_weight: f32 = 0.0;
-        let mut crystal_weight: f32 = 0.0;
-        let mut acidulated_weight: f32 = 0.0;
+        let base_malt_ph: f32 = {
+            let mut ph: f32 = 0.0;
+            for dose in self.malt_doses() {
+                if dose.malt.category() != MaltCategory::Base {
+                    continue;
+                }
 
-        for dose in &self.malt_doses() {
-            match dose.malt.acid_category() {
-                MaltAcidCategory::Light => light_weight += dose.weight.0,
-                MaltAcidCategory::Dark => dark_weight += dose.weight.0,
-                MaltAcidCategory::Crystal => crystal_weight += dose.weight.0,
-                MaltAcidCategory::Acidulated => acidulated_weight += dose.weight.0,
-                MaltAcidCategory::None => (),
+                let proportion = dose.weight.0 / grain_weight.0;
+                let phbi = dose.malt.distilled_water_mash_ph().unwrap_or(Ph(5.75));
+
+                ph += phbi.0 * proportion;
             }
+
+            ph
+        };
+
+        let specialty_malt_ph_term_one: f32 = {
+            let mut ph: f32 = 0.0;
+            for dose in self.malt_doses() {
+                if dose.malt.category() == MaltCategory::Base {
+                    continue;
+                }
+
+                let proportion = dose.weight.0 / grain_weight.0;
+
+                ph += 5.7 * proportion;
+            }
+
+            ph
+        };
+
+        let specialty_malt_ph_term_two: Vec<f32> = {
+            let mut sum: f32 = 0.0;
+            for dose in self.malt_doses() {
+                if dose.malt.category() == MaltCategory::Base {
+                    continue;
+                }
+
+                let proportion = dose.weight.0 / grain_weight.0;
+
+                sum += dose.malt.acidity() * proportion;
+            }
+
+            let mut output: Vec<f32> = Vec::new();
+            let mash_thicknesses = self.mash_thicknesses();
+            for mt in &mash_thicknesses {
+                output.push(-0.14 * sum / mt);
+            }
+
+            output
+        };
+
+        let alkalinity: AlkMEqL = self.equipment.water_profile.alkalinity_caco3.into();
+        let alkalinity_component = 0.06 * alkalinity.0;
+
+        let mut output: Vec<Ph> = Vec::new();
+
+        for t2 in &specialty_malt_ph_term_two {
+            output.push(Ph(
+                base_malt_ph + specialty_malt_ph_term_one - t2 + alkalinity_component
+            ));
         }
 
-        let total = self.grain_weight().0;
-
-        let ph = 5.4 // FIXME, get this from malt Cert of Analysis, combine malts somehow
-            + (residual_alkalinity/10.0) * 0.3 // each 10 units of RA add 0.3 pH
-            - 100.0 * (light_weight / total) * 0.03
-            - 100.0 * (dark_weight / total) * 0.05
-            - 100.0 * (crystal_weight / total) * 0.025
-            - 100.0 * (acidulated_weight / total) * 0.1;
-
-        // TODO mash thickness (only changes by 0.05 for doubling/halving)
-        // https://byo.com/mr-wizard/predicting-mash-ph/
-
-        Ph(ph)
+        output
     }
 
     /// The weight of all the fermentables
@@ -1057,8 +1092,10 @@ impl Process {
         }
 
         // Verify the mash pH
-        if !(5.2..5.6).contains(&self.mash_ph().0) {
-            warnings.push(Warning::MashPhOutOfRange(self.mash_ph()));
+        for (i, ph) in self.mash_ph().iter().enumerate() {
+            if !(5.2..5.6).contains(&ph.0) {
+                warnings.push(Warning::MashPhOutOfRange(i + 1, *ph));
+            }
         }
 
         // Verify the style OG
