@@ -163,6 +163,7 @@ pub fn print_process(
         0.0
     };
     let yeast_nutrient = process.yeast_nutrient_amount();
+    let zn = process.zinc_needed();
     let post_boil_pre_loss_volume = process.post_boil_pre_loss_volume();
     let partial_boil_dilution = process.partial_boil_dilution();
     let fermentation_temp = process.recipe.ferment_temperature;
@@ -281,12 +282,8 @@ pub fn print_process(
     // -- mash ------------
 
     steps.mash.push(format!(
-        "Fill the mash tun with {strike_volume} of the treated source water."
+        "Fill the mash tun with {strike_volume} of {strike_temp} treated source water."
     ));
-
-    steps
-        .mash
-        .push(format!("Bring the strike water up to {strike_temp}"));
 
     if process.recipe.mash_rests.len() > 1 {
         steps
@@ -410,8 +407,12 @@ pub fn print_process(
              {yeast_nutrient} of yeast nutrient."
         ));
     } else {
-        steps.boil.push("Do not add yeast nutrient.".to_string());
+        steps.boil.push(format!(
+            "Do not add yeast nutrient. Instead, at 10 minutes before \
+             the end of the boil, add {zn} of zinc."
+        ));
     }
+
 
     if process.equipment.ice_bath {
         steps.boil.push(

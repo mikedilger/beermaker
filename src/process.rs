@@ -638,6 +638,17 @@ impl Process {
         self.fan_from_malt() + nutrient_ppm
     }
 
+    /// Zinc drops needed
+    #[must_use]
+    pub fn zinc_needed(&self) -> Milligrams {
+        // Different sourcess quote different Zn ranges:
+        //    0.15 to 0.3 mg Zn / L -- minimum required
+        //    0.3 to 0.5 mg/L
+        //    0.6 (a high-end lallemand yeast nutrient providing it)
+
+        Milligrams(0.5 * self.batch_size.0)
+    }
+
     /// The estimated gravity after fermentation, before any dilution
     // TODO: this doesn't adjust for the presence of unfermentable
     //       sugars
