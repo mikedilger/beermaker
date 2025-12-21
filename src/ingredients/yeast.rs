@@ -45,6 +45,12 @@ pub enum Yeast {
     /// Lallemand Nottingham high performance English Ale yeast
     LallemandNottingham,
 
+    /// Lallemand Windsor British-style Ale yeast
+    LallemandWindsor,
+
+    /// Safale S-04 English Ale
+    SafaleS04,
+
     /// Safale T-58, Phenolic for English/Belgian
     /// high banana, clove, pepper, great with wheat beers
     SafaleT58,
@@ -111,6 +117,8 @@ impl Yeast {
             Yeast::LutraKveik => Celsius(12.0)..Celsius(35.0),
             Yeast::LallemandMunichClassic => Celsius(17.0)..Celsius(25.0),
             Yeast::LallemandNottingham => Celsius(10.0)..Celsius(25.0),
+            Yeast::LallemandWindsor => Celsius(15.0)..Celsius(25.0),
+            Yeast::SafaleS04 => Celsius(18.0)..Celsius(26.0),
             Yeast::SafaleT58 => Celsius(18.0)..Celsius(26.0),
             Yeast::SafaleUS05 => Celsius(18.0)..Celsius(26.0),
             Yeast::SafaleW68 => Celsius(18.0)..Celsius(26.0),
@@ -143,6 +151,8 @@ impl Yeast {
             Yeast::LutraKveik => 0.75..0.82,
             Yeast::LallemandMunichClassic => 0.76..0.83,
             Yeast::LallemandNottingham => 0.78..0.84,
+            Yeast::LallemandWindsor => 0.65..0.72,
+            Yeast::SafaleS04 => 0.74..0.82,
             Yeast::SafaleT58 => 0.72..0.78,
             Yeast::SafaleUS05 => 0.78..0.82,
             Yeast::SafaleW68 => 0.78..0.84,
@@ -175,6 +185,8 @@ impl Yeast {
             Yeast::LutraKveik => 0.15..0.15,
             Yeast::LallemandMunichClassic => 0.12..0.12,
             Yeast::LallemandNottingham => 0.14..0.14,
+            Yeast::LallemandWindsor => 0.12..0.12,
+            Yeast::SafaleS04 => 0.09..0.11,
             Yeast::SafaleT58 => 0.09..0.11,
             Yeast::SafaleUS05 => 0.09..0.11,
             Yeast::SafaleW68 => 0.09..0.11, // unlisted on specs
@@ -208,6 +220,8 @@ impl Yeast {
             Yeast::LutraKveik => Flocculation::MediumHigh,
             Yeast::LallemandMunichClassic => Flocculation::Low,
             Yeast::LallemandNottingham => Flocculation::High,
+            Yeast::LallemandWindsor => Flocculation::Low,
+            Yeast::SafaleS04 => Flocculation::High,
             Yeast::SafaleT58 => Flocculation::Medium,
             Yeast::SafaleUS05 => Flocculation::Medium,
             Yeast::SafaleW68 => Flocculation::Medium,
@@ -233,6 +247,8 @@ impl Yeast {
             Yeast::LutraKveik => false,
             Yeast::LallemandMunichClassic => true,
             Yeast::LallemandNottingham => true,
+            Yeast::LallemandWindsor => true,
+            Yeast::SafaleS04 => true,
             Yeast::SafaleT58 => true,
             Yeast::SafaleUS05 => true,
             Yeast::SafaleW68 => true,
@@ -272,11 +288,13 @@ impl Yeast {
             Yeast::LutraKveik => Ppm(180.0),
             Yeast::LallemandMunichClassic => Ppm(180.0),
             Yeast::LallemandNottingham => Ppm(150.0), // ale
-            Yeast::SafaleT58 => Ppm(150.0),     // ale
-            Yeast::SafaleUS05 => Ppm(150.0),    // ale
-            Yeast::SafaleW68 => Ppm(150.0),     // ale
-            Yeast::SafaleWB06 => Ppm(150.0),    // ale
-            Yeast::SaflagerW3470 => Ppm(100.0), // lager
+            Yeast::LallemandWindsor => Ppm(150.0),    // ale
+            Yeast::SafaleS04 => Ppm(150.0),           // ale
+            Yeast::SafaleT58 => Ppm(150.0),           // ale
+            Yeast::SafaleUS05 => Ppm(150.0),          // ale
+            Yeast::SafaleW68 => Ppm(150.0),           // ale
+            Yeast::SafaleWB06 => Ppm(150.0),          // ale
+            Yeast::SaflagerW3470 => Ppm(100.0),       // lager
             Yeast::WLP300 => Ppm(180.0),
             Yeast::WLP351 => Ppm(100.0), // Low N consumer
             Yeast::WLP380 => Ppm(150.0),
@@ -298,6 +316,8 @@ impl fmt::Display for Yeast {
                 write!(f, "[Lallemand Munich Classic German Wheat-Style Ale Yeast]")
             }
             Yeast::LallemandNottingham => write!(f, "[Lallemand Nottingham Ale Yeast]"),
+            Yeast::LallemandWindsor => write!(f, "[Lallemand Windsor Ale Yeast]"),
+            Yeast::SafaleS04 => write!(f, "[Safale S-04]"),
             Yeast::SafaleT58 => write!(f, "[Safale T58]"),
             Yeast::SafaleUS05 => write!(f, "[Safale US-05]"),
             Yeast::SafaleW68 => write!(f, "[Safale W68)]"),
