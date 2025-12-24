@@ -15,6 +15,10 @@ pub enum Strain {
     // WLP810
     AnchorSteam,
 
+    /// Augustiner
+    // WLP860
+    Augustiner,
+
     /// WLP006
     BedfordBritishAle,
 
@@ -123,6 +127,9 @@ pub enum Strain {
     /// Plsen Urquell
     // WLP800
     Urquell,
+
+    /// Voss Kveik
+    VossKveik,
 
     /// Weihenstephanan Weizen, 3068, 66
     WeihenstephananWeizen,

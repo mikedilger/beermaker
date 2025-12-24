@@ -147,18 +147,18 @@ pub enum Yeast {
     WLP011,
     WLP013,
     WLP017,
-    WLP019,
+    //WLP019,
     WLP022,
     WLP023,
     WLP025,
     WLP026,
     WLP028,
     WLP029,
-    WLP030,
+    //WLP030,
     WLP033,
     WLP036,
     WLP037,
-    WLP038,
+    //WLP038,
     WLP039,
     WLP041,
     WLP045,
@@ -217,6 +217,7 @@ pub enum Yeast {
     WLP4061,
     WLP4062,
     WLP410,
+    /*
     WLP4605,
     WLP4615,
     WLP4620,
@@ -241,6 +242,7 @@ pub enum Yeast {
     WLP4681,
     WLP4682,
     WLP4684,
+    */
     WLP500,
     WLP510,
     WLP515,
@@ -263,12 +265,13 @@ pub enum Yeast {
     WLP575,
     WLP585,
     WLP590,
-    WLP600,
-    WLP603,
+    //WLP600,
+    //WLP603,
     WLP611,
-    WLP616,
-    WLP618,
+    //WLP616,
+    //WLP618,
     WLP630,
+    /*
     WLP631,
     WLP6420,
     WLP644,
@@ -291,6 +294,7 @@ pub enum Yeast {
     WLP690,
     WLP692,
     WLP693,
+    */
     WLP700,
     WLP705,
     WLP707,
@@ -307,8 +311,8 @@ pub enum Yeast {
     WLP760,
     WLP770,
     WLP773,
-    WLP775,
-    WLP780,
+    //WLP775,
+    //WLP780,
     WLP800,
     WLP802,
     WLP808,
@@ -457,18 +461,18 @@ impl Yeast {
             Self::WLP011 |
             Self::WLP013 |
             Self::WLP017 |
-            Self::WLP019 |
+            //Self::WLP019 |
             Self::WLP022 |
             Self::WLP023 |
             Self::WLP025 |
             Self::WLP026 |
             Self::WLP028 |
             Self::WLP029 |
-            Self::WLP030 |
+            //Self::WLP030 |
             Self::WLP033 |
             Self::WLP036 |
             Self::WLP037 |
-            Self::WLP038 |
+            //Self::WLP038 |
             Self::WLP039 |
             Self::WLP041 |
             Self::WLP045 |
@@ -527,6 +531,7 @@ impl Yeast {
             Self::WLP4061 |
             Self::WLP4062 |
             Self::WLP410 |
+            /*
             Self::WLP4605 |
             Self::WLP4615 |
             Self::WLP4620 |
@@ -551,6 +556,7 @@ impl Yeast {
             Self::WLP4681 |
             Self::WLP4682 |
             Self::WLP4684 |
+            */
             Self::WLP500 |
             Self::WLP510 |
             Self::WLP515 |
@@ -573,12 +579,13 @@ impl Yeast {
             Self::WLP575 |
             Self::WLP585 |
             Self::WLP590 |
-            Self::WLP600 |
-            Self::WLP603 |
+            //Self::WLP600 |
+            //Self::WLP603 |
             Self::WLP611 |
-            Self::WLP616 |
-            Self::WLP618 |
+            //Self::WLP616 |
+            //Self::WLP618 |
             Self::WLP630 |
+            /*
             Self::WLP631 |
             Self::WLP6420 |
             Self::WLP644 |
@@ -601,6 +608,7 @@ impl Yeast {
             Self::WLP690 |
             Self::WLP692 |
             Self::WLP693 |
+            */
             Self::WLP700 |
             Self::WLP705 |
             Self::WLP707 |
@@ -617,8 +625,8 @@ impl Yeast {
             Self::WLP760 |
             Self::WLP770 |
             Self::WLP773 |
-            Self::WLP775 |
-            Self::WLP780 |
+            //Self::WLP775 |
+            //Self::WLP780 |
             Self::WLP800 |
             Self::WLP802 |
             Self::WLP808 |
@@ -730,18 +738,18 @@ impl Yeast {
             Self::WLP011 => "WLP011 European Ale Yeast",
             Self::WLP013 => "WLP013 London Ale Yeast",
             Self::WLP017 => "WLP017 Whitbread II Ale Yeast",
-            Self::WLP019 => "WLP019 California IV Ale Yeast",
+            //Self::WLP019 => "WLP019 California IV Ale Yeast",
             Self::WLP022 => "WLP022 Essex Ale Yeast",
             Self::WLP023 => "WLP023 Burton Ale Yeast",
             Self::WLP025 => "WLP025 Southwold Ale Yeast",
             Self::WLP026 => "WLP026 Premium Bitter Ale Yeast",
             Self::WLP028 => "WLP028 Edinburgh/Scottish Ale Yeast",
             Self::WLP029 => "WLP029 Kölsch Ale Yeast",
-            Self::WLP030 => "WLP030 Thames Valley Ale Yeast",
+            //Self::WLP030 => "WLP030 Thames Valley Ale Yeast",
             Self::WLP033 => "WLP033 Klassic Ale Yeast",
             Self::WLP036 => "WLP036 Dusseldorf Alt Ale Yeast",
             Self::WLP037 => "WLP037 Yorkshire Square Ale Yeast",
-            Self::WLP038 => "WLP038 Manchester Ale Yeast",
+            //Self::WLP038 => "WLP038 Manchester Ale Yeast",
             Self::WLP039 => "WLP039 East Midlands Ale Yeast",
             Self::WLP041 => "WLP041 Pacific Ale Yeast",
             Self::WLP045 => "WLP045 Scotch Whisky Yeast",
@@ -800,6 +808,7 @@ impl Yeast {
             Self::WLP4061 => "WLP4061 Rhine Kölsch Ale Yeast",
             Self::WLP4062 => "WLP4062 LA Fleur Ale Yeast",
             Self::WLP410 => "WLP410 Belgian Wit II Ale Yeast",
+            /*
             Self::WLP4605 => "WLP4605 Beersen Brettanomyces",
             Self::WLP4615 => "WLP4615 Brussels Brettanomyces",
             Self::WLP4620 => "WLP4620 Lochristi Brettanomyces",
@@ -824,6 +833,7 @@ impl Yeast {
             Self::WLP4681 => "WLP4681 Lactobacillus brevis Strain TYB282",
             Self::WLP4682 => "WLP4682 Lactobacillus Blend",
             Self::WLP4684 => "WLP4684 The YEast Bay House Sour Blend",
+            */
             Self::WLP500 => "WLP500 Monastery Ale Yeast",
             Self::WLP510 => "WLP510 Bastogne Belgian Ale Yeast",
             Self::WLP515 => "WLP515 Antwerp Ale Yeast",
@@ -846,12 +856,13 @@ impl Yeast {
             Self::WLP575 => "WLP575 Belgian Style Ale Yeast Blend",
             Self::WLP585 => "WLP585 Belgian Saison III Ale Yeast",
             Self::WLP590 => "WLP590 French Saison Ale Yeast",
-            Self::WLP600 => "WLP600 Kombucha Cultures",
-            Self::WLP603 => "WLP603 Torulaspora delbrueckii",
+            //Self::WLP600 => "WLP600 Kombucha Cultures",
+            //Self::WLP603 => "WLP603 Torulaspora delbrueckii",
             Self::WLP611 => "WLP611 New Nordic Ale Yeast",
-            Self::WLP616 => "WLP616 Funky Cider Blend",
-            Self::WLP618 => "WLP618 NA All Day",
+            //Self::WLP616 => "WLP616 Funky Cider Blend",
+            //Self::WLP618 => "WLP618 NA All Day",
             Self::WLP630 => "WLP630 Berliner Weisse Blend",
+            /*
             Self::WLP631 => "WLP631 Appalachian Tart",
             Self::WLP6420 => "WLP6420 Acid Tripp",
             Self::WLP644 => "WLP644 Saccharomyces brux-like Trois",
@@ -874,6 +885,7 @@ impl Yeast {
             Self::WLP690 => "WLP690 Acetobacter aceti",
             Self::WLP692 => "WLP692 Debaromyces hansenii",
             Self::WLP693 => "WLP693 Lactobacillus plantarum",
+            */
             Self::WLP700 => "WLP700 Flor Sherry Yeast",
             Self::WLP705 => "WLP705 Sake Yeast #7",
             Self::WLP707 => "WLP707 California Pinot Noir Wine Yeast",
@@ -890,8 +902,8 @@ impl Yeast {
             Self::WLP760 => "WLP760 Carbernet Red Wine Yeast",
             Self::WLP770 => "WLP770 Suremain Burgundy Wine Yeast",
             Self::WLP773 => "WLP773 Scottish Cider Yeast Blend",
-            Self::WLP775 => "WLP775 English Cider Yeast",
-            Self::WLP780 => "WLP780 Thai Rice Chong Yeast",
+            //Self::WLP775 => "WLP775 English Cider Yeast",
+            //Self::WLP780 => "WLP780 Thai Rice Chong Yeast",
             Self::WLP800 => "WLP800 Pilsner Lager Yeast",
             Self::WLP802 => "WLP802 Czech Budejovice Lager Yeast",
             Self::WLP808 => "WLP808 Mythical Hammer Lager Yeast Blend",
@@ -1012,18 +1024,18 @@ impl Yeast {
             Self::WLP011 => (18.0, 21.0),
             Self::WLP013 => (19.0, 22.0),
             Self::WLP017 => (19.0, 21.0),
-            Self::WLP019 => todo!(),
+            //Self::WLP019 => todo!(),
             Self::WLP022 => (19.0, 21.0),
             Self::WLP023 => (20.0, 23.0),
             Self::WLP025 => (19.0, 20.0),
             Self::WLP026 => (19.0, 21.0),
             Self::WLP028 => (18.0, 21.0),
             Self::WLP029 => (18.0, 21.0),
-            Self::WLP030 => todo!(),
+            //Self::WLP030 => todo!(),
             Self::WLP033 => (19.0, 21.0),
             Self::WLP036 => (18.0, 21.0),
             Self::WLP037 => (18.0, 21.0),
-            Self::WLP038 => (18.0, 21.0),
+            //Self::WLP038 => (18.0, 21.0),
             Self::WLP039 => (19.0, 21.0),
             Self::WLP041 => (18.0, 20.0),
             Self::WLP045 => (22.0, 25.0),
@@ -1040,7 +1052,7 @@ impl Yeast {
             Self::WLP073 => (21.0, 27.0),
             Self::WLP075 => (19.0, 21.0),
             Self::WLP076 => (19.0, 21.0),
-            Self::WLP077 => (17.0..23.0),
+            Self::WLP077 => (17.0, 23.0),
             Self::WLP078 => (24.0, 29.0),
             Self::WLP080 => (18.0, 21.0),
             Self::WLP085 => (20.0, 22.0),
@@ -1066,132 +1078,136 @@ impl Yeast {
             Self::WLP4023 => (20.0, 27.0),
             Self::WLP4025 => (20.0, 26.0),
             Self::WLP4027 => (20.0, 23.0),
-            Self::WLP4030 => (8.0, 12.0), // GINA lager
-            Self::WLP4035 => (7.0, 12.0), // GINA lager
+            Self::WLP4030 => (8.0, 12.0),
+            Self::WLP4035 => (7.0, 12.0),
             Self::WLP4040 => (18.0, 22.0),
             Self::WLP4042 => (18.0, 21.0),
             Self::WLP4044 => (19.0, 22.0),
-            Self::WLP4045 => 
-            Self::WLP4046 => 
-            Self::WLP4047 => 
-            Self::WLP4050 => 
-            Self::WLP4051 => 
-            Self::WLP4052 => 
-            Self::WLP4053 => 
-            Self::WLP4060 => 
-            Self::WLP4061 => 
-            Self::WLP4062 => 
-            Self::WLP410 => 
-            Self::WLP4605 => 
-            Self::WLP4615 => 
-            Self::WLP4620 => 
-            Self::WLP4626 => 
-            Self::WLP4633 => 
-            Self::WLP4636 => 
-            Self::WLP4637 => 
-            Self::WLP4638 => 
-            Self::WLP4639 => 
-            Self::WLP4640 => 
-            Self::WLP4641 => 
-            Self::WLP4642 => 
-            Self::WLP4643 => 
-            Self::WLP4645 => 
-            Self::WLP4650 => 
-            Self::WLP4651 => 
-            Self::WLP4653 => 
-            Self::WLP4655 => 
-            Self::WLP4656 => 
-            Self::WLP4665 => 
-            Self::WLP4675 => 
-            Self::WLP4681 => 
-            Self::WLP4682 => 
-            Self::WLP4684 => 
-            Self::WLP500 => 
-            Self::WLP510 => 
-            Self::WLP515 => 
-            Self::WLP518 => 
-            Self::WLP519 => 
-            Self::WLP520 => 
-            Self::WLP521 => 
-            Self::WLP530 => 
-            Self::WLP540 => 
-            Self::WLP545 => 
-            Self::WLP546 => 
-            Self::WLP548 => 
-            Self::WLP550 => 
-            Self::WLP561 => 
-            Self::WLP564 => 
-            Self::WLP565 => 
-            Self::WLP566 => 
-            Self::WLP568 => 
-            Self::WLP570 => 
-            Self::WLP575 => 
-            Self::WLP585 => 
-            Self::WLP590 => 
-            Self::WLP600 => 
-            Self::WLP603 => 
-            Self::WLP611 => 
-            Self::WLP616 => 
-            Self::WLP618 => 
-            Self::WLP630 => 
-            Self::WLP631 => 
-            Self::WLP6420 => 
-            Self::WLP644 => 
-            Self::WLP645 => 
-            Self::WLP648 => 
-            Self::WLP650 => 
-            Self::WLP653 => 
-            Self::WLP655 => 
-            Self::WLP661 => 
-            Self::WLP665 => 
-            Self::WLP669 => 
-            Self::WLP670 => 
-            Self::WLP672 => 
-            Self::WLP673 => 
-            Self::WLP675 => 
-            Self::WLP677 => 
-            Self::WLP678 => 
-            Self::WLP685 => 
-            Self::WLP686 => 
-            Self::WLP690 => 
-            Self::WLP692 => 
-            Self::WLP693 => 
-            Self::WLP700 => 
-            Self::WLP705 => 
-            Self::WLP707 => 
-            Self::WLP709 => 
-            Self::WLP715 => 
-            Self::WLP718 => 
-            Self::WLP720 => 
-            Self::WLP727 => 
-            Self::WLP730 => 
-            Self::WLP735 => 
-            Self::WLP740 => 
-            Self::WLP749 => 
-            Self::WLP750 => 
-            Self::WLP760 => 
-            Self::WLP770 => 
-            Self::WLP773 => 
-            Self::WLP775 => 
-            Self::WLP780 => 
-            Self::WLP800 => 
-            Self::WLP802 => 
-            Self::WLP808 => 
-            Self::WLP810 => 
-            Self::WLP815 => 
+            Self::WLP4045 => (21.0, 38.0),
+            Self::WLP4046 => (24.0, 35.0),
+            Self::WLP4047 => (24.0, 35.0),
+            Self::WLP4050 => (27.0, 35.0),
+            Self::WLP4051 => (27.0, 35.0),
+            Self::WLP4052 => (27.0, 32.0),
+            Self::WLP4053 => (24.0, 35.0),
+            Self::WLP4060 => (20.0, 27.0),
+            Self::WLP4061 => (14.0, 20.0),
+            Self::WLP4062 => (23.0, 27.0),
+            Self::WLP410 => (19.0, 23.0),
+            /*
+            Self::WLP4605 =>
+            Self::WLP4615 =>
+            Self::WLP4620 =>
+            Self::WLP4626 =>
+            Self::WLP4633 =>
+            Self::WLP4636 =>
+            Self::WLP4637 =>
+            Self::WLP4638 =>
+            Self::WLP4639 =>
+            Self::WLP4640 =>
+            Self::WLP4641 =>
+            Self::WLP4642 =>
+            Self::WLP4643 =>
+            Self::WLP4645 =>
+            Self::WLP4650 =>
+            Self::WLP4651 =>
+            Self::WLP4653 =>
+            Self::WLP4655 =>
+            Self::WLP4656 =>
+            Self::WLP4665 =>
+            Self::WLP4675 =>
+            Self::WLP4681 =>
+            Self::WLP4682 =>
+            Self::WLP4684 =>
+            */
+            Self::WLP500 => (18.0, 22.0),
+            Self::WLP510 => (19.0, 22.0),
+            Self::WLP515 => (19.0, 21.0),
+            Self::WLP518 => (25.0, 35.0),
+            Self::WLP519 => (22.0, 37.0),
+            Self::WLP520 => (22.0, 37.0),
+            Self::WLP521 => (22.0, 37.0),
+            Self::WLP530 => (19.0, 22.0),
+            Self::WLP540 => (19.0, 22.0),
+            Self::WLP545 => (19.0, 22.0),
+            Self::WLP546 => (18.0, 24.0),
+            Self::WLP548 => (12.0, 25.0),
+            Self::WLP550 => (20.0, 26.0),
+            Self::WLP561 => (20.0, 26.0),
+            Self::WLP564 => (18.0, 24.0),
+            Self::WLP565 => (20.0, 30.0),
+            Self::WLP566 => (20.0, 30.0),
+            Self::WLP568 => (20.0, 30.0),
+            Self::WLP570 => (20.0, 24.0),
+            Self::WLP575 => (20.0, 24.0),
+            Self::WLP585 => (20.0, 30.0),
+            Self::WLP590 => (20.0, 30.0),
+            //Self::WLP600 =>
+            //Self::WLP603 =>
+            Self::WLP611 => (10.0, 30.0),
+            //Self::WLP616 =>
+            //Self::WLP618 =>
+            Self::WLP630 => (20.0, 22.0),
+            /*
+            Self::WLP631 =>
+            Self::WLP6420 =>
+            Self::WLP644 =>
+            Self::WLP645 =>
+            Self::WLP648 =>
+            Self::WLP650 =>
+            Self::WLP653 =>
+            Self::WLP655 =>
+            Self::WLP661 =>
+            Self::WLP665 =>
+            Self::WLP669 =>
+            Self::WLP670 =>
+            Self::WLP672 =>
+            Self::WLP673 =>
+            Self::WLP675 =>
+            Self::WLP677 =>
+            Self::WLP678 =>
+            Self::WLP685 =>
+            Self::WLP686 =>
+            Self::WLP690 =>
+            Self::WLP692 =>
+            Self::WLP693 =>
+            */
+            Self::WLP700 => (21.0, 25.0), // top not listed
+            Self::WLP705 => (21.0, 32.0),
+            Self::WLP707 => (16.0, 32.0),
+            Self::WLP709 => (17.0, 20.0),
+            Self::WLP715 => (21.0, 24.0),
+            Self::WLP718 => (16.0, 32.0),
+            Self::WLP720 => (21.0, 24.0),
+            Self::WLP727 => (10.0, 32.0),
+            Self::WLP730 => (10.0, 32.0),
+            Self::WLP735 => (16.0, 32.0),
+            Self::WLP740 => (16.0, 32.0),
+            Self::WLP749 => (10.0, 32.0),
+            Self::WLP750 => (16.0, 32.0),
+            Self::WLP760 => (16.0, 32.0),
+            Self::WLP770 => (16.0, 32.0),
+            Self::WLP773 => (19.0, 22.0),
+            //Self::WLP775 => (20.0, 24.0),
+            //Self::WLP780 =>
+            Self::WLP800 => (10.0, 13.0),
+            Self::WLP802 => (10.0, 13.0),
+            Self::WLP808 => (10.0, 18.0),
+            Self::WLP810 => (14.0, 18.0),
+            Self::WLP815 => (10.0, 13.0),
             Self::WLP820 => (11.0, 14.0),
             Self::WLP830 => (10.0, 13.0),
             Self::WLP833 => (9.0, 13.0),
             Self::WLP835 => (10.0, 12.0),
             Self::WLP838 => (10.0, 13.0),
-            Self::WLP840 => 
-            Self::WLP845 => 
-            Self::WLP850 => 
-            Self::WLP860 => 
-            Self::WLP885 => 
-            Self::WLP920 => 
-            Self::WLP925 => 
-            Self::WLP940 => 
+            Self::WLP840 => (10.0, 13.0),
+            Self::WLP845 => (10.0, 14.0),
+            Self::WLP850 => (10.0, 14.0),
+            Self::WLP860 => (9.0, 11.0),
+            Self::WLP885 => (10.0, 13.0),
+            Self::WLP920 => (10.0, 13.0),
+            Self::WLP925 => (17.0, 20.0),
+            Self::WLP940 => (10.0, 13.0),
         };
 
         Celsius(min)..Celsius(max)
@@ -1241,26 +1257,26 @@ impl Yeast {
             Self::WLP009 => 0.70..0.75,
             Self::WLP011 => 0.65..0.70,
             Self::WLP013 => 0.67..0.75,
-            Self::WLP017 => 0.67..0.73, // GINA mixed
-            Self::WLP019 => todo!(),
+            Self::WLP017 => 0.67..0.73,
+            //Self::WLP019 => todo!(),
             Self::WLP022 => 0.71..0.76,
             Self::WLP023 => 0.72..0.78,
             Self::WLP025 => 0.68..0.75,
             Self::WLP026 => 0.70..0.75,
             Self::WLP028 => 0.70..0.75,
             Self::WLP029 => 0.72..0.78,
-            Self::WLP030 => 0.72..0.78,
+            //Self::WLP030 => 0.72..0.78,
             Self::WLP033 => 0.66..0.74,
             Self::WLP036 => 0.65..0.72,
             Self::WLP037 => 0.68..0.72,
-            Self::WLP038 => todo!(),
+            //Self::WLP038 => todo!(),
             Self::WLP039 => 0.73..0.82,
             Self::WLP041 => 0.72..0.78,
             Self::WLP045 => 0.75..0.80,
             Self::WLP050 => 0.75..0.80,
             Self::WLP051 => 0.72..0.78,
             Self::WLP059 => 0.74..0.78,
-            Self::WLP060 => 0.72..0.80, // GINA blend
+            Self::WLP060 => 0.72..0.80,
             Self::WLP064 => 0.72..0.78,
             Self::WLP065 => 0.76..0.82,
             Self::WLP066 => 0.75..0.82,
@@ -1268,18 +1284,18 @@ impl Yeast {
             Self::WLP070 => 0.75..0.80,
             Self::WLP072 => 0.68..0.75,
             Self::WLP073 => 0.75..0.80,
-            Self::WLP075 => 0.75..0.80, // GINA blend
+            Self::WLP075 => 0.75..0.80,
             Self::WLP076 => 0.70..0.74,
-            Self::WLP077 => 0.75..0.82, // GINA blend
+            Self::WLP077 => 0.75..0.82,
             Self::WLP078 => 0.77..0.84,
-            Self::WLP080 => 0.75..0.80, // GINA blend
-            Self::WLP085 => 0.69..0.76, // GINA blend
+            Self::WLP080 => 0.75..0.80,
+            Self::WLP085 => 0.69..0.76,
             Self::WLP090 => 0.76..0.83,
-            Self::WLP091 => 0.70..0.75, // GINA blend
+            Self::WLP091 => 0.70..0.75,
             Self::WLP095 => 0.75..0.80,
-            Self::WLP096 => 0.78..0.85, // GINA blend STA1+
-            Self::WLP099 => 0.80..1.00, // GINA STA1+
-            Self::WLP101 => 0.70..0.80, // GINA blend
+            Self::WLP096 => 0.78..0.85,
+            Self::WLP099 => 0.80..1.00,
+            Self::WLP101 => 0.70..0.80,
             Self::WLP1983 => 0.72..0.78,
             Self::WLP300 => 0.72..0.76,
             Self::WLP320 => 0.70..0.75,
@@ -1287,141 +1303,145 @@ impl Yeast {
             Self::WLP380 => 0.73..0.80,
             Self::WLP400 => 0.74..0.78,
             Self::WLP4000 => 0.78..0.82,
-            Self::WLP4001 => 0.78..0.82, // GINA STA1+
+            Self::WLP4001 => 0.78..0.82,
             Self::WLP4007 => 0.78..0.84,
             Self::WLP4015 => 0.77..0.81,
-            Self::WLP4020 => 0.81..1.00, // GINA STA1+
-            Self::WLP4021 => 0.85..1.00, // GINA blend, STA1+
+            Self::WLP4020 => 0.81..1.00,
+            Self::WLP4021 => 0.85..1.00,
             Self::WLP4022 => 0.80..0.82,
-            Self::WLP4023 => 0.86..0.94, // GINA STA1+
-            Self::WLP4025 => 0.85..1.00, // GINA STA1+
-            Self::WLP4027 => 0.78..0.85, // GINA STA1+
+            Self::WLP4023 => 0.86..0.94,
+            Self::WLP4025 => 0.85..1.00,
+            Self::WLP4027 => 0.78..0.85,
             Self::WLP4030 => 0.74..0.78,
             Self::WLP4035 => 0.73..0.76,
             Self::WLP4040 => 0.76..0.80,
             Self::WLP4042 => 0.79..0.83,
-            Self::WLP4044 => 0.81..0.85, // GINA STA1+
-            Self::WLP4045 => 
-            Self::WLP4046 => 
-            Self::WLP4047 => 
-            Self::WLP4050 => 
-            Self::WLP4051 => 
-            Self::WLP4052 => 
-            Self::WLP4053 => 
-            Self::WLP4060 => 
-            Self::WLP4061 => 
-            Self::WLP4062 => 
-            Self::WLP410 => 
-            Self::WLP4605 => 
-            Self::WLP4615 => 
-            Self::WLP4620 => 
-            Self::WLP4626 => 
-            Self::WLP4633 => 
-            Self::WLP4636 => 
-            Self::WLP4637 => 
-            Self::WLP4638 => 
-            Self::WLP4639 => 
-            Self::WLP4640 => 
-            Self::WLP4641 => 
-            Self::WLP4642 => 
-            Self::WLP4643 => 
-            Self::WLP4645 => 
-            Self::WLP4650 => 
-            Self::WLP4651 => 
-            Self::WLP4653 => 
-            Self::WLP4655 => 
-            Self::WLP4656 => 
-            Self::WLP4665 => 
-            Self::WLP4675 => 
-            Self::WLP4681 => 
-            Self::WLP4682 => 
-            Self::WLP4684 => 
-            Self::WLP500 => 
-            Self::WLP510 => 
-            Self::WLP515 => 
-            Self::WLP518 => 
-            Self::WLP519 => 
-            Self::WLP520 => 
-            Self::WLP521 => 
-            Self::WLP530 => 
-            Self::WLP540 => 
-            Self::WLP545 => 
-            Self::WLP546 => 
-            Self::WLP548 => 
-            Self::WLP550 => 
-            Self::WLP561 => 
-            Self::WLP564 => 
-            Self::WLP565 => 
-            Self::WLP566 => 
-            Self::WLP568 => 
-            Self::WLP570 => 
-            Self::WLP575 => 
-            Self::WLP585 => 
-            Self::WLP590 => 
-            Self::WLP600 => 
-            Self::WLP603 => 
-            Self::WLP611 => 
-            Self::WLP616 => 
-            Self::WLP618 => 
-            Self::WLP630 => 
-            Self::WLP631 => 
-            Self::WLP6420 => 
-            Self::WLP644 => 
-            Self::WLP645 => 
-            Self::WLP648 => 
-            Self::WLP650 => 
-            Self::WLP653 => 
-            Self::WLP655 => 
-            Self::WLP661 => 
-            Self::WLP665 => 
-            Self::WLP669 => 
-            Self::WLP670 => 
-            Self::WLP672 => 
-            Self::WLP673 => 
-            Self::WLP675 => 
-            Self::WLP677 => 
-            Self::WLP678 => 
-            Self::WLP685 => 
-            Self::WLP686 => 
-            Self::WLP690 => 
-            Self::WLP692 => 
-            Self::WLP693 => 
-            Self::WLP700 => 
-            Self::WLP705 => 
-            Self::WLP707 => 
-            Self::WLP709 => 
-            Self::WLP715 => 
-            Self::WLP718 => 
-            Self::WLP720 => 
-            Self::WLP727 => 
-            Self::WLP730 => 
-            Self::WLP735 => 
-            Self::WLP740 => 
-            Self::WLP749 => 
-            Self::WLP750 => 
-            Self::WLP760 => 
-            Self::WLP770 => 
-            Self::WLP773 => 
-            Self::WLP775 => 
-            Self::WLP780 => 
-            Self::WLP800 => 
-            Self::WLP802 => 
-            Self::WLP808 => 
-            Self::WLP810 => 
-            Self::WLP815 => 
+            Self::WLP4044 => 0.81..0.85,
+            Self::WLP4045 => 0.78..0.83,
+            Self::WLP4046 => 0.76..0.82,
+            Self::WLP4047 => 0.90..1.00,
+            Self::WLP4050 => 0.77..0.81,
+            Self::WLP4051 => 0.78..0.82,
+            Self::WLP4052 => 0.75..0.82,
+            Self::WLP4053 => 0.76..0.80,
+            Self::WLP4060 => 0.85..0.90,
+            Self::WLP4061 => 0.75..0.78,
+            Self::WLP4062 => 0.75..0.80,
+            Self::WLP410 => 0.70..0.75,
+            /*
+            Self::WLP4605 =>
+            Self::WLP4615 =>
+            Self::WLP4620 =>
+            Self::WLP4626 =>
+            Self::WLP4633 =>
+            Self::WLP4636 =>
+            Self::WLP4637 =>
+            Self::WLP4638 =>
+            Self::WLP4639 =>
+            Self::WLP4640 =>
+            Self::WLP4641 =>
+            Self::WLP4642 =>
+            Self::WLP4643 =>
+            Self::WLP4645 =>
+            Self::WLP4650 =>
+            Self::WLP4651 =>
+            Self::WLP4653 =>
+            Self::WLP4655 =>
+            Self::WLP4656 =>
+            Self::WLP4665 =>
+            Self::WLP4675 =>
+            Self::WLP4681 =>
+            Self::WLP4682 =>
+            Self::WLP4684 =>
+            */
+            Self::WLP500 => 0.75..0.80,
+            Self::WLP510 => 0.74..0.80,
+            Self::WLP515 => 0.73..0.80,
+            Self::WLP518 => 0.69..0.80,
+            Self::WLP519 => 0.75..0.85,
+            Self::WLP520 => 0.75..0.83,
+            Self::WLP521 => 0.75..0.82,
+            Self::WLP530 => 0.75..0.80,
+            Self::WLP540 => 0.74..0.82,
+            Self::WLP545 => 0.78..0.85,
+            Self::WLP546 => 0.65..0.70,
+            Self::WLP548 => 0.75..0.80,
+            Self::WLP550 => 0.78..0.85,
+            Self::WLP561 => 0.78..0.85,
+            Self::WLP564 => 0.76..0.82,
+            Self::WLP565 => 0.65..0.75,
+            Self::WLP566 => 0.78..0.85,
+            Self::WLP568 => 0.70..0.80,
+            Self::WLP570 => 0.78..0.85,
+            Self::WLP575 => 0.74..0.80,
+            Self::WLP585 => 0.78..0.85,
+            Self::WLP590 => 0.78..0.85,
+            //Self::WLP600 =>
+            //Self::WLP603 =>
+            Self::WLP611 => 0.65..0.75,
+            //Self::WLP616 =>
+            //Self::WLP618 => x
+            Self::WLP630 => 0.73..0.80,
+            /*
+            Self::WLP631 =>
+            Self::WLP6420 =>
+            Self::WLP644 =>
+            Self::WLP645 =>
+            Self::WLP648 =>
+            Self::WLP650 =>
+            Self::WLP653 =>
+            Self::WLP655 =>
+            Self::WLP661 =>
+            Self::WLP665 =>
+            Self::WLP669 =>
+            Self::WLP670 =>
+            Self::WLP672 =>
+            Self::WLP673 =>
+            Self::WLP675 =>
+            Self::WLP677 =>
+            Self::WLP678 =>
+            Self::WLP685 =>
+            Self::WLP686 =>
+            Self::WLP690 =>
+            Self::WLP692 =>
+            Self::WLP693 =>
+            */
+            Self::WLP700 => 0.70..0.90,
+            Self::WLP705 => 0.70..0.90,
+            Self::WLP707 => 0.70..0.90,
+            Self::WLP709 => 0.72..0.78,
+            Self::WLP715 => 0.70..0.90,
+            Self::WLP718 => 0.70..0.90,
+            Self::WLP720 => 0.70..0.90,
+            Self::WLP727 => 0.70..0.90,
+            Self::WLP730 => 0.70..0.90,
+            Self::WLP735 => 0.70..0.90,
+            Self::WLP740 => 0.70..0.90,
+            Self::WLP749 => 0.70..0.90,
+            Self::WLP750 => 0.70..0.90,
+            Self::WLP760 => 0.70..0.90,
+            Self::WLP770 => 0.70..0.90,
+            Self::WLP773 => 0.74..0.80,
+            //Self::WLP775 => todo!(),
+            //Self::WLP780 =>
+            Self::WLP800 => 0.72..0.77,
+            Self::WLP802 => 0.70..0.75,
+            Self::WLP808 => 0.70..0.79,
+            Self::WLP810 => 0.70..0.75,
+            Self::WLP815 => 0.72..0.78,
             Self::WLP820 => 0.65..0.73,
             Self::WLP830 => 0.74..0.79,
             Self::WLP833 => 0.70..0.76,
             Self::WLP835 => 0.70..0.76,
             Self::WLP838 => 0.68..0.76,
-            Self::WLP840 => 
-            Self::WLP845 => 
-            Self::WLP850 => 
-            Self::WLP860 => 
-            Self::WLP885 => 
-            Self::WLP920 => 
-            Self::WLP925 => 
-            Self::WLP940 => 
+            Self::WLP840 => 0.75..0.80,
+            Self::WLP845 => 0.75..0.78,
+            Self::WLP850 => 0.72..0.78,
+            Self::WLP860 => 0.68..0.72,
+            Self::WLP885 => 0.70..0.80,
+            Self::WLP920 => 0.66..0.73,
+            Self::WLP925 => 0.73..0.82,
+            Self::WLP940 => 0.70..0.78,
         }
     }
 
@@ -1470,21 +1490,21 @@ impl Yeast {
             Self::WLP011 => (5, 10),
             Self::WLP013 => (8, 12),
             Self::WLP017 => (5, 10),
-            Self::WLP019 => todo!(),
+            //Self::WLP019 => todo!(),
             Self::WLP022 => (5, 10),
             Self::WLP023 => (5, 10),
             Self::WLP025 => (5, 10),
             Self::WLP026 => (5, 10),
             Self::WLP028 => (8, 12),
             Self::WLP029 => (8, 12),
-            Self::WLP030 => (10, 15),
+            //Self::WLP030 => (10, 15),
             Self::WLP033 => (5, 10),
             Self::WLP036 => (8, 12),
             Self::WLP037 => (5, 10),
-            Self::WLP038 => todo!(),
+            //Self::WLP038 => todo!(),
             Self::WLP039 => (5, 10),
             Self::WLP041 => (5, 10),
-            Self::WLP045 => (10, 15), // GINA STA1 positive
+            Self::WLP045 => (10, 15),
             Self::WLP050 => (10, 15),
             Self::WLP051 => (5, 10),
             Self::WLP059 => (10, 15),
@@ -1529,128 +1549,131 @@ impl Yeast {
             Self::WLP4040 => (8, 12),
             Self::WLP4042 => (8, 12),
             Self::WLP4044 => (8, 12),
-            Self::WLP4045 => 
-            Self::WLP4046 => 
-            Self::WLP4047 => 
-            Self::WLP4050 => 
-            Self::WLP4051 => 
-            Self::WLP4052 => 
-            Self::WLP4053 => 
-            Self::WLP4060 => 
-            Self::WLP4061 => 
-            Self::WLP4062 => 
-            Self::WLP410 => 
-            Self::WLP4605 => 
-            Self::WLP4615 => 
-            Self::WLP4620 => 
-            Self::WLP4626 => 
-            Self::WLP4633 => 
-            Self::WLP4636 => 
-            Self::WLP4637 => 
-            Self::WLP4638 => 
-            Self::WLP4639 => 
-            Self::WLP4640 => 
-            Self::WLP4641 => 
-            Self::WLP4642 => 
-            Self::WLP4643 => 
-            Self::WLP4645 => 
-            Self::WLP4650 => 
-            Self::WLP4651 => 
-            Self::WLP4653 => 
-            Self::WLP4655 => 
-            Self::WLP4656 => 
-            Self::WLP4665 => 
-            Self::WLP4675 => 
-            Self::WLP4681 => 
-            Self::WLP4682 => 
-            Self::WLP4684 => 
-            Self::WLP500 => 
-            Self::WLP510 => 
-            Self::WLP515 => 
-            Self::WLP518 => 
-            Self::WLP519 => 
-            Self::WLP520 => 
-            Self::WLP521 => 
-            Self::WLP530 => 
-            Self::WLP540 => 
-            Self::WLP545 => 
-            Self::WLP546 => 
-            Self::WLP548 => 
-            Self::WLP550 => 
-            Self::WLP561 => 
-            Self::WLP564 => 
-            Self::WLP565 => 
-            Self::WLP566 => 
-            Self::WLP568 => 
-            Self::WLP570 => 
-            Self::WLP575 => 
-            Self::WLP585 => 
-            Self::WLP590 => 
-            Self::WLP600 => 
-            Self::WLP603 => 
-            Self::WLP611 => 
-            Self::WLP616 => 
-            Self::WLP618 => 
-            Self::WLP630 => 
-            Self::WLP631 => 
-            Self::WLP6420 => 
-            Self::WLP644 => 
-            Self::WLP645 => 
-            Self::WLP648 => 
-            Self::WLP650 => 
-            Self::WLP653 => 
-            Self::WLP655 => 
-            Self::WLP661 => 
-            Self::WLP665 => 
-            Self::WLP669 => 
-            Self::WLP670 => 
-            Self::WLP672 => 
-            Self::WLP673 => 
-            Self::WLP675 => 
-            Self::WLP677 => 
-            Self::WLP678 => 
-            Self::WLP685 => 
-            Self::WLP686 => 
-            Self::WLP690 => 
-            Self::WLP692 => 
-            Self::WLP693 => 
-            Self::WLP700 => 
-            Self::WLP705 => 
-            Self::WLP707 => 
-            Self::WLP709 => 
-            Self::WLP715 => 
-            Self::WLP718 => 
-            Self::WLP720 => 
-            Self::WLP727 => 
-            Self::WLP730 => 
-            Self::WLP735 => 
-            Self::WLP740 => 
-            Self::WLP749 => 
-            Self::WLP750 => 
-            Self::WLP760 => 
-            Self::WLP770 => 
-            Self::WLP773 => 
-            Self::WLP775 => 
-            Self::WLP780 => 
-            Self::WLP800 => 
-            Self::WLP802 => 
-            Self::WLP808 => 
-            Self::WLP810 => 
-            Self::WLP815 => 
+            Self::WLP4045 => (10, 15),
+            Self::WLP4046 => (10, 15),
+            Self::WLP4047 => (10, 15),
+            Self::WLP4050 => (10, 15),
+            Self::WLP4051 => (10, 15),
+            Self::WLP4052 => (10, 15),
+            Self::WLP4053 => (10, 15),
+            Self::WLP4060 => (10, 15),
+            Self::WLP4061 => (5, 10),
+            Self::WLP4062 => (10, 15),
+            Self::WLP410 => (8, 12),
+            /*
+            Self::WLP4605 =>
+            Self::WLP4615 =>
+            Self::WLP4620 =>
+            Self::WLP4626 =>
+            Self::WLP4633 =>
+            Self::WLP4636 =>
+            Self::WLP4637 =>
+            Self::WLP4638 =>
+            Self::WLP4639 =>
+            Self::WLP4640 =>
+            Self::WLP4641 =>
+            Self::WLP4642 =>
+            Self::WLP4643 =>
+            Self::WLP4645 =>
+            Self::WLP4650 =>
+            Self::WLP4651 =>
+            Self::WLP4653 =>
+            Self::WLP4655 =>
+            Self::WLP4656 =>
+            Self::WLP4665 =>
+            Self::WLP4675 =>
+            Self::WLP4681 =>
+            Self::WLP4682 =>
+            Self::WLP4684 =>
+            */
+            Self::WLP500 => (10, 15),
+            Self::WLP510 => (10, 15),
+            Self::WLP515 => (5, 10),
+            Self::WLP518 => (15, 18),
+            Self::WLP519 => (8, 12),
+            Self::WLP520 => (8, 12),
+            Self::WLP521 => (8, 12),
+            Self::WLP530 => (8, 12),
+            Self::WLP540 => (5, 10),
+            Self::WLP545 => (15, 18),
+            Self::WLP546 => (5, 10),
+            Self::WLP548 => (10, 15),
+            Self::WLP550 => (10, 15),
+            Self::WLP561 => (10, 15),
+            Self::WLP564 => (10, 15),
+            Self::WLP565 => (15, 18),
+            Self::WLP566 => (15, 18),
+            Self::WLP568 => (5, 10),
+            Self::WLP570 => (15, 18),
+            Self::WLP575 => (8, 12),
+            Self::WLP585 => (5, 10),
+            Self::WLP590 => (15, 18),
+            //Self::WLP600 =>
+            //Self::WLP603 =>
+            Self::WLP611 => (5, 10),
+            //Self::WLP616 =>
+            //Self::WLP618 =>
+            Self::WLP630 => (5, 10),
+            /*
+            Self::WLP631 =>
+            Self::WLP6420 =>
+            Self::WLP644 =>
+            Self::WLP645 =>
+            Self::WLP648 =>
+            Self::WLP650 =>
+            Self::WLP653 =>
+            Self::WLP655 =>
+            Self::WLP661 =>
+            Self::WLP665 =>
+            Self::WLP669 =>
+            Self::WLP670 =>
+            Self::WLP672 =>
+            Self::WLP673 =>
+            Self::WLP675 =>
+            Self::WLP677 =>
+            Self::WLP678 =>
+            Self::WLP685 =>
+            Self::WLP686 =>
+            Self::WLP690 =>
+            Self::WLP692 =>
+            Self::WLP693 =>
+            */
+            Self::WLP700 => (15, 18),
+            Self::WLP705 => (15, 18),
+            Self::WLP707 => (15, 18),
+            Self::WLP709 => (15, 18),
+            Self::WLP715 => (15, 18),
+            Self::WLP718 => (10, 15),
+            Self::WLP720 => (10, 15),
+            Self::WLP727 => (10, 15),
+            Self::WLP730 => (10, 15),
+            Self::WLP735 => (10, 15),
+            Self::WLP740 => (10, 15),
+            Self::WLP749 => (10, 15),
+            Self::WLP750 => (15, 18),
+            Self::WLP760 => (15, 18),
+            Self::WLP770 => (15, 18),
+            Self::WLP773 => (5, 10),
+            //Self::WLP775 => (15, 18),
+            //Self::WLP780 =>
+            Self::WLP800 => (15, 18),
+            Self::WLP802 => (5, 10),
+            Self::WLP808 => (5, 10),
+            Self::WLP810 => (5, 10),
+            Self::WLP815 => (5, 10),
             Self::WLP820 => (5, 10),
             Self::WLP830 => (5, 10),
             Self::WLP833 => (5, 10),
             Self::WLP835 => (8, 12),
             Self::WLP838 => (5, 10),
-            Self::WLP840 => 
-            Self::WLP845 => 
-            Self::WLP850 => 
-            Self::WLP860 => 
-            Self::WLP885 => 
-            Self::WLP920 => 
-            Self::WLP925 => 
-            Self::WLP940 => 
-            _ => todo!(),
+            Self::WLP840 => (5, 10),
+            Self::WLP845 => (5, 10),
+            Self::WLP850 => (5, 10),
+            Self::WLP860 => (5, 10),
+            Self::WLP885 => (15, 18),
+            Self::WLP920 => (5, 10),
+            Self::WLP925 => (5, 10),
+            Self::WLP940 => (5, 10),
         };
 
         (min as f32 / 100.0)..(max as f32 / 100.0)
@@ -1697,23 +1720,23 @@ impl Yeast {
             Self::WLP005 => Flocculation::High,
             Self::WLP006 => Flocculation::High,
             Self::WLP007 => Flocculation::MediumHigh,
-            Self::WLP008 => Flocculation::MediumLow,
+            Self::WLP008 => Flocculation::LowMedium,
             Self::WLP009 => Flocculation::High,
             Self::WLP011 => Flocculation::Medium,
             Self::WLP013 => Flocculation::Medium,
             Self::WLP017 => Flocculation::High,
-            Self::WLP019 => todo!(),
+            //Self::WLP019 => todo!(),
             Self::WLP022 => Flocculation::MediumHigh,
             Self::WLP023 => Flocculation::Medium,
             Self::WLP025 => Flocculation::Medium,
             Self::WLP026 => Flocculation::Medium,
             Self::WLP028 => Flocculation::Medium,
             Self::WLP029 => Flocculation::Medium,
-            Self::WLP030 => Flocculation::High,
+            //Self::WLP030 => Flocculation::High,
             Self::WLP033 => Flocculation::Medium,
             Self::WLP036 => Flocculation::Medium,
             Self::WLP037 => Flocculation::High,
-            Self::WLP038 => todo!(),
+            //Self::WLP038 => todo!(),
             Self::WLP039 => Flocculation::MediumHigh,
             Self::WLP041 => Flocculation::High,
             Self::WLP045 => Flocculation::Medium,
@@ -1723,11 +1746,11 @@ impl Yeast {
             Self::WLP060 => Flocculation::Medium,
             Self::WLP064 => Flocculation::Medium,
             Self::WLP065 => Flocculation::Medium,
-            Self::WLP066 => Flocculation::MediumLow,
-            Self::WLP067 => Flocculation::MediumLow,
+            Self::WLP066 => Flocculation::LowMedium,
+            Self::WLP067 => Flocculation::LowMedium,
             Self::WLP070 => Flocculation::Medium,
             Self::WLP072 => Flocculation::MediumHigh,
-            Self::WLP073 => Flocculation::MediumLow,
+            Self::WLP073 => Flocculation::LowMedium,
             Self::WLP075 => Flocculation::MediumHigh,
             Self::WLP076 => Flocculation::Medium,
             Self::WLP077 => Flocculation::Low,
@@ -1745,143 +1768,147 @@ impl Yeast {
             Self::WLP320 => Flocculation::Low,
             Self::WLP351 => Flocculation::Low,
             Self::WLP380 => Flocculation::Low,
-            Self::WLP400 => Flocculation::MediumLow,
-            Self::WLP4000 => Flocculation::MediumLow,
+            Self::WLP400 => Flocculation::LowMedium,
+            Self::WLP4000 => Flocculation::LowMedium,
             Self::WLP4001 => Flocculation::Medium,
-            Self::WLP4007 => Flocculation::MediumLow,
-            Self::WLP4015 => Flocculation::MediumLow,
+            Self::WLP4007 => Flocculation::LowMedium,
+            Self::WLP4015 => Flocculation::LowMedium,
             Self::WLP4020 => Flocculation::Medium,
             Self::WLP4021 => Flocculation::Medium,
-            Self::WLP4022 => Flocculation::MediumLow,
-            Self::WLP4023 => Flocculation::MediumLow,
+            Self::WLP4022 => Flocculation::LowMedium,
+            Self::WLP4023 => Flocculation::LowMedium,
             Self::WLP4025 => Flocculation::MediumHigh,
-            Self::WLP4027 => Flocculation::MediumLow,
-            Self::WLP4030 => Flocculation::MediumLow,
-            Self::WLP4035 => Flocculation::MediumLow,
+            Self::WLP4027 => Flocculation::LowMedium,
+            Self::WLP4030 => Flocculation::LowMedium,
+            Self::WLP4035 => Flocculation::LowMedium,
             Self::WLP4040 => Flocculation::Medium,
-            Self::WLP4042 => Flocculation::MediumLow,
-            Self::WLP4044 => Flocculation::MediumLow,
-            Self::WLP4045 => Flocculation:: 
-            Self::WLP4046 => Flocculation:: 
-            Self::WLP4047 => Flocculation:: 
-            Self::WLP4050 => Flocculation:: 
-            Self::WLP4051 => Flocculation:: 
-            Self::WLP4052 => Flocculation:: 
-            Self::WLP4053 => Flocculation:: 
-            Self::WLP4060 => Flocculation:: 
-            Self::WLP4061 => Flocculation:: 
-            Self::WLP4062 => Flocculation:: 
-            Self::WLP410 => Flocculation:: 
-            Self::WLP4605 => Flocculation:: 
-            Self::WLP4615 => Flocculation:: 
-            Self::WLP4620 => Flocculation:: 
-            Self::WLP4626 => Flocculation:: 
-            Self::WLP4633 => Flocculation:: 
-            Self::WLP4636 => Flocculation:: 
-            Self::WLP4637 => Flocculation:: 
-            Self::WLP4638 => Flocculation:: 
-            Self::WLP4639 => Flocculation:: 
-            Self::WLP4640 => Flocculation:: 
-            Self::WLP4641 => Flocculation:: 
-            Self::WLP4642 => Flocculation:: 
-            Self::WLP4643 => Flocculation:: 
-            Self::WLP4645 => Flocculation:: 
-            Self::WLP4650 => Flocculation:: 
-            Self::WLP4651 => Flocculation:: 
-            Self::WLP4653 => Flocculation:: 
-            Self::WLP4655 => Flocculation:: 
-            Self::WLP4656 => Flocculation:: 
-            Self::WLP4665 => Flocculation:: 
-            Self::WLP4675 => Flocculation:: 
-            Self::WLP4681 => Flocculation:: 
-            Self::WLP4682 => Flocculation:: 
-            Self::WLP4684 => Flocculation:: 
-            Self::WLP500 => Flocculation:: 
-            Self::WLP510 => Flocculation:: 
-            Self::WLP515 => Flocculation:: 
-            Self::WLP518 => Flocculation:: 
-            Self::WLP519 => Flocculation:: 
-            Self::WLP520 => Flocculation:: 
-            Self::WLP521 => Flocculation:: 
-            Self::WLP530 => Flocculation:: 
-            Self::WLP540 => Flocculation:: 
-            Self::WLP545 => Flocculation:: 
-            Self::WLP546 => Flocculation:: 
-            Self::WLP548 => Flocculation:: 
-            Self::WLP550 => Flocculation:: 
-            Self::WLP561 => Flocculation:: 
-            Self::WLP564 => Flocculation:: 
-            Self::WLP565 => Flocculation:: 
-            Self::WLP566 => Flocculation:: 
-            Self::WLP568 => Flocculation:: 
-            Self::WLP570 => Flocculation:: 
-            Self::WLP575 => Flocculation:: 
-            Self::WLP585 => Flocculation:: 
-            Self::WLP590 => Flocculation:: 
-            Self::WLP600 => Flocculation:: 
-            Self::WLP603 => Flocculation:: 
-            Self::WLP611 => Flocculation:: 
-            Self::WLP616 => Flocculation:: 
-            Self::WLP618 => Flocculation:: 
-            Self::WLP630 => Flocculation:: 
-            Self::WLP631 => Flocculation:: 
-            Self::WLP6420 => Flocculation:: 
-            Self::WLP644 => Flocculation:: 
-            Self::WLP645 => Flocculation:: 
-            Self::WLP648 => Flocculation:: 
-            Self::WLP650 => Flocculation:: 
-            Self::WLP653 => Flocculation:: 
-            Self::WLP655 => Flocculation:: 
-            Self::WLP661 => Flocculation:: 
-            Self::WLP665 => Flocculation:: 
-            Self::WLP669 => Flocculation:: 
-            Self::WLP670 => Flocculation:: 
-            Self::WLP672 => Flocculation:: 
-            Self::WLP673 => Flocculation:: 
-            Self::WLP675 => Flocculation:: 
-            Self::WLP677 => Flocculation:: 
-            Self::WLP678 => Flocculation:: 
-            Self::WLP685 => Flocculation:: 
-            Self::WLP686 => Flocculation:: 
-            Self::WLP690 => Flocculation:: 
-            Self::WLP692 => Flocculation:: 
-            Self::WLP693 => Flocculation:: 
-            Self::WLP700 => Flocculation:: 
-            Self::WLP705 => Flocculation:: 
-            Self::WLP707 => Flocculation:: 
-            Self::WLP709 => Flocculation:: 
-            Self::WLP715 => Flocculation:: 
-            Self::WLP718 => Flocculation:: 
-            Self::WLP720 => Flocculation:: 
-            Self::WLP727 => Flocculation:: 
-            Self::WLP730 => Flocculation:: 
-            Self::WLP735 => Flocculation:: 
-            Self::WLP740 => Flocculation:: 
-            Self::WLP749 => Flocculation:: 
-            Self::WLP750 => Flocculation:: 
-            Self::WLP760 => Flocculation:: 
-            Self::WLP770 => Flocculation:: 
-            Self::WLP773 => Flocculation:: 
-            Self::WLP775 => Flocculation:: 
-            Self::WLP780 => Flocculation:: 
-            Self::WLP800 => Flocculation:: 
-            Self::WLP802 => Flocculation:: 
-            Self::WLP808 => Flocculation:: 
-            Self::WLP810 => Flocculation:: 
-            Self::WLP815 => Flocculation:: 
+            Self::WLP4042 => Flocculation::LowMedium,
+            Self::WLP4044 => Flocculation::LowMedium,
+            Self::WLP4045 => Flocculation::High,
+            Self::WLP4046 => Flocculation::High,
+            Self::WLP4047 => Flocculation::Low,
+            Self::WLP4050 => Flocculation::LowMedium,
+            Self::WLP4051 => Flocculation::Medium,
+            Self::WLP4052 => Flocculation::Low,
+            Self::WLP4053 => Flocculation::Low,
+            Self::WLP4060 => Flocculation::Low,
+            Self::WLP4061 => Flocculation::LowMedium,
+            Self::WLP4062 => Flocculation::LowMedium,
+            Self::WLP410 => Flocculation::LowMedium,
+            /*
+            Self::WLP4605 => Flocculation::
+            Self::WLP4615 => Flocculation::
+            Self::WLP4620 => Flocculation::
+            Self::WLP4626 => Flocculation::
+            Self::WLP4633 => Flocculation::
+            Self::WLP4636 => Flocculation::
+            Self::WLP4637 => Flocculation::
+            Self::WLP4638 => Flocculation::
+            Self::WLP4639 => Flocculation::
+            Self::WLP4640 => Flocculation::
+            Self::WLP4641 => Flocculation::
+            Self::WLP4642 => Flocculation::
+            Self::WLP4643 => Flocculation::
+            Self::WLP4645 => Flocculation::
+            Self::WLP4650 => Flocculation::
+            Self::WLP4651 => Flocculation::
+            Self::WLP4653 => Flocculation::
+            Self::WLP4655 => Flocculation::
+            Self::WLP4656 => Flocculation::
+            Self::WLP4665 => Flocculation::
+            Self::WLP4675 => Flocculation::
+            Self::WLP4681 => Flocculation::
+            Self::WLP4682 => Flocculation::
+            Self::WLP4684 => Flocculation::
+            */
+            Self::WLP500 => Flocculation::LowMedium,
+            Self::WLP510 => Flocculation::Medium,
+            Self::WLP515 => Flocculation::Medium,
+            Self::WLP518 => Flocculation::MediumHigh,
+            Self::WLP519 => Flocculation::MediumHigh,
+            Self::WLP520 => Flocculation::MediumHigh,
+            Self::WLP521 => Flocculation::High,
+            Self::WLP530 => Flocculation::MediumHigh,
+            Self::WLP540 => Flocculation::Medium,
+            Self::WLP545 => Flocculation::Medium,
+            Self::WLP546 => Flocculation::Low,
+            Self::WLP548 => Flocculation::Medium,
+            Self::WLP550 => Flocculation::Medium,
+            Self::WLP561 => Flocculation::Low,
+            Self::WLP564 => Flocculation::Low,
+            Self::WLP565 => Flocculation::Medium,
+            Self::WLP566 => Flocculation::Medium,
+            Self::WLP568 => Flocculation::Medium,
+            Self::WLP570 => Flocculation::Low,
+            Self::WLP575 => Flocculation::Medium,
+            Self::WLP585 => Flocculation::MediumHigh,
+            Self::WLP590 => Flocculation::Medium,
+            //Self::WLP600 => Flocculation::
+            //Self::WLP603 => Flocculation::
+            Self::WLP611 => Flocculation::LowMedium,
+            //Self::WLP616 => Flocculation::
+            //Self::WLP618 => Flocculation::
+            Self::WLP630 => Flocculation::Medium,
+            /*
+            Self::WLP631 => Flocculation::
+            Self::WLP6420 => Flocculation::
+            Self::WLP644 => Flocculation::
+            Self::WLP645 => Flocculation::
+            Self::WLP648 => Flocculation::
+            Self::WLP650 => Flocculation::
+            Self::WLP653 => Flocculation::
+            Self::WLP655 => Flocculation::
+            Self::WLP661 => Flocculation::
+            Self::WLP665 => Flocculation::
+            Self::WLP669 => Flocculation::
+            Self::WLP670 => Flocculation::
+            Self::WLP672 => Flocculation::
+            Self::WLP673 => Flocculation::
+            Self::WLP675 => Flocculation::
+            Self::WLP677 => Flocculation::
+            Self::WLP678 => Flocculation::
+            Self::WLP685 => Flocculation::
+            Self::WLP686 => Flocculation::
+            Self::WLP690 => Flocculation::
+            Self::WLP692 => Flocculation::
+            Self::WLP693 => Flocculation::
+            */
+            Self::WLP700 => Flocculation::Low,
+            Self::WLP705 => Flocculation::Low,
+            Self::WLP707 => Flocculation::Low,
+            Self::WLP709 => Flocculation::LowMedium,
+            Self::WLP715 => Flocculation::Low,
+            Self::WLP718 => Flocculation::Low,
+            Self::WLP720 => Flocculation::Low,
+            Self::WLP727 => Flocculation::Low,
+            Self::WLP730 => Flocculation::Low,
+            Self::WLP735 => Flocculation::Low,
+            Self::WLP740 => Flocculation::Low,
+            Self::WLP749 => Flocculation::Low,
+            Self::WLP750 => Flocculation::Low,
+            Self::WLP760 => Flocculation::Low,
+            Self::WLP770 => Flocculation::Low,
+            Self::WLP773 => Flocculation::MediumHigh,
+            //Self::WLP775 => Flocculation::Medium,
+            //Self::WLP780 => Flocculation::
+            Self::WLP800 => Flocculation::MediumHigh,
+            Self::WLP802 => Flocculation::Medium,
+            Self::WLP808 => Flocculation::Medium,
+            Self::WLP810 => Flocculation::High,
+            Self::WLP815 => Flocculation::Medium,
             Self::WLP820 => Flocculation::Medium,
             Self::WLP830 => Flocculation::Medium,
             Self::WLP833 => Flocculation::Medium,
             Self::WLP835 => Flocculation::Medium,
             Self::WLP838 => Flocculation::MediumHigh,
-            Self::WLP840 => Flocculation:: 
-            Self::WLP845 => Flocculation:: 
-            Self::WLP850 => Flocculation:: 
-            Self::WLP860 => Flocculation:: 
-            Self::WLP885 => Flocculation:: 
-            Self::WLP920 => Flocculation:: 
-            Self::WLP925 => Flocculation:: 
-            Self::WLP940 => Flocculation:: 
+            Self::WLP840 => Flocculation::Medium,
+            Self::WLP845 => Flocculation::Medium,
+            Self::WLP850 => Flocculation::Medium,
+            Self::WLP860 => Flocculation::Medium,
+            Self::WLP885 => Flocculation::Medium,
+            Self::WLP920 => Flocculation::Medium,
+            Self::WLP925 => Flocculation::Medium,
+            Self::WLP940 => Flocculation::Medium,
         }
     }
 
@@ -1920,7 +1947,7 @@ impl Yeast {
             Self::WLP835 => false,
             Self::WLP838 => false,
              */
-            _ => todo!(),
+            _ => false,
         }
     }
 
@@ -1934,6 +1961,27 @@ impl Yeast {
             Self::SafLagerS23 => true,
             Self::SafLagerSH45 => true,
             Self::SafLagerW3470 => true,
+            Self::WLP4030 => true,
+            Self::WLP4035 => true,
+            Self::WLP800 => true,
+            Self::WLP802 => true,
+            Self::WLP808 => true,
+            Self::WLP810 => true,
+            Self::WLP815 => true,
+            Self::WLP820 => true,
+            Self::WLP830 => true,
+            Self::WLP833 => true,
+            Self::WLP835 => true,
+            Self::WLP838 => true,
+            Self::WLP840 => true,
+            Self::WLP845 => true,
+            Self::WLP850 => true,
+            Self::WLP860 => true,
+            Self::WLP885 => true,
+            Self::WLP920 => true,
+            Self::WLP925 => true,
+            Self::WLP940 => true,
+
             _ => false,
         }
     }
@@ -1993,27 +2041,84 @@ impl Yeast {
             Self::WLP009 => Some(Strain::Coopers),
             Self::WLP011 => Some(Strain::Weisenschaftliche),
             Self::WLP013 => Some(Strain::Worthington),
+            Self::WLP017 => None, // blend
             Self::WLP026 => Some(Strain::Marstons),
             Self::WLP028 => Some(Strain::McEwan),
-            Self::WLP030 => Some(Strain::Mackeson),
+            //Self::WLP030 => Some(Strain::Mackeson),
             Self::WLP036 => Some(Strain::ZumUerigeAlt),
             Self::WLP037 => Some(Strain::YorkshireSquare),
-            Self::WLP038 => Some(Strain::Manchester),
+            //Self::WLP038 => Some(Strain::Manchester),
             Self::WLP039 => Some(Strain::Nottingham),
             Self::WLP041 => Some(Strain::Redhook),
             Self::WLP051 => Some(Strain::Ballantine),
+            Self::WLP060 => None, // blend
+            Self::WLP064 => None, // blend
+            Self::WLP067 => None, // blend
+            Self::WLP075 => None, // blend
             Self::WLP076 => Some(Strain::NewAlbion),
+            Self::WLP077 => None, // blend
+            Self::WLP080 => None, // blend
+            Self::WLP085 => None, // blend
+            Self::WLP091 => None, // blend
+            Self::WLP096 => None, // blend
+            Self::WLP101 => None, // blend
             Self::WLP300 => Some(Strain::WeihenstephananWeizen),
             Self::WLP400 => Some(Strain::Hoegaarden),
+            Self::WLP4007 => None, // blend
+            Self::WLP4021 => None, // blend
+            Self::WLP4027 => None, // blend
+            Self::WLP4042 => None, // blend
+            Self::WLP4044 => None, // blend
             Self::WLP510 => Some(Strain::Orval),
+            Self::WLP520 => Some(Strain::VossKveik),
             Self::WLP530 => Some(Strain::Westmalle),
-            Self::WLP570 => Some(Strain::Duvel),
+            Self::WLP548 => None, // blend
+            Self::WLP561 => None, // blend
+            Self::WLP564 => None, // blend
+            Self::WLP568 => None, // blend
+            Self::WLP570 => Some(Strain::Duvel), // WLP page says East Flanders, check
+            Self::WLP575 => None, // blend
+            Self::WLP611 => None, // blend
+            Self::WLP630 => None, // blend
+            Self::WLP773 => None, // blend
             Self::WLP800 => Some(Strain::Urquell),
+            Self::WLP808 => None, // blend
             Self::WLP810 => Some(Strain::AnchorSteam),
+            Self::WLP860 => Some(Strain::Augustiner),
             // Self::WY1316 => Some(Strain::Boddingtons),
             // Self::WY1275 => Some(Strain::HenleyOfThames),
             // Self::WY1469 => Some(Strain::TimothyTaylor),
             // Self::LalBrewBRY97 => Some(Strain::Ballantine),
+            _ => None,
+        }
+    }
+
+    /// STA1 positive
+    #[must_use]
+    #[allow(clippy::match_same_arms)]
+    pub fn sta1(&self) -> Option<bool> {
+        match *self {
+            Self::WLP045 => Some(true),
+            Self::WLP096 => Some(true),
+            Self::WLP099 => Some(true),
+            Self::WLP4001 => Some(true),
+            Self::WLP4020 => Some(true),
+            Self::WLP4021 => Some(true),
+            Self::WLP4023 => Some(true),
+            Self::WLP4025 => Some(true),
+            Self::WLP4027 => Some(true),
+            Self::WLP4044 => Some(true),
+            Self::WLP4047 => Some(true),
+            Self::WLP4060 => Some(true),
+            Self::WLP545 => Some(true),
+            Self::WLP564 => Some(true),
+            Self::WLP565 => Some(true),
+            Self::WLP566 => Some(true),
+            Self::WLP568 => Some(true),
+            Self::WLP570 => Some(true),
+            Self::WLP585 => Some(true),
+            Self::WLP590 => Some(true),
+            Self::WLP630 => Some(true),
             _ => None,
         }
     }
@@ -2114,18 +2219,18 @@ impl Yeast {
             Self::WLP011 => Some((Gallone::Be053, 0.6)), // yellow guess
             Self::WLP013 => Some((Gallone::Be054, 0.6)), // yellow guess
             Self::WLP017 => Some((Gallone::Be055, 0.6)), // yellow guess
-            Self::WLP019 => Some((Gallone::Be065, 0.2)), // orange guess
+            //Self::WLP019 => Some((Gallone::Be065, 0.2)), // orange guess
             Self::WLP022 => Some((Gallone::Be056, 0.6)), // yellow guess
             Self::WLP023 => Some((Gallone::Be057, 1.0)), // genome sequencing match
             Self::WLP025 => Some((Gallone::Be058, 0.6)), // yellow guess
             Self::WLP026 => Some((Gallone::Be059, 0.6)), // yellow guess
             Self::WLP028 => Some((Gallone::Be060, 1.0)), // genome sequencing match
             Self::WLP029 => Some((Gallone::Be008, 0.2)), // orange guess
-            Self::WLP030 => Some((Gallone::Be067, 0.2)), // orange guess
+            //Self::WLP030 => Some((Gallone::Be067, 0.2)), // orange guess
             Self::WLP033 => None,
             Self::WLP036 => Some((Gallone::Be061, 0.6)), // yellow guess
             Self::WLP037 => Some((Gallone::Be062, 0.6)), // yellow guess
-            Self::WLP038 => Some((Gallone::Be063, 0.6)), // yellow guess
+            //Self::WLP038 => Some((Gallone::Be063, 0.6)), // yellow guess
             Self::WLP039 => Some((Gallone::Be064, 0.6)), // yellow guess
             Self::WLP041 => Some((Gallone::Be066, 0.6)), // yellow guess
             Self::WLP045 => Some((Gallone::Sp008, 0.6)), // yellow guess
@@ -2184,6 +2289,7 @@ impl Yeast {
             Self::WLP4061 => None,
             Self::WLP4062 => None,
             Self::WLP410 => Some((Gallone::Be076, 0.6)), // yellow guess
+            /*
             Self::WLP4605 => None,
             Self::WLP4615 => None,
             Self::WLP4620 => None,
@@ -2208,6 +2314,7 @@ impl Yeast {
             Self::WLP4681 => None,
             Self::WLP4682 => None,
             Self::WLP4684 => None,
+            */
             Self::WLP500 => None,
             Self::WLP510 => Some((Gallone::Be077, 0.6)),
             Self::WLP515 => Some((Gallone::Be082, 0.2)), // orange guess
@@ -2230,12 +2337,13 @@ impl Yeast {
             Self::WLP575 => None,
             Self::WLP585 => Some((Gallone::Be086, 0.6)), // yellow guess
             Self::WLP590 => Some((Gallone::Be092, 0.2)), // orange guess
-            Self::WLP600 => None,
-            Self::WLP603 => None,
+            //Self::WLP600 => None,
+            //Self::WLP603 => None,
             Self::WLP611 => Some((Gallone::Wl005, 0.33)), // orange guess; WL 5 6 or 7
-            Self::WLP616 => None,
-            Self::WLP618 => None,
+            //Self::WLP616 => None,
+            //Self::WLP618 => None,
             Self::WLP630 => None,
+            /*
             Self::WLP631 => None,
             Self::WLP6420 => None,
             Self::WLP644 => None,
@@ -2258,6 +2366,7 @@ impl Yeast {
             Self::WLP690 => None,
             Self::WLP692 => None,
             Self::WLP693 => None,
+            */
             Self::WLP700 => None,
             Self::WLP705 => Some((Gallone::Sa002, 0.8)), // genome sequencing match, but 2 close hits
             Self::WLP707 => None,
@@ -2274,8 +2383,8 @@ impl Yeast {
             Self::WLP760 => None,
             Self::WLP770 => None,
             Self::WLP773 => None,
-            Self::WLP775 => None,
-            Self::WLP780 => None,
+            //Self::WLP775 => None,
+            //Self::WLP780 => None,
             Self::WLP800 => Some((Gallone::Be087, 1.0)), // genetic sequencing match
             Self::WLP802 => None,
             Self::WLP808 => None,
