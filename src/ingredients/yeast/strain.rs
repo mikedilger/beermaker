@@ -1,15 +1,5 @@
-
-/// Yeast Family
-#[derive(Debug, Clone, Copy, Serialize, Deserialize, EnumIter, PartialEq, Eq, PartialOrd, Ord)]
-pub enum Family {
-    /// Saccharomyces cerevisiae
-    /// Warm-fermenting, top-fermenting, fruity-estery flavors
-    Ale,
-
-    /// Saccharomyces pastorianus
-    /// Cold-fermenting, bottom-fermenting, clean and crisp
-    Lager,
-}
+use serde::{Deserialize, Serialize};
+use strum::EnumIter;
 
 /// Yeast strain
 ///
@@ -126,6 +116,7 @@ pub enum Strain {
     // WLP008
     SamAdams,
 
+    /// Timothy Taylor
     // WY1469
     TimothyTaylor,
 

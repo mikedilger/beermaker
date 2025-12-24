@@ -47,7 +47,6 @@ pub enum Yeast {
     SafAleS33,
     SafAleT58,
     SafAleUS05,
-    SafAleWB06,
     SafAleW68,
     SafAleWB06,
     SafLagerE30,
@@ -105,7 +104,9 @@ pub enum Yeast {
     /*
     LalBrewVerdantIPA,
     LalBrewVoss,    // KveikVoss
-    LalBrewWindsor
+    */
+    LalBrewWindsor,
+    /*
     LalBrewWit
     LallemandPriseDeMousseWine,
     LallemandSourvisiae
@@ -365,7 +366,7 @@ impl Yeast {
 
     /// Provider
     #[must_use]
-    pub fn provider(&self) -> Provider {
+    pub fn provider(&self) -> YeastProvider {
         match *self {
             Self::SafAleBE134 |
             Self::SafAleBE256 |
@@ -381,7 +382,7 @@ impl Yeast {
             Self::SafLagerS189 |
             Self::SafLagerS23 |
             Self::SafLagerSH45 |
-            Self::SafLagerW3470 => Provider::Fermentis,
+            Self::SafLagerW3470 => YeastProvider::Fermentis,
 
             /*
             Self::ImperialBarbarian |
@@ -412,7 +413,7 @@ impl Yeast {
             Self::ImperialTartan |
             Self::ImperialTripleDouble |
             Self::ImperialUrkel |
-            Self::ImperialWhiteout => Provider::ImperialYeast,
+            Self::ImperialWhiteout => YeastProvider::ImperialYeast,
              */
 
             /*
@@ -433,16 +434,16 @@ impl Yeast {
             Self::LalBrewVerdantIPA |
             Self::LalBrewVoss |
             */
-            Self::LalBrewWindsor => Provider::Lallemand,
+            Self::LalBrewWindsor => YeastProvider::Lallemand,
             /*
             Self::LalBrewWit |
             Self::LallemandPriseDeMousseWine |
             Self::LallemandSourvisiae |
-            Self::LallemandWildBrewPhillySour => Provider::Lallemand,
+            Self::LallemandWildBrewPhillySour => YeastProvider::Lallemand,
              */
 
             Self::OYL061 |
-            Self::OYL071 => Provider::OmegaYeastLabs,
+            Self::OYL071 => YeastProvider::OmegaYeastLabs,
 
             Self::WLP001 |
             Self::WLP002 |
@@ -635,7 +636,7 @@ impl Yeast {
             Self::WLP885 |
             Self::WLP920 |
             Self::WLP925 |
-            Self::WLP940 => Provider::WhiteLabs,
+            Self::WLP940 => YeastProvider::WhiteLabs,
         }
     }
 
@@ -938,11 +939,11 @@ impl Yeast {
             Self::SafLagerS23 => (12.0, 18.0),
             Self::SafLagerSH45 => (12.0, 18.0),
             Self::SafLagerW3470 => (12.0, 18.0),
-            Self::OYL061 => Celsius(25.0)..Celsius(40.0),
-            Self::OYL071 => Celsius(12.0)..Celsius(35.0),
-            Self::LalBrewMunichClassic => Celsius(17.0)..Celsius(25.0),
-            Self::LalBrewNottingham => Celsius(10.0)..Celsius(25.0),
-            Self::LalBrewWindsor => Celsius(15.0)..Celsius(25.0),
+            Self::OYL061 => (25.0, 40.0),
+            Self::OYL071 => (12.0, 35.0),
+            Self::LalBrewMunichClassic => (17.0, 25.0),
+            Self::LalBrewNottingham => (10.0, 25.0),
+            Self::LalBrewWindsor => (15.0, 25.0),
             /*
 
             Self::WLP300 => Celsius(20.0)..Celsius(22.0),
@@ -955,9 +956,9 @@ impl Yeast {
             Self::WLP838 => Celsius(10.0)..Celsius(13.0),
              */
             _ => todo!(),
-        }
+        };
 
-        (Celsius(min)..Celsius(max))
+        Celsius(min)..Celsius(max)
     }
 
     /// The recommended fermentation temperature
@@ -1036,9 +1037,9 @@ impl Yeast {
             Self::SafLagerW3470 => (9, 11),
             Self::OYL061 => (12, 12),
             Self::OYL071 => (15, 15),
-            Self::LalBrewMunichClassic => 0.12..0.12,
-            Self::LalBrewNottingham => 0.14..0.14,
-            Self::LalBrewWindsor => 0.12..0.12,
+            Self::LalBrewMunichClassic => (12, 12),
+            Self::LalBrewNottingham => (14, 14),
+            Self::LalBrewWindsor => (12, 12),
             /*
             Self::WLP300 => 0.08..0.12,
             Self::WLP351 => 0.15..0.15,
@@ -1050,7 +1051,7 @@ impl Yeast {
             Self::WLP838 => 0.05..0.10,
              */
             _ => todo!(),
-        }
+        };
 
         (min as f32 / 100.0)..(max as f32 / 100.0)
     }
@@ -1080,7 +1081,7 @@ impl Yeast {
             Self::SafAleWB06 => Flocculation::Low,
             Self::SafLagerE30 => Flocculation::Medium,
             Self::SafLagerS189 => Flocculation::High, // sed fast
-            Self::SafLagerS23 => Flocculation::Migh, // sed fast
+            Self::SafLagerS23 => Flocculation::High, // sed fast
             Self::SafLagerSH45 => Flocculation::Medium,
             Self::SafLagerW3470 => Flocculation::High,
             Self::OYL061 => Flocculation::VeryHigh,
@@ -1160,9 +1161,9 @@ impl Yeast {
     pub fn pitching_rate(&self) -> Option<(Grams, Liters)> {
         match *self {
             // 50-100g/hL
-            Self::LallemandMunichClassic => Some((Grams(75.0), Liters(100.0))),
+            Self::LalBrewMunichClassic => Some((Grams(75.0), Liters(100.0))),
             // 50-100g/hL
-            Self::LallemandNottingham => Some((Grams(75.0), Liters(100.0))),
+            Self::LalBrewNottingham => Some((Grams(75.0), Liters(100.0))),
             _ => None,
         }
     }
@@ -1197,39 +1198,41 @@ impl Yeast {
     /// This data may not be accurate, they are best guesses
     #[must_use]
     #[allow(clippy::match_same_arms)]
-    pub fn gallone_data(&self) -> Option<(Gallone, f32)> {
+    pub fn strain(&self) -> Option<Strain> {
         match *self {
-            Self::SafLagerW3470 => Strain::WeihenstephananLager,
-            Self::WLP001 => Strain::Chico, // BRY96, WY1056
-            Self::WLP002 => Strain::Fullers, // BE045, WY1968
-            Self::WLP004 => Strain::Guinness,
-            Self::WLP005 => Strain::Ringwood,
-            Self::WLP006 => Strain::BedfordBritishAle,
-            Self::WLP008 => Strain::SamAdams,
-            Self::WLP007 => Strain::WhitbreadDry, // WY1098
-            Self::WLP009 => Strain::Coopers,
-            Self::WLP011 => Strain::Weisenschaftliche,
-            Self::WLP013 => Strain::Worthington,
-            Self::WLP026 => Strain::Marstons,
-            Self::WLP028 => Strain::McEwan,
-            Self::WLP030 => Strain::Mackeson,
-            Self::WLP036 => Strain::ZumUerigeAlt,
-            Self::WLP037 => Strain::YorkshireSquare,
-            Self::WLP038 => Strain::Manchester,
-            Self::WLP039 => Strain::Nottingham,
-            Self::WLP041 => Strain::Redhook,
-            Self::WLP051 | Self::LalBrewBRY97 => Strain::Ballantine,
-            Self::WLP076 => Strain::NewAlbion,
-            Self::WLP300 => Strain::WeihenstephanenWeizen,
-            Self::WLP400 => Strain::Hoegaarden,
-            Self::WLP510 => Strain::Orval,
-            Self::WLP530 => Strain::Westmalle,
-            Self::WLP570 => Strain::Duvel,
-            Self::WLP800 => Strain::Urquell,
-            Self::WLP810 => Strain::AnchorSteam,
-            // Self::WY1316 => Strain::Boddingtons,
-            // Self::WY1275 => Strain::HenleyOfThames
-            // Self::WY1469 => Strain::TimothyTaylor
+            Self::SafLagerW3470 => Some(Strain::WeihenstephananLager),
+            Self::WLP001 => Some(Strain::Chico), // BRY96), WY1056
+            Self::WLP002 => Some(Strain::Fullers), // BE045), WY1968
+            Self::WLP004 => Some(Strain::Guinness),
+            Self::WLP005 => Some(Strain::Ringwood),
+            Self::WLP006 => Some(Strain::BedfordBritishAle),
+            Self::WLP008 => Some(Strain::SamAdams),
+            Self::WLP007 => Some(Strain::WhitbreadDry), // WY1098
+            Self::WLP009 => Some(Strain::Coopers),
+            Self::WLP011 => Some(Strain::Weisenschaftliche),
+            Self::WLP013 => Some(Strain::Worthington),
+            Self::WLP026 => Some(Strain::Marstons),
+            Self::WLP028 => Some(Strain::McEwan),
+            Self::WLP030 => Some(Strain::Mackeson),
+            Self::WLP036 => Some(Strain::ZumUerigeAlt),
+            Self::WLP037 => Some(Strain::YorkshireSquare),
+            Self::WLP038 => Some(Strain::Manchester),
+            Self::WLP039 => Some(Strain::Nottingham),
+            Self::WLP041 => Some(Strain::Redhook),
+            Self::WLP051 => Some(Strain::Ballantine),
+            Self::WLP076 => Some(Strain::NewAlbion),
+            Self::WLP300 => Some(Strain::WeihenstephananWeizen),
+            Self::WLP400 => Some(Strain::Hoegaarden),
+            Self::WLP510 => Some(Strain::Orval),
+            Self::WLP530 => Some(Strain::Westmalle),
+            Self::WLP570 => Some(Strain::Duvel),
+            Self::WLP800 => Some(Strain::Urquell),
+            Self::WLP810 => Some(Strain::AnchorSteam),
+            // Self::WY1316 => Some(Strain::Boddingtons),
+            // Self::WY1275 => Some(Strain::HenleyOfThames),
+            // Self::WY1469 => Some(Strain::TimothyTaylor),
+            // Self::LalBrewBRY97 => Some(Strain::Ballantine),
+            _ => None,
         }
     }
 
@@ -1285,7 +1288,7 @@ impl Yeast {
             Self::ImperialTartan => None,
             Self::ImperialTripleDouble => None,
             Self::ImperialUrkel => None,
-            Self::ImperialWhiteout => Provider::ImperialYeast,
+            Self::ImperialWhiteout => None,
              */
 
             /*
@@ -1311,68 +1314,68 @@ impl Yeast {
             Self::LalBrewWit => None,
             Self::LallemandPriseDeMousseWine => None,
             Self::LallemandSourvisiae => None,
-            Self::LallemandWildBrewPhillySour => Provider::Lallemand,
+            Self::LallemandWildBrewPhillySour => None,
              */
 
             Self::OYL061 => None,
             Self::OYL071 => None,
 
-            Self::WLP001 => Some(Gallone::Be044, 1.0), // genome sequencing match
-            Self::WLP002 => Some(Gallone::Be050, 0.9), // genome sequencing match, but 2 close hits
-            Self::WLP003 => Some(Gallone::Be046, 0.6), // yellow guess
-            Self::WLP004 => Some(Gallone::Be047, 0.9), // genome sequencing match, but 2 close hits
-            Self::WLP005 => Some(Gallone::Be048, 0.6), // yellow guess
-            Self::WLP006 => Some(Gallone::Be049, 0.6), // yellow guess
-            Self::WLP007 => Some(Gallone::Be050, 0.6), // yellow guess
-            Self::WLP008 => Some(Gallone::Be051, 0.6), // yellow guess
-            Self::WLP009 => Some(Gallone::Be052, 0.6), // yellow guess
-            Self::WLP011 => Some(Gallone::Be053, 0.6), // yellow guess
-            Self::WLP013 => Some(Gallone::Be054, 0.6), // yellow guess
-            Self::WLP017 => Some(Gallone::Be055, 0.6), // yellow guess
-            Self::WLP019 => Some(Gallone::Be065, 0.2), // orange guess
-            Self::WLP022 => Some(Gallone::Be056, 0.6), // yellow guess
-            Self::WLP023 => Some(Gallone::Be057, 1.0), // genome sequencing match
-            Self::WLP025 => Some(Gallone::Be058, 0.6), // yellow guess
-            Self::WLP026 => Some(Gallone::Be059, 0.6), // yellow guess
-            Self::WLP028 => Some(Gallone::Be060, 1.0), // genome sequencing match
-            Self::WLP029 => Some(Gallone::Be008, 0.2), // orange guess
-            Self::WLP030 => Some(Gallone::Be067, 0.2), // orange guess
+            Self::WLP001 => Some((Gallone::Be044, 1.0)), // genome sequencing match
+            Self::WLP002 => Some((Gallone::Be050, 0.9)), // genome sequencing match, but 2 close hits
+            Self::WLP003 => Some((Gallone::Be046, 0.6)), // yellow guess
+            Self::WLP004 => Some((Gallone::Be047, 0.9)), // genome sequencing match, but 2 close hits
+            Self::WLP005 => Some((Gallone::Be048, 0.6)), // yellow guess
+            Self::WLP006 => Some((Gallone::Be049, 0.6)), // yellow guess
+            Self::WLP007 => Some((Gallone::Be050, 0.6)), // yellow guess
+            Self::WLP008 => Some((Gallone::Be051, 0.6)), // yellow guess
+            Self::WLP009 => Some((Gallone::Be052, 0.6)), // yellow guess
+            Self::WLP011 => Some((Gallone::Be053, 0.6)), // yellow guess
+            Self::WLP013 => Some((Gallone::Be054, 0.6)), // yellow guess
+            Self::WLP017 => Some((Gallone::Be055, 0.6)), // yellow guess
+            Self::WLP019 => Some((Gallone::Be065, 0.2)), // orange guess
+            Self::WLP022 => Some((Gallone::Be056, 0.6)), // yellow guess
+            Self::WLP023 => Some((Gallone::Be057, 1.0)), // genome sequencing match
+            Self::WLP025 => Some((Gallone::Be058, 0.6)), // yellow guess
+            Self::WLP026 => Some((Gallone::Be059, 0.6)), // yellow guess
+            Self::WLP028 => Some((Gallone::Be060, 1.0)), // genome sequencing match
+            Self::WLP029 => Some((Gallone::Be008, 0.2)), // orange guess
+            Self::WLP030 => Some((Gallone::Be067, 0.2)), // orange guess
             Self::WLP033 => None,
-            Self::WLP036 => Some(Gallone::Be061, 0.6), // yellow guess
-            Self::WLP037 => Some(Gallone::Be062, 0.6), // yellow guess
-            Self::WLP038 => Some(Gallone::Be063, 0.6), // yellow guess
-            Self::WLP039 => Some(Gallone::Be064, 0.6), // yellow guess
-            Self::WLP041 => Some(Gallone::Be066, 0.6), // yellow guess
-            Self::WLP045 => Some(Gallone::Sp008, 0.6), // yellow guess
-            Self::WLP050 => Some(Gallone::Sp009, 0.6), // yellow guess
-            Self::WLP051 => Some(Gallone::Be068, 0.2),
+            Self::WLP036 => Some((Gallone::Be061, 0.6)), // yellow guess
+            Self::WLP037 => Some((Gallone::Be062, 0.6)), // yellow guess
+            Self::WLP038 => Some((Gallone::Be063, 0.6)), // yellow guess
+            Self::WLP039 => Some((Gallone::Be064, 0.6)), // yellow guess
+            Self::WLP041 => Some((Gallone::Be066, 0.6)), // yellow guess
+            Self::WLP045 => Some((Gallone::Sp008, 0.6)), // yellow guess
+            Self::WLP050 => Some((Gallone::Sp009, 0.6)), // yellow guess
+            Self::WLP051 => Some((Gallone::Be068, 0.2)),
             Self::WLP059 => None,
             Self::WLP060 => None,
             Self::WLP064 => None,
-            Self::WLP065 => Some(Gallone::Sp010, 0.2), // orange guess
+            Self::WLP065 => Some((Gallone::Sp010, 0.2)), // orange guess
             Self::WLP066 => None,
             Self::WLP067 => None,
             Self::WLP070 => None,
-            Self::WLP072 => Some(Gallone::Be070, 0.6), // yellow guess
+            Self::WLP072 => Some((Gallone::Be070, 0.6)), // yellow guess
             Self::WLP073 => None,
             Self::WLP075 => None,
-            Self::WLP076 => Some(Gallone::Be069, 0.2), // orange guess
+            Self::WLP076 => Some((Gallone::Be069, 0.2)), // orange guess
             Self::WLP077 => None,
-            Self::WLP078 => Some(Gallone::Sp011, 0.6), // yellow guess
+            Self::WLP078 => Some((Gallone::Sp011, 0.6)), // yellow guess
             Self::WLP080 => None,
             Self::WLP085 => None,
-            Self::WLP090 => Some(Gallone::Be071, 0.6), // yellow guess
+            Self::WLP090 => Some((Gallone::Be071, 0.6)), // yellow guess
             Self::WLP091 => None,
             Self::WLP095 => None,
             Self::WLP096 => None,
-            Self::WLP099 => Some(Gallone::Be033, 1.0), // genome sequencing match
+            Self::WLP099 => Some((Gallone::Be033, 1.0)), // genome sequencing match
             Self::WLP101 => None,
             Self::WLP1983 => None,
-            Self::WLP300 => Some(Gallone::Be072, 1.0), // genome sequencing match
-            Self::WLP320 => Some(Gallone::Be073, 0.6), // yellow guess
-            Self::WLP351 => Some(Gallone::Be093, 0.2), // orange guess
-            Self::WLP380 => Some(Gallone::Be074, 0.6), // yellow guess
-            Self::WLP400 => Some(Gallone::Be075, 0.6), // yellow guess
+            Self::WLP300 => Some((Gallone::Be072, 1.0)), // genome sequencing match
+            Self::WLP320 => Some((Gallone::Be073, 0.6)), // yellow guess
+            Self::WLP351 => Some((Gallone::Be093, 0.2)), // orange guess
+            Self::WLP380 => Some((Gallone::Be074, 0.6)), // yellow guess
+            Self::WLP400 => Some((Gallone::Be075, 0.6)), // yellow guess
             Self::WLP4000 => None,
             Self::WLP4001 => None,
             Self::WLP4007 => None,
@@ -1398,7 +1401,7 @@ impl Yeast {
             Self::WLP4060 => None,
             Self::WLP4061 => None,
             Self::WLP4062 => None,
-            Self::WLP410 => Some(Gallone::Be076, 0.6), // yellow guess
+            Self::WLP410 => Some((Gallone::Be076, 0.6)), // yellow guess
             Self::WLP4605 => None,
             Self::WLP4615 => None,
             Self::WLP4620 => None,
@@ -1424,30 +1427,30 @@ impl Yeast {
             Self::WLP4682 => None,
             Self::WLP4684 => None,
             Self::WLP500 => None,
-            Self::WLP510 => Some(Gallone::Be077, 0.6),
-            Self::WLP515 => Some(Gallone::Be082, 0.2), // orange guess
+            Self::WLP510 => Some((Gallone::Be077, 0.6)),
+            Self::WLP515 => Some((Gallone::Be082, 0.2)), // orange guess
             Self::WLP518 => None,
             Self::WLP519 => None,
             Self::WLP520 => None,
             Self::WLP521 => None,
-            Self::WLP530 => Some(Gallone::Be078, 0.6),
-            Self::WLP540 => Some(Gallone::Be079, 0.6),
-            Self::WLP545 => Some(Gallone::Be080, 0.6),
+            Self::WLP530 => Some((Gallone::Be078, 0.6)),
+            Self::WLP540 => Some((Gallone::Be079, 0.6)),
+            Self::WLP545 => Some((Gallone::Be080, 0.6)),
             Self::WLP546 => None,
             Self::WLP548 => None,
-            Self::WLP550 => Some(Gallone::Be081, 0.6),
+            Self::WLP550 => Some((Gallone::Be081, 0.6)),
             Self::WLP561 => None,
             Self::WLP564 => None,
-            Self::WLP565 => Some(Gallone::Be083, 1.0), // genetic sequencing match
-            Self::WLP566 => Some(Gallone::Be084, 0.6), // yellow guess
+            Self::WLP565 => Some((Gallone::Be083, 1.0)), // genetic sequencing match
+            Self::WLP566 => Some((Gallone::Be084, 0.6)), // yellow guess
             Self::WLP568 => None,
-            Self::WLP570 => Some(Gallone::Be085, 1.0), // genome sequencing match
+            Self::WLP570 => Some((Gallone::Be085, 1.0)), // genome sequencing match
             Self::WLP575 => None,
-            Self::WLP585 => Some(Gallone::Be086, 0.6), // yellow guess
-            Self::WLP590 => Some(Gallone::Be092, 0.2), // orange guess
+            Self::WLP585 => Some((Gallone::Be086, 0.6)), // yellow guess
+            Self::WLP590 => Some((Gallone::Be092, 0.2)), // orange guess
             Self::WLP600 => None,
             Self::WLP603 => None,
-            Self::WLP611 => Some(Gallone::Wl005, 0.33), // orange guess; WL 5 6 or 7
+            Self::WLP611 => Some((Gallone::Wl005, 0.33)), // orange guess; WL 5 6 or 7
             Self::WLP616 => None,
             Self::WLP618 => None,
             Self::WLP630 => None,
@@ -1474,7 +1477,7 @@ impl Yeast {
             Self::WLP692 => None,
             Self::WLP693 => None,
             Self::WLP700 => None,
-            Self::WLP705 => Some(Gallone::Sa002, 0.8), // genome sequencing match, but 2 close hits
+            Self::WLP705 => Some((Gallone::Sa002, 0.8)), // genome sequencing match, but 2 close hits
             Self::WLP707 => None,
             Self::WLP709 => None,
             Self::WLP715 => None,
@@ -1491,7 +1494,7 @@ impl Yeast {
             Self::WLP773 => None,
             Self::WLP775 => None,
             Self::WLP780 => None,
-            Self::WLP800 => Some(Gallone::Be087, 1.0), // genetic sequencing match
+            Self::WLP800 => Some((Gallone::Be087, 1.0)), // genetic sequencing match
             Self::WLP802 => None,
             Self::WLP808 => None,
             Self::WLP810 => None,

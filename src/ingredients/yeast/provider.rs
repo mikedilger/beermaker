@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 use std::fmt;
 use strum::EnumIter;
 
+/// A yeast provider
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, EnumIter, PartialEq, Eq, PartialOrd, Ord)]
 pub enum YeastProvider {
     /// Bootleg Biology

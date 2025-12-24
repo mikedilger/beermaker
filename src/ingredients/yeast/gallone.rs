@@ -2638,7 +2638,12 @@ impl Gallone {
 /// bottle bombs.
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy, Serialize, Deserialize)]
 pub enum STA1 {
+    /// Does not express STA1 gene
     None,
+
+    /// Partial match for STA1 gene (might be defective)
     Partial,
+
+    /// Full match of STA1 gene
     Full,
 }
