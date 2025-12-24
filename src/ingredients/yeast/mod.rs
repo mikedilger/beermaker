@@ -2026,24 +2026,34 @@ impl Yeast {
     /// Strain
     ///
     /// This data may not be accurate, they are best guesses
+    // multiple sources including:
+    // https://captainbrew.com/white-labs-yeast-strains-chart
+    // http://beer.suregork.com/?p=3907
     #[must_use]
     #[allow(clippy::match_same_arms)]
     pub fn strain(&self) -> Option<Strain> {
         match *self {
+            Self::SafAleUS05 => Some(Strain::Chico),
             Self::SafLagerW3470 => Some(Strain::WeihenstephananLager),
             Self::WLP001 => Some(Strain::Chico), // BRY96), WY1056
             Self::WLP002 => Some(Strain::Fullers), // BE045), WY1968
+            Self::WLP003 => None, // unknown german brewery may match Wyeast 2575PC Kolsch II
             Self::WLP004 => Some(Strain::Guinness),
             Self::WLP005 => Some(Strain::Ringwood),
-            Self::WLP006 => Some(Strain::BedfordBritishAle),
-            Self::WLP008 => Some(Strain::SamAdams),
+            Self::WLP006 => Some(Strain::CharlesWells),
             Self::WLP007 => Some(Strain::WhitbreadDry), // WY1098
+            Self::WLP008 => Some(Strain::SamAdams),
             Self::WLP009 => Some(Strain::Coopers),
+            //Self::WLP010 => None, // blend 001/002/004/810
             Self::WLP011 => Some(Strain::Weisenschaftliche),
             Self::WLP013 => Some(Strain::Worthington),
             Self::WLP017 => None, // blend
+            Self::WLP022 => Some(Strain::Ridleys),
+            Self::WLP023 => Some(Strain::HenleyOfThames),
+            Self::WLP025 => Some(Strain::Adnams),
             Self::WLP026 => Some(Strain::Marstons),
             Self::WLP028 => Some(Strain::McEwan),
+            Self::WLP029 => Some(Strain::PJFruh),
             //Self::WLP030 => Some(Strain::Mackeson),
             Self::WLP036 => Some(Strain::ZumUerigeAlt),
             Self::WLP037 => Some(Strain::YorkshireSquare),
@@ -2062,19 +2072,29 @@ impl Yeast {
             Self::WLP091 => None, // blend
             Self::WLP096 => None, // blend
             Self::WLP101 => None, // blend
-            Self::WLP300 => Some(Strain::WeihenstephananWeizen),
+            Self::WLP300 => Some(Strain::WeihenstephananWeizen68),
+            Self::WLP320 => Some(Strain::ZumUerigeHefe),
+            Self::WLP351 => Some(Strain::WeihenstephananWeizen175),
+            Self::WLP380 => Some(Strain::WeihenstephananWeizen66),
             Self::WLP400 => Some(Strain::Hoegaarden),
             Self::WLP4007 => None, // blend
             Self::WLP4021 => None, // blend
             Self::WLP4027 => None, // blend
             Self::WLP4042 => None, // blend
             Self::WLP4044 => None, // blend
+            Self::WLP410 => Some(Strain::Moortgat),
+            Self::WLP500 => Some(Strain::Chimay),
             Self::WLP510 => Some(Strain::Orval),
+            Self::WLP515 => Some(Strain::DeKoninck),
             Self::WLP520 => Some(Strain::VossKveik),
             Self::WLP530 => Some(Strain::Westmalle),
+            Self::WLP540 => Some(Strain::Rochefort),
             Self::WLP548 => None, // blend
+            Self::WLP550 => Some(Strain::Achouffe),
             Self::WLP561 => None, // blend
             Self::WLP564 => None, // blend
+            Self::WLP565 => Some(Strain::Dupont),
+            Self::WLP566 => Some(Strain::Dupont2),
             Self::WLP568 => None, // blend
             Self::WLP570 => Some(Strain::Duvel), // WLP page says East Flanders, check
             Self::WLP575 => None, // blend
@@ -2082,10 +2102,17 @@ impl Yeast {
             Self::WLP630 => None, // blend
             Self::WLP773 => None, // blend
             Self::WLP800 => Some(Strain::Urquell),
+            Self::WLP802 => Some(Strain::Samsons),
             Self::WLP808 => None, // blend
             Self::WLP810 => Some(Strain::AnchorSteam),
+            Self::WLP820 => Some(Strain::WeihenstephananLager),
+            Self::WLP830 => Some(Strain::WeihenstephananLager206),
+            Self::WLP833 => Some(Strain::Ayinger),
+            Self::WLP840 => Some(Strain::Budweiser),
             Self::WLP860 => Some(Strain::Augustiner),
-            // Self::WY1316 => Some(Strain::Boddingtons),
+            Self::WLP885 => Some(Strain::Samichlaus),
+            Self::WLP940 => Some(Strain::Modelo),
+            // Self::WY1316 or 1318 => Some(Strain::Boddingtons),
             // Self::WY1275 => Some(Strain::HenleyOfThames),
             // Self::WY1469 => Some(Strain::TimothyTaylor),
             // Self::LalBrewBRY97 => Some(Strain::Ballantine),

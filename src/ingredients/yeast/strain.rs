@@ -8,6 +8,10 @@ use strum::EnumIter;
 /// according to what most brewers call them.
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, EnumIter, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Strain {
+    /// Achouffe
+    // WLP550, WY3522, Belgian Ardennes Ale Yeast
+    Achouffe,
+
     /// Adnams, Southwold
     Adnams,
 
@@ -19,11 +23,13 @@ pub enum Strain {
     // WLP860
     Augustiner,
 
-    /// WLP006
-    BedfordBritishAle,
+    /// Ayinger
+    // WLP833, WY2487
+    Ayinger,
 
     /// Ballantine, Anchor Liberty
-    // WLP051, BRY97
+    // ancestor of the Chico strain
+    // WLP051, BRY97, WY1272
     Ballantine,
 
     /// Boddingtons
@@ -33,18 +39,42 @@ pub enum Strain {
     /// Brakspear, Burton Ale
     Brakspear,
 
+    /// Budweiser
+    // WLP840, WY2007
+    Budweiser,
+
+    /// Carlsberg (copenhagen, 1883)
+    Carlsberg,
+
     /// Charles Wells, Bedford British Ale
+    // WLP006
     CharlesWells,
 
     /// Chico, Sierra Nevada Pale Ale
     // WLP001, BRY 96, WY1056
     Chico,
 
+    /// Chimay
+    // WLP500, WY1214
+    Chimay,
+
     /// Coopers, Australian Ale
     // WLP009
     Coopers,
 
-    /// Duvel moortgat, McEwan's Brewery
+    /// De Koninck
+    // WLP515
+    DeKoninck,
+
+    /// Brassserie Dupont, Saison
+    // WLP565
+    Dupont,
+
+    /// Vieille Provision Saison Dupont
+    // WLP570
+    Dupont2,
+
+    /// Duvel moortgart, McEwan's Brewery
     /// Belgian Strong Golden Ale
     // WLP570
     Duvel,
@@ -52,7 +82,8 @@ pub enum Strain {
     /// Fullers ESB, Griffin Brewery, Cheswick, London
     /// (replaced Old Burton Extra in 1971)
     // orange citrus, toffee flavors
-    // WLP002, [BE045], WY1968
+    // WLP002, [BE045], WY1968 (London ESB)
+    // Imperial Yeast A09 Pub
     Fullers,
 
     /// Griffin Brewery, Cheswick, London
@@ -63,11 +94,11 @@ pub enum Strain {
     // WLP004
     Guinness,
 
-    /// Henlty of Thames
+    /// Henlty of Thames, brakspear bitter
     // WY1275
     HenleyOfThames,
 
-    /// Hoegaarden, Belgian Wit Ale
+    /// Hoegaarden/Celis, Belgian Wit Ale
     // WLP400
     Hoegaarden,
 
@@ -87,14 +118,18 @@ pub enum Strain {
     // WLP028
     McEwan,
 
-    /// Moorgat, Belgian Wit Ale
-    Moorgat,
+    /// Grupo Modelo
+    // WLP940
+    Modelo,
+
+    /// Moortgat Brouwerij (via Ommegang), Belgian Wit Ale
+    Moortgat,
 
     /// New Albion, Old Sonoma
     // WLP076
     NewAlbion,
 
-    /// Nottingham, East Midlands
+    /// Nottingham, East Midlands, Danstar
     // WLP039
     Nottingham,
 
@@ -102,11 +137,14 @@ pub enum Strain {
     // WLP510
     Orval,
 
+    /// PJ Früh, Köln
+    PJFruh,
+
     /// Redhook, Pacific Ale
     // WLP041
     Redhook,
 
-    /// Ridleys, Essex
+    /// Ridleys, Essex, near Chelmsford
     Ridleys,
 
     /// Ringwood, British Ale
@@ -114,11 +152,20 @@ pub enum Strain {
     Ringwood,
 
     /// Rochefort
+    // WLP540
     Rochefort,
 
     /// Sam Adams, East Coast Ale
     // WLP008
     SamAdams,
+
+    /// Samichlaus, Zurich
+    // WLP885
+    Samichlaus,
+
+    /// Samsons via Budejovicky Mestansky Pivovara
+    // WLP802
+    Samsons,
 
     /// Timothy Taylor
     // WY1469
@@ -131,14 +178,23 @@ pub enum Strain {
     /// Voss Kveik
     VossKveik,
 
-    /// Weihenstephanan Weizen, 3068, 66
-    WeihenstephananWeizen,
+    /// Weihenstephanan Weizen, 66
+    WeihenstephananWeizen66,
 
-    /// Weihenstephanan Lager, 3470
+    /// Weihenstephanan Weizen, 3068, 68
+    WeihenstephananWeizen68,
+
+    /// Weihenstephanan Weizen, 175
+    WeihenstephananWeizen175,
+
+    /// Weihenstephanan Lager, 3470 (Technical University of Munich)
     WeihenstephananLager,
 
+    /// Weihenstephanan Lager, 206 (Technical University of Munich)
+    WeihenstephananLager206,
+
     /// Weisenschaftliche Station #338 Munich, European Ale
-    // WLP011
+    // WLP011, WY1338
     Weisenschaftliche,
 
     /// Westmalle, Abbey Ale
@@ -161,7 +217,7 @@ pub enum Strain {
     YorkshireSquare,
 
     /// Zum Uerige, Dusseldorf Alt Ale
-    // WLP036
+    // WLP036, WY1007
     ZumUerigeAlt,
 
     /// Zum Uerige via Widmer, American Hefeweizen Ale
