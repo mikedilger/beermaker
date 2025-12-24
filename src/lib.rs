@@ -33,6 +33,7 @@ pub mod ingredients;
 /// `use beermaker::prelude::*`
 pub mod prelude {
     pub use crate::ingredients::*;
+    pub use crate::style::*;
     pub use crate::units::alkalinity::*;
     pub use crate::units::color::*;
     pub use crate::units::concentration::*;
@@ -42,16 +43,14 @@ pub mod prelude {
     pub use crate::units::volume::*;
     pub use crate::units::weight::*;
     pub use crate::units::{Ibu, Ph};
-    pub use crate::{
-        Equipment, LagerStyle, MashRest, Packaging, Process, Recipe, Steps, Style, Warning,
-    };
+    pub use crate::{Equipment, MashRest, Packaging, Process, Recipe, Steps, Warning};
 }
 
 mod equipment;
 pub use equipment::Equipment;
 
 mod style;
-pub use style::{LagerStyle, Style};
+pub use style::{Conditioning, Fermentation, Style, StyleOrigin};
 
 mod process;
 pub use process::Process;

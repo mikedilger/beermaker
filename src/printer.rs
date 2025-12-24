@@ -456,7 +456,7 @@ pub fn print_process(
         .chill
         .push("From this point on, sanitization is important.".to_string());
 
-    if process.recipe.style.is_a_lager() {
+    if process.recipe.style.fermentation() == Fermentation::Lager {
         steps.chill.push(
             "Rapid chilling is important for multiple reasons to avoid to \
              off-flavors (including DMS), contamination, and drop haze \
@@ -581,27 +581,28 @@ pub fn print_process(
         steps.ferment.push("Fining: Add fining agent.".to_string());
     }
 
-    match process.recipe.style.lager_style() {
-        None => {}
-        Some(LagerStyle::European) => {
-            steps.ferment.push(format!(
-                "Slowly lower the temperature by 1°C per day until you get near to \
-                 the lagering temperature range of 4°C - 7°C. Hold at \
-                 this low temperature for {lagering_time}."
-            ));
-        }
-        Some(LagerStyle::American) => {
-            steps.ferment.push(format!(
-                "Crash the temperature down to  0°C - 1°C, and then hold \
-                 at this low temperature for {lagering_time}. Be aware that without \
-                 taking some kind of remedial action, the fermenter will suck in \
-                 whatever is in your airlock and a bunch of atmosphere (with oxygen) \
-                 as the cooling creates a vacuum. \
-                 So consider these: Replace sanitizer in the airlock with strong alcohol; \
-                 Apply continuous low pressure CO2; use a Co2-filled balloon as the \
-                 airlock; use a blow-off tube long enough that the water wont be sucked \
-                 all the way into the fermenter."
-            ));
+    if process.recipe.style.conditioning() == Conditioning::Lagered {
+        match process.recipe.style.origin() {
+            StyleOrigin::American => {
+                steps.ferment.push(format!(
+                    "Crash the temperature down to  0°C - 1°C, and then hold \
+                     at this low temperature for {lagering_time}. Be aware that without \
+                     taking some kind of remedial action, the fermenter will suck in \
+                     whatever is in your airlock and a bunch of atmosphere (with oxygen) \
+                     as the cooling creates a vacuum. \
+                     So consider these: Replace sanitizer in the airlock with strong alcohol; \
+                     Apply continuous low pressure CO2; use a Co2-filled balloon as the \
+                     airlock; use a blow-off tube long enough that the water wont be sucked \
+                     all the way into the fermenter."
+                ));
+            }
+            _ => {
+                steps.ferment.push(format!(
+                    "Slowly lower the temperature by 1°C per day until you get near to \
+                     the lagering temperature range of 4°C - 7°C. Hold at \
+                     this low temperature for {lagering_time}."
+                ));
+            }
         }
     }
 

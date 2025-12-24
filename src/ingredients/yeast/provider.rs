@@ -48,7 +48,7 @@ pub enum YeastProvider {
     WhiteLabs,
 
     /// Wyeast
-    Wyeast
+    Wyeast,
 }
 
 impl fmt::Display for YeastProvider {

@@ -131,7 +131,6 @@ pub enum Yeast {
     MuntonsPremiumGold,
     MuntonsStandardAle,
      */
-
     OYL061, // Voss Kveik
     OYL071, // Lutra Kveik
 
@@ -331,7 +330,6 @@ pub enum Yeast {
     WLP920,
     WLP925,
     WLP940,
-
     /*
     /// White labs Hefeweizen Ale Yeast, WLP300
     /// Wyeast Strain 3068 from Weihenstephan Weizen beers
@@ -367,7 +365,6 @@ pub enum Yeast {
 }
 
 impl Yeast {
-
     /// Provider
     #[must_use]
     pub fn provider(&self) -> YeastProvider {
@@ -1692,7 +1689,7 @@ impl Yeast {
     #[allow(clippy::match_same_arms)]
     pub fn flocculation(&self) -> Flocculation {
         match *self {
-            Self::SafAleBE134 => Flocculation::Low, // sed slow
+            Self::SafAleBE134 => Flocculation::Low,  // sed slow
             Self::SafAleBE256 => Flocculation::High, // sed fast
             Self::SafAleBW20 => Flocculation::Low,
             Self::SafAleK97 => Flocculation::Low, // sed slow
@@ -1704,7 +1701,7 @@ impl Yeast {
             Self::SafAleWB06 => Flocculation::Low,
             Self::SafLagerE30 => Flocculation::Medium,
             Self::SafLagerS189 => Flocculation::High, // sed fast
-            Self::SafLagerS23 => Flocculation::High, // sed fast
+            Self::SafLagerS23 => Flocculation::High,  // sed fast
             Self::SafLagerSH45 => Flocculation::Medium,
             Self::SafLagerW3470 => Flocculation::High,
             Self::LalBrewMunichClassic => Flocculation::Low,
@@ -2015,10 +2012,12 @@ impl Yeast {
             Self::WLP351 => Ppm(100.0), // Low N consumer
             Self::WLP380 => Ppm(150.0),
              */
-            _ => if self.is_lager() {
-                Ppm(100.0)
-            } else {
-                Ppm(150.0)
+            _ => {
+                if self.is_lager() {
+                    Ppm(100.0)
+                } else {
+                    Ppm(150.0)
+                }
             }
         }
     }
@@ -2095,12 +2094,12 @@ impl Yeast {
             Self::WLP564 => None, // blend
             Self::WLP565 => Some(Strain::Dupont),
             Self::WLP566 => Some(Strain::Dupont2),
-            Self::WLP568 => None, // blend
+            Self::WLP568 => None,                // blend
             Self::WLP570 => Some(Strain::Duvel), // WLP page says East Flanders, check
-            Self::WLP575 => None, // blend
-            Self::WLP611 => None, // blend
-            Self::WLP630 => None, // blend
-            Self::WLP773 => None, // blend
+            Self::WLP575 => None,                // blend
+            Self::WLP611 => None,                // blend
+            Self::WLP630 => None,                // blend
+            Self::WLP773 => None,                // blend
             Self::WLP800 => Some(Strain::Urquell),
             Self::WLP802 => Some(Strain::Samsons),
             Self::WLP808 => None, // blend
@@ -2230,7 +2229,6 @@ impl Yeast {
             Self::LallemandSourvisiae => None,
             Self::LallemandWildBrewPhillySour => None,
              */
-
             Self::OYL061 => None,
             Self::OYL071 => None,
 
@@ -2432,8 +2430,6 @@ impl Yeast {
             Self::WLP940 => None,
         }
     }
-
-
 }
 
 impl fmt::Display for Yeast {
