@@ -174,6 +174,8 @@ pub enum Gallone {
 impl Gallone {
     /// The guess at the identity of the strain by suregork
     /// http://beer.suregork.com/?p=3907
+    #[must_use]
+    #[allow(clippy::too_many_lines)]
     pub fn get_identity_guess(&self) -> &'static str {
         match self {
             Gallone::Be001 => "",
@@ -337,6 +339,8 @@ impl Gallone {
     }
 
     /// The guess at the yeast source by Mr. Malty
+    #[must_use]
+    #[allow(clippy::too_many_lines)]
     pub fn get_mr_malty(&self) -> &'static str {
         match self {
             Gallone::Be001 => "",
@@ -501,6 +505,8 @@ impl Gallone {
 
     /// How well the yeast consumes maltose
     /// on a scale from 0.0 to 10.0
+    #[must_use]
+    #[allow(clippy::too_many_lines)]
     pub fn get_maltose_use(&self) -> f32 {
         match self {
             Gallone::Be001 => 8.8,
@@ -665,6 +671,8 @@ impl Gallone {
 
     /// How well the yeast consumes maltotriose
     /// on a scale from 0.0 to 10.0
+    #[must_use]
+    #[allow(clippy::too_many_lines)]
     pub fn get_maltotriose_use(&self) -> f32 {
         match self {
             Gallone::Be001 => 7.7,
@@ -829,6 +837,8 @@ impl Gallone {
 
     /// How well the yeast grows in a 12% (v/v) Ethanol solution
     /// on a scale from 0.0 to 10.0
+    #[must_use]
+    #[allow(clippy::too_many_lines)]
     pub fn get_growth_ethanol(&self) -> f32 {
         match self {
             Gallone::Be001 => 0.0,
@@ -993,6 +1003,8 @@ impl Gallone {
 
     /// How well the yeast grows on maltose at 10 C
     /// on a scale from 0.0 to 10.0
+    #[must_use]
+    #[allow(clippy::too_many_lines)]
     pub fn get_growth_maltose(&self) -> f32 {
         match self {
             Gallone::Be001 => 0.3,
@@ -1157,6 +1169,8 @@ impl Gallone {
 
     /// How well the yeast grows in 2.5mM Sulfite
     /// on a scale from 0.0 to 10.0
+    #[must_use]
+    #[allow(clippy::too_many_lines)]
     pub fn get_growth_sulfite(&self) -> f32 {
         match self {
             Gallone::Be001 => 1.1,
@@ -1321,6 +1335,8 @@ impl Gallone {
 
     /// How much the yeast puts off of Isoamyl acetate
     /// on a scale from 0.0 to 10.0
+    #[must_use]
+    #[allow(clippy::too_many_lines)]
     pub fn get_isoamyl_acetate(&self) -> f32 {
         match self {
             Gallone::Be001 => 3.6,
@@ -1485,6 +1501,8 @@ impl Gallone {
 
     /// How much the yeast puts off of Ethyl hexanoate
     /// on a scale from 0.0 to 10.0
+    #[must_use]
+    #[allow(clippy::too_many_lines)]
     pub fn get_ethyl_hexanoate(&self) -> f32 {
         match self {
             Gallone::Be001 => 1.4,
@@ -1649,6 +1667,8 @@ impl Gallone {
 
     /// How much the yeast puts off of Ethyl cotonoate
     /// on a scale from 0.0 to 10.0
+    #[must_use]
+    #[allow(clippy::too_many_lines)]
     pub fn get_ethyl_octanoate(&self) -> f32 {
         match self {
             Gallone::Be001 => 2.0,
@@ -1813,6 +1833,8 @@ impl Gallone {
 
     /// How much the yeast puts off of Phenylethyl acetate
     /// on a scale from 0.0 to 10.0
+    #[must_use]
+    #[allow(clippy::too_many_lines)]
     pub fn get_phenylethyl_acetate(&self) -> f32 {
         match self {
             Gallone::Be001 => 0.0,
@@ -1976,6 +1998,8 @@ impl Gallone {
     }
 
     /// If the yeast is POF+
+    #[must_use]
+    #[allow(clippy::too_many_lines)]
     pub fn get_pof(&self) -> bool {
         match self {
             Gallone::Be001 => false,
@@ -2140,6 +2164,8 @@ impl Gallone {
 
     /// How well the yeast flocculates
     /// on a scale from 0.0 to 10.0
+    #[must_use]
+    #[allow(clippy::too_many_lines)]
     pub fn get_flocculation(&self) -> f32 {
         match self {
             Gallone::Be001 => 1.4,
@@ -2303,6 +2329,8 @@ impl Gallone {
     }
 
     /// If the yeast has the STA1 gene, or a partial match
+    #[must_use]
+    #[allow(clippy::too_many_lines)]
     pub fn get_sta1(&self) -> STA1 {
         match self {
             Gallone::Be001 => STA1::None,
@@ -2468,6 +2496,8 @@ impl Gallone {
     /// If the yeast has the STA10/flo8 variation, a premature
     /// stop codon at position 142, preventing starch fermentation
     /// in STA1 strains
+    #[must_use]
+    #[allow(clippy::too_many_lines)]
     pub fn get_sta10flo8(&self) -> bool {
         match self {
             Gallone::Be001 => false,

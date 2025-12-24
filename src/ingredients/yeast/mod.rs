@@ -367,6 +367,7 @@ pub enum Yeast {
 impl Yeast {
     /// Provider
     #[must_use]
+    #[allow(clippy::too_many_lines)]
     pub fn provider(&self) -> YeastProvider {
         match *self {
             Self::SafAleBE134 |
@@ -647,6 +648,7 @@ impl Yeast {
 
     /// Description
     #[must_use]
+    #[allow(clippy::too_many_lines)]
     pub fn desc(&self) -> &str {
         match *self {
             Self::SafAleBE134 => "SafAle BE-134",
@@ -931,6 +933,7 @@ impl Yeast {
     /// The minimum recommended temperature to ferment at
     #[must_use]
     #[allow(clippy::match_same_arms)]
+    #[allow(clippy::too_many_lines)]
     pub fn temp_range(&self) -> Range<Celsius> {
         let (min, max) = match *self {
             Self::SafAleBE134 => (18.0, 26.0),
@@ -1220,6 +1223,7 @@ impl Yeast {
     /// Attenuation (apparent), fraction
     #[must_use]
     #[allow(clippy::match_same_arms)]
+    #[allow(clippy::too_many_lines)]
     pub fn attenuation_range(&self) -> Range<f32> {
         match *self {
             Self::SafAleBE134 => 0.89..0.93,
@@ -1452,6 +1456,8 @@ impl Yeast {
     /// Alcohol tolerance, fraction, range
     #[must_use]
     #[allow(clippy::match_same_arms)]
+    #[allow(clippy::too_many_lines)]
+    #[allow(clippy::cast_precision_loss)]
     pub fn alcohol_tolerance_range(&self) -> Range<f32> {
         let (min, max) = match *self {
             Self::SafAleBE134 => (9, 11),
@@ -1687,6 +1693,7 @@ impl Yeast {
     /// Flocculation
     #[must_use]
     #[allow(clippy::match_same_arms)]
+    #[allow(clippy::too_many_lines)]
     pub fn flocculation(&self) -> Flocculation {
         match *self {
             Self::SafAleBE134 => Flocculation::Low,  // sed slow
@@ -1952,35 +1959,34 @@ impl Yeast {
     #[must_use]
     #[allow(clippy::match_same_arms)]
     pub fn is_lager(&self) -> bool {
-        match *self {
-            Self::SafLagerE30 => true,
-            Self::SafLagerS189 => true,
-            Self::SafLagerS23 => true,
-            Self::SafLagerSH45 => true,
-            Self::SafLagerW3470 => true,
-            Self::WLP4030 => true,
-            Self::WLP4035 => true,
-            Self::WLP800 => true,
-            Self::WLP802 => true,
-            Self::WLP808 => true,
-            Self::WLP810 => true,
-            Self::WLP815 => true,
-            Self::WLP820 => true,
-            Self::WLP830 => true,
-            Self::WLP833 => true,
-            Self::WLP835 => true,
-            Self::WLP838 => true,
-            Self::WLP840 => true,
-            Self::WLP845 => true,
-            Self::WLP850 => true,
-            Self::WLP860 => true,
-            Self::WLP885 => true,
-            Self::WLP920 => true,
-            Self::WLP925 => true,
-            Self::WLP940 => true,
-
-            _ => false,
-        }
+        matches!(
+            *self,
+            Self::SafLagerE30
+                | Self::SafLagerS189
+                | Self::SafLagerS23
+                | Self::SafLagerSH45
+                | Self::SafLagerW3470
+                | Self::WLP4030
+                | Self::WLP4035
+                | Self::WLP800
+                | Self::WLP802
+                | Self::WLP808
+                | Self::WLP810
+                | Self::WLP815
+                | Self::WLP820
+                | Self::WLP830
+                | Self::WLP833
+                | Self::WLP835
+                | Self::WLP838
+                | Self::WLP840
+                | Self::WLP845
+                | Self::WLP850
+                | Self::WLP860
+                | Self::WLP885
+                | Self::WLP920
+                | Self::WLP925
+                | Self::WLP940
+        )
     }
 
     /// Pitching rate, if known
@@ -2154,6 +2160,7 @@ impl Yeast {
     /// Gives the Gallone paper strain, and a confidence value from 0.0 to 1.0
     #[must_use]
     #[allow(clippy::match_same_arms)]
+    #[allow(clippy::too_many_lines)]
     pub fn gallone_data(&self) -> Option<(Gallone, f32)> {
         match *self {
             Self::SafAleBE134 => None,
