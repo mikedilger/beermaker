@@ -6,3 +6,34 @@ Lagering vessel is not selected, lagering steps are missing.
 pH calculation could use some love.
 
 Terminology: use the terms liquor and grist.
+
+
+Data sources that went into the now-gone brewstillery:
+
+Brew By Numbers - Add Up What's In Your Beer - Michael L. Hall Ph.D.
+	Zymurty (Summer) 1995
+https://www.homebrewersassociation.org/attachments/0000/2497/Math_in_Mash_SummerZym95.pdf
+
+Refractometer FG Results
+http://seanterrill.com/2011/04/07/refractometer-fg-results/
+
+Krausening
+http://www.braukaiser.com/wiki/index.php?title=Kraeusening
+
+Glenn Tinseth's Hop Page
+http://realbeer.com/hops/
+
+Calculating Gravity, Bitterness, And Color: Techniques, Chris Colby, 2000
+https://byo.com/bock/item/409-calculating-gravity-bitterness-and-color-techniques
+
+Formulas And C Source Code - Primetab
+https://web.archive.org/web/20090807084643/http://www.primetab.com:80/formulas
+
+Estimating Color, BrewWiki.com
+http://brewwiki.com/index.php/Estimating_Color
+
+Technical Information for Brewers, A.J. DeLange, 2013
+http://wetnewf.org/pdfs/Brewing_articles/MOAWorkbook.xls
+
+Color math and programming code examples, IRO Group Limited 2018
+https://www.easyrgb.com/en/math.php

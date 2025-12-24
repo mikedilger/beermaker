@@ -651,8 +651,8 @@ impl Process {
     }
 
     /// The estimated gravity after fermentation, before any dilution
-    // TODO: this doesn't adjust for the presence of unfermentable
-    //       sugars
+    // TODO: this doesn't adjust for the presence of many
+    //       unfermentable sugars
     #[must_use]
     pub fn post_ferment_gravity(&self) -> SpecificGravity {
         let og = self.recipe.original_gravity;
@@ -811,6 +811,19 @@ impl Process {
         let points = self.post_ferment_gravity().0 - 1.0;
         let ratio = self.post_ferment_volume().0 / self.product_volume().0;
         SpecificGravity(1.0 + points * ratio)
+    }
+
+    /// Real extract
+    ///
+    /// This is the true amount of solids (unfermentable sugars) in the
+    /// final product.  Final Gravity is 'apparent' on a hydrometer but
+    /// not accurate since the product contains alcohol.  This value
+    /// adjusts for that.
+    #[must_use]
+    pub fn real_extract(&self) -> Plato {
+        let original_plato: Plato = self.recipe.original_gravity.into();
+        let final_plato: Plato = self.final_gravity().into();
+        Plato(0.188 * original_plato.0 + 0.8192 * final_plato.0)
     }
 
     /// The total amount of water input during the process

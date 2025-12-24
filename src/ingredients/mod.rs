@@ -19,7 +19,7 @@ mod hops;
 pub use hops::Hops;
 
 mod yeast;
-pub use yeast::{Flocculation, Yeast};
+pub use yeast::{Flocculation, Gallone, STA1, Yeast, YeastProvider};
 
 use crate::units::prelude::*;
 
