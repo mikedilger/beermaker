@@ -102,6 +102,10 @@ pub enum Strain {
     // WLP400
     Hoegaarden,
 
+    /// Hürlimann brewery, Switzerland
+    // S-189
+    Hurlimann,
+
     /// Mackeson, Thames
     // WLP030
     Mackeson,

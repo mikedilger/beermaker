@@ -41,96 +41,121 @@ pub enum Flocculation {
 pub enum Yeast {
     SafAleBE134,
     SafAleBE256,
+
+    /// SafAle BW-20
+    ///
+    /// Belgian wheat, Flanders
+    /// Low to moderate phenolic character
+    /// Less phenolic character at 23 C. Ferments well at 20C, in 10 days.
+    /// Can crop/repitch. Not good for refermentation (bottle conditioning).
+    /// Weaker fruit and spice than both WB-06 and W-68... letting the
+    /// coriander/orange shine through.
     SafAleBW20,
+
     SafAleK97,
     SafAleS04,
     SafAleS33,
     SafAleT58,
     SafAleUS05,
+
+    /// SafAle W-68
+    ///
+    /// Weihenstephanen 3068
+    /// German wheat beers, fruity with phenolic character.
+    /// Less spicy, more fruity, than WB-06.
+    /// Fast fermenter.
+    /// At 23C, less pehnolic character, more fruitiness.
+    /// Prefers 13.5°P density. 50-80 g/hl pitch rate.
+    /// POF+, V-4G.
+    /// Can crop/repitch. Not good for refermentation (bottle conditioning).
     SafAleW68,
+
+    /// SafAle WB-06
+    ///
+    /// Their first wheat beer yeast, all-rounder
+    /// High levels of spice and fruit.
+    /// Clove-like aromas regardless of fermentation conditions.
+    /// High-density increases sensory intensity, solventy, bitterness
+    /// and sweetness perception.
+    /// Low temps promote fruity armoas, mainly banana notes.
+    /// Overpitching at low densities can increase risk of sulfury notes.
     SafAleWB06,
+
     SafLagerE30,
+
+    /// SafLager S-189
+    /// Swiss lager yeast, Hurlimann brewery
+    /// Fairly neutral, can yield herbal/floral notes,
+    /// Under some conditions can produce pear/apple/berry flavors too
+    /// but these can fade out quickly.
     SafLagerS189,
+
     SafLagerS23,
     SafLagerSH45,
     SafLagerW3470,
 
-    /*
-    ImperialBarbarian,
-    ImperialBartlby,
-    ImperialCablecar,
-    ImperialCitrus,
-    ImperialDarkness,
-    ImperialDieter,
-    ImperialDryHop,
-    ImperialFlagship,
-    ImperialGlobal,
-    ImperialGnome,
-    ImperialHarvest,
-    ImperialHouse,
-    ImperialIndependence,
-    ImperialJoystick,
-    ImperialJuice,
-    ImperialKaiser,
-    ImperialKveiking,
-    ImperialLoki,   // KveikVoss
-    ImperialNapoleon,
-    ImperialPOG,
-    ImperialPub,
-    ImperialRustic,
-    ImperialSourBatchKidz,
-    ImperialStefon,
-    ImperialSuburbanBrett,
-    ImperialTartan,
-    ImperialTripleDouble,
-    ImperialUrkel,
-    ImperialWhiteout,
-     */
+    // ImperialBarbarian,
+    // ImperialBartlby,
+    // ImperialCablecar,
+    // ImperialCitrus,
+    // ImperialDarkness,
+    // ImperialDieter,
+    // ImperialDryHop,
+    // ImperialFlagship,
+    // ImperialGlobal,
+    // ImperialGnome,
+    // ImperialHarvest,
+    // ImperialHouse,
+    // ImperialIndependence,
+    // ImperialJoystick,
+    // ImperialJuice,
+    // ImperialKaiser,
+    // ImperialKveiking,
+    // ImperialLoki,   // KveikVoss
+    // ImperialNapoleon,
+    // ImperialPOG,
+    // ImperialPub,
+    // ImperialRustic,
+    // ImperialSourBatchKidz,
+    // ImperialStefon,
+    // ImperialSuburbanBrett,
+    // ImperialTartan,
+    // ImperialTripleDouble,
+    // ImperialUrkel,
+    // ImperialWhiteout,
 
-    /*
-    LalBrewAbbaye,
-    LalBrewBelleSaison,
-    LalBrewBRY97,
-    LalBrewCBC1,
+    // LalBrewAbbaye,
+    // LalBrewBelleSaison,
+    // LalBrewBRY97,
+    // LalBrewCBC1,
     LalBrewDiamondLager,
-    LalBrewKoln,
-    LalBrewLondon,
-    */
+    // LalBrewKoln,
+    // LalBrewLondon,
     LalBrewMunichClassic,
-    /*
-    LalBrewNewEngland,
-    */
+    // LalBrewNewEngland,
     LalBrewNottingham,
-    /*
-    LalBrewVerdantIPA,
-    LalBrewVoss,    // KveikVoss
-    */
+    // LalBrewVerdantIPA,
+    // LalBrewVoss,    // KveikVoss
     LalBrewWindsor,
-    /*
-    LalBrewWit
-    LallemandPriseDeMousseWine,
-    LallemandSourvisiae
-    LallemandWildBrewPhillySour,
-     */
+    // LalBrewWit
+    // LallemandPriseDeMousseWine,
+    // LallemandSourvisiae
+    // LallemandWildBrewPhillySour,
 
-    /*
-    MangroveJackBavarianWheat,
-    MangroveJackBelgianAle,
-    MangroveJackBelgianWit,
-    MangroveJackBohemianLager,
-    MangroveJackCaliforniaLager,
-    MangroveJackEmpireAle,
-    MangroveJackFrenchSaisonAle,
-    MangroveJackLibertyBellAle,
-    MangroveJackNewWorldStrongAle,
-    MangroveJackUSWestCoast,
-    MangroveJackWorkhorse,
-    */
+    // MangroveJackBavarianWheat,
+    // MangroveJackBelgianAle,
+    // MangroveJackBelgianWit,
+    // MangroveJackBohemianLager,
+    // MangroveJackCaliforniaLager,
+    // MangroveJackEmpireAle,
+    // MangroveJackFrenchSaisonAle,
+    // MangroveJackLibertyBellAle,
+    // MangroveJackNewWorldStrongAle,
+    // MangroveJackUSWestCoast,
+    // MangroveJackWorkhorse,
 
-    /*
-    MuntonsPremiumGold,
-    MuntonsStandardAle,
-     */
+    // MuntonsPremiumGold,
+    // MuntonsStandardAle,
     OYL061, // Voss Kveik
     OYL071, // Lutra Kveik
 
@@ -185,10 +210,19 @@ pub enum Yeast {
     WLP099,
     WLP101,
     WLP1983,
+
+    /// White labs Hefeweizen Ale Yeast, WLP300
+    /// Wyeast Strain 3068 from Weihenstephan Weizen beers
     WLP300,
+
     WLP320,
+
+    /// White Labs Bavarian Weizen Ale Yeast, WLP351
     WLP351,
+
+    /// White Labs Hefeweizen IV Ale Yeast, WLP380
     WLP380,
+
     WLP400,
     WLP4000,
     WLP4001,
@@ -216,32 +250,30 @@ pub enum Yeast {
     WLP4061,
     WLP4062,
     WLP410,
-    /*
-    WLP4605,
-    WLP4615,
-    WLP4620,
-    WLP4626,
-    WLP4633,
-    WLP4636,
-    WLP4637,
-    WLP4638,
-    WLP4639,
-    WLP4640,
-    WLP4641,
-    WLP4642,
-    WLP4643,
-    WLP4645,
-    WLP4650,
-    WLP4651,
-    WLP4653,
-    WLP4655,
-    WLP4656,
-    WLP4665,
-    WLP4675,
-    WLP4681,
-    WLP4682,
-    WLP4684,
-    */
+    // WLP4605,
+    // WLP4615,
+    // WLP4620,
+    // WLP4626,
+    // WLP4633,
+    // WLP4636,
+    // WLP4637,
+    // WLP4638,
+    // WLP4639,
+    // WLP4640,
+    // WLP4641,
+    // WLP4642,
+    // WLP4643,
+    // WLP4645,
+    // WLP4650,
+    // WLP4651,
+    // WLP4653,
+    // WLP4655,
+    // WLP4656,
+    // WLP4665,
+    // WLP4675,
+    // WLP4681,
+    // WLP4682,
+    // WLP4684,
     WLP500,
     WLP510,
     WLP515,
@@ -270,30 +302,28 @@ pub enum Yeast {
     //WLP616,
     //WLP618,
     WLP630,
-    /*
-    WLP631,
-    WLP6420,
-    WLP644,
-    WLP645,
-    WLP648,
-    WLP650,
-    WLP653,
-    WLP655,
-    WLP661,
-    WLP665,
-    WLP669,
-    WLP670,
-    WLP672,
-    WLP673,
-    WLP675,
-    WLP677,
-    WLP678,
-    WLP685,
-    WLP686,
-    WLP690,
-    WLP692,
-    WLP693,
-    */
+    // WLP631,
+    // WLP6420,
+    // WLP644,
+    // WLP645,
+    // WLP648,
+    // WLP650,
+    // WLP653,
+    // WLP655,
+    // WLP661,
+    // WLP665,
+    // WLP669,
+    // WLP670,
+    // WLP672,
+    // WLP673,
+    // WLP675,
+    // WLP677,
+    // WLP678,
+    // WLP685,
+    // WLP686,
+    // WLP690,
+    // WLP692,
+    // WLP693,
     WLP700,
     WLP705,
     WLP707,
@@ -317,29 +347,6 @@ pub enum Yeast {
     WLP808,
     WLP810,
     WLP815,
-    WLP820,
-    WLP830,
-    WLP833,
-    WLP835,
-    WLP838,
-    WLP840,
-    WLP845,
-    WLP850,
-    WLP860,
-    WLP885,
-    WLP920,
-    WLP925,
-    WLP940,
-    /*
-    /// White labs Hefeweizen Ale Yeast, WLP300
-    /// Wyeast Strain 3068 from Weihenstephan Weizen beers
-    WLP300,
-
-    /// White Labs Bavarian Weizen Ale Yeast, WLP351
-    WLP351,
-
-    /// White Labs Hefeweizen IV Ale Yeast, WLP380
-    WLP380,
 
     /// White Labs Oktoberfest/Märzen WLP820
     WLP820,
@@ -356,12 +363,20 @@ pub enum Yeast {
 
     /// White Labs Southern German Lager Yeast WLP838
     WLP838,
+
+    WLP840,
+    WLP845,
+    WLP850,
+    WLP860,
+    WLP885,
+    WLP920,
+    WLP925,
+    WLP940,
     // EC-1118 dry sparkling wine yeast
     // great for bottle conditioning
 
     // CBC-1
     // great for bottle conditioning
-    */
 }
 
 impl Yeast {
@@ -386,63 +401,54 @@ impl Yeast {
             Self::SafLagerSH45 |
             Self::SafLagerW3470 => YeastProvider::Fermentis,
 
-            /*
-            Self::ImperialBarbarian |
-            Self::ImperialBartlby |
-            Self::ImperialCablecar |
-            Self::ImperialCitrus |
-            Self::ImperialDarkness |
-            Self::ImperialDieter |
-            Self::ImperialDryHop |
-            Self::ImperialFlagship |
-            Self::ImperialGlobal |
-            Self::ImperialGnome |
-            Self::ImperialHarvest |
-            Self::ImperialHouse |
-            Self::ImperialIndependence |
-            Self::ImperialJoystick |
-            Self::ImperialJuice |
-            Self::ImperialKaiser |
-            Self::ImperialKveiking |
-            Self::ImperialLoki |
-            Self::ImperialNapoleon |
-            Self::ImperialPOG |
-            Self::ImperialPub |
-            Self::ImperialRustic |
-            Self::ImperialSourBatchKidz |
-            Self::ImperialStefon |
-            Self::ImperialSuburbanBrett |
-            Self::ImperialTartan |
-            Self::ImperialTripleDouble |
-            Self::ImperialUrkel |
-            Self::ImperialWhiteout => YeastProvider::ImperialYeast,
-             */
+            // Self::ImperialBarbarian |
+            // Self::ImperialBartlby |
+            // Self::ImperialCablecar |
+            // Self::ImperialCitrus |
+            // Self::ImperialDarkness |
+            // Self::ImperialDieter |
+            // Self::ImperialDryHop |
+            // Self::ImperialFlagship |
+            // Self::ImperialGlobal |
+            // Self::ImperialGnome |
+            // Self::ImperialHarvest |
+            // Self::ImperialHouse |
+            // Self::ImperialIndependence |
+            // Self::ImperialJoystick |
+            // Self::ImperialJuice |
+            // Self::ImperialKaiser |
+            // Self::ImperialKveiking |
+            // Self::ImperialLoki |
+            // Self::ImperialNapoleon |
+            // Self::ImperialPOG |
+            // Self::ImperialPub |
+            // Self::ImperialRustic |
+            // Self::ImperialSourBatchKidz |
+            // Self::ImperialStefon |
+            // Self::ImperialSuburbanBrett |
+            // Self::ImperialTartan |
+            // Self::ImperialTripleDouble |
+            // Self::ImperialUrkel |
+            // Self::ImperialWhiteout => YeastProvider::ImperialYeast,
 
-            /*
-            Self::LalBrewAbbaye |
-            Self::LalBrewBelleSaison |
-            Self::LalBrewBRY97 |
-            Self::LalBrewCBC1 |
+            // Self::LalBrewAbbaye |
+            // Self::LalBrewBelleSaison |
+            // Self::LalBrewBRY97 |
+            // Self::LalBrewCBC1 |
             Self::LalBrewDiamondLager |
-            Self::LalBrewKoln |
-            Self::LalBrewLondon |
-            */
+            // Self::LalBrewKoln |
+            // Self::LalBrewLondon |
+
             Self::LalBrewMunichClassic |
-            /*
-            Self::LalBrewNewEngland |
-            */
+            // Self::LalBrewNewEngland |
             Self::LalBrewNottingham |
-            /*
-            Self::LalBrewVerdantIPA |
-            Self::LalBrewVoss |
-            */
+            // Self::LalBrewVerdantIPA |
+            // Self::LalBrewVoss |
             Self::LalBrewWindsor => YeastProvider::Lallemand,
-            /*
-            Self::LalBrewWit |
-            Self::LallemandPriseDeMousseWine |
-            Self::LallemandSourvisiae |
-            Self::LallemandWildBrewPhillySour => YeastProvider::Lallemand,
-             */
+            // Self::LalBrewWit |
+            // Self::LallemandPriseDeMousseWine |
+            // Self::LallemandSourvisiae |
+            // Self::LallemandWildBrewPhillySour => YeastProvider::Lallemand,
 
             Self::OYL061 |
             Self::OYL071 => YeastProvider::OmegaYeastLabs,
@@ -529,32 +535,30 @@ impl Yeast {
             Self::WLP4061 |
             Self::WLP4062 |
             Self::WLP410 |
-            /*
-            Self::WLP4605 |
-            Self::WLP4615 |
-            Self::WLP4620 |
-            Self::WLP4626 |
-            Self::WLP4633 |
-            Self::WLP4636 |
-            Self::WLP4637 |
-            Self::WLP4638 |
-            Self::WLP4639 |
-            Self::WLP4640 |
-            Self::WLP4641 |
-            Self::WLP4642 |
-            Self::WLP4643 |
-            Self::WLP4645 |
-            Self::WLP4650 |
-            Self::WLP4651 |
-            Self::WLP4653 |
-            Self::WLP4655 |
-            Self::WLP4656 |
-            Self::WLP4665 |
-            Self::WLP4675 |
-            Self::WLP4681 |
-            Self::WLP4682 |
-            Self::WLP4684 |
-            */
+            // Self::WLP4605 |
+            // Self::WLP4615 |
+            // Self::WLP4620 |
+            // Self::WLP4626 |
+            // Self::WLP4633 |
+            // Self::WLP4636 |
+            // Self::WLP4637 |
+            // Self::WLP4638 |
+            // Self::WLP4639 |
+            // Self::WLP4640 |
+            // Self::WLP4641 |
+            // Self::WLP4642 |
+            // Self::WLP4643 |
+            // Self::WLP4645 |
+            // Self::WLP4650 |
+            // Self::WLP4651 |
+            // Self::WLP4653 |
+            // Self::WLP4655 |
+            // Self::WLP4656 |
+            // Self::WLP4665 |
+            // Self::WLP4675 |
+            // Self::WLP4681 |
+            // Self::WLP4682 |
+            // Self::WLP4684 |
             Self::WLP500 |
             Self::WLP510 |
             Self::WLP515 |
@@ -583,30 +587,28 @@ impl Yeast {
             //Self::WLP616 |
             //Self::WLP618 |
             Self::WLP630 |
-            /*
-            Self::WLP631 |
-            Self::WLP6420 |
-            Self::WLP644 |
-            Self::WLP645 |
-            Self::WLP648 |
-            Self::WLP650 |
-            Self::WLP653 |
-            Self::WLP655 |
-            Self::WLP661 |
-            Self::WLP665 |
-            Self::WLP669 |
-            Self::WLP670 |
-            Self::WLP672 |
-            Self::WLP673 |
-            Self::WLP675 |
-            Self::WLP677 |
-            Self::WLP678 |
-            Self::WLP685 |
-            Self::WLP686 |
-            Self::WLP690 |
-            Self::WLP692 |
-            Self::WLP693 |
-            */
+            // Self::WLP631 |
+            // Self::WLP6420 |
+            // Self::WLP644 |
+            // Self::WLP645 |
+            // Self::WLP648 |
+            // Self::WLP650 |
+            // Self::WLP653 |
+            // Self::WLP655 |
+            // Self::WLP661 |
+            // Self::WLP665 |
+            // Self::WLP669 |
+            // Self::WLP670 |
+            // Self::WLP672 |
+            // Self::WLP673 |
+            // Self::WLP675 |
+            // Self::WLP677 |
+            // Self::WLP678 |
+            // Self::WLP685 |
+            // Self::WLP686 |
+            // Self::WLP690 |
+            // Self::WLP692 |
+            // Self::WLP693 |
             Self::WLP700 |
             Self::WLP705 |
             Self::WLP707 |
@@ -666,63 +668,53 @@ impl Yeast {
             Self::SafLagerS23 => "SafLager S-23",
             Self::SafLagerSH45 => "SafLager SH-45",
             Self::SafLagerW3470 => "SafLager W-34/70",
-            /*
-            Self::ImperialBarbarian => "",
-            Self::ImperialBartlby => "",
-            Self::ImperialCablecar => "",
-            Self::ImperialCitrus => "",
-            Self::ImperialDarkness => "",
-            Self::ImperialDieter => "",
-            Self::ImperialDryHop => "",
-            Self::ImperialFlagship => "",
-            Self::ImperialGlobal => "",
-            Self::ImperialGnome => "",
-            Self::ImperialHarvest => "",
-            Self::ImperialHouse => "",
-            Self::ImperialIndependence => "",
-            Self::ImperialJoystick => "",
-            Self::ImperialJuice => "",
-            Self::ImperialKaiser => "",
-            Self::ImperialKveiking => "",
-            Self::ImperialLoki => "",
-            Self::ImperialNapoleon => "",
-            Self::ImperialPOG => "",
-            Self::ImperialPub => "",
-            Self::ImperialRustic => "",
-            Self::ImperialSourBatchKidz => "",
-            Self::ImperialStefon => "",
-            Self::ImperialSuburbanBrett => "",
-            Self::ImperialTartan => "",
-            Self::ImperialTripleDouble => "",
-            Self::ImperialUrkel => "",
-            Self::ImperialWhiteout => "",
-             */
+            // Self::ImperialBarbarian => "",
+            // Self::ImperialBartlby => "",
+            // Self::ImperialCablecar => "",
+            // Self::ImperialCitrus => "",
+            // Self::ImperialDarkness => "",
+            // Self::ImperialDieter => "",
+            // Self::ImperialDryHop => "",
+            // Self::ImperialFlagship => "",
+            // Self::ImperialGlobal => "",
+            // Self::ImperialGnome => "",
+            // Self::ImperialHarvest => "",
+            // Self::ImperialHouse => "",
+            // Self::ImperialIndependence => "",
+            // Self::ImperialJoystick => "",
+            // Self::ImperialJuice => "",
+            // Self::ImperialKaiser => "",
+            // Self::ImperialKveiking => "",
+            // Self::ImperialLoki => "",
+            // Self::ImperialNapoleon => "",
+            // Self::ImperialPOG => "",
+            // Self::ImperialPub => "",
+            // Self::ImperialRustic => "",
+            // Self::ImperialSourBatchKidz => "",
+            // Self::ImperialStefon => "",
+            // Self::ImperialSuburbanBrett => "",
+            // Self::ImperialTartan => "",
+            // Self::ImperialTripleDouble => "",
+            // Self::ImperialUrkel => "",
+            // Self::ImperialWhiteout => "",
 
-            /*
-            Self::LalBrewAbbaye => "",
-            Self::LalBrewBelleSaison => "",
-            Self::LalBrewBRY97 => "",
-            Self::LalBrewCBC1 => "",
-            Self::LalBrewDiamondLager => "",
-            Self::LalBrewKoln => "",
-            Self::LalBrewLondon => "",
-            */
+            // Self::LalBrewAbbaye => "",
+            // Self::LalBrewBelleSaison => "",
+            // Self::LalBrewBRY97 => "",
+            // Self::LalBrewCBC1 => "",
+            Self::LalBrewDiamondLager => "LalBrew Diamond Lager",
+            // Self::LalBrewKoln => "",
+            // Self::LalBrewLondon => "",
             Self::LalBrewMunichClassic => "LalBrew Munich Classic",
-            /*
-            Self::LalBrewNewEngland => "",
-            */
+            // Self::LalBrewNewEngland => "",
             Self::LalBrewNottingham => "LalBrew Nottingham",
-            /*
-            Self::LalBrewVerdantIPA => "",
-            Self::LalBrewVoss => "",
-            */
+            // Self::LalBrewVerdantIPA => "",
+            // Self::LalBrewVoss => "",
             Self::LalBrewWindsor => "LalBrew Windsor",
-            /*
-            Self::LalBrewWit => "",
-            Self::LallemandPriseDeMousseWine => "",
-            Self::LallemandSourvisiae => "",
-            Self::LallemandWildBrewPhillySour => "",
-            */
+            // Self::LalBrewWit => "",
+            // Self::LallemandPriseDeMousseWine => "",
+            // Self::LallemandSourvisiae => "",
+            // Self::LallemandWildBrewPhillySour => "",
             Self::OYL061 => "Voss Kveik",
             Self::OYL071 => "Lutra Kveik",
             Self::WLP001 => "WLP001 California Ale Yeast",
@@ -807,32 +799,30 @@ impl Yeast {
             Self::WLP4061 => "WLP4061 Rhine Kölsch Ale Yeast",
             Self::WLP4062 => "WLP4062 LA Fleur Ale Yeast",
             Self::WLP410 => "WLP410 Belgian Wit II Ale Yeast",
-            /*
-            Self::WLP4605 => "WLP4605 Beersen Brettanomyces",
-            Self::WLP4615 => "WLP4615 Brussels Brettanomyces",
-            Self::WLP4620 => "WLP4620 Lochristi Brettanomyces",
-            Self::WLP4626 => "WLP4626 Saison/Brettanomyces Yeast Blend I",
-            Self::WLP4633 => "WLP4633 Mélange Yeast Blend",
-            Self::WLP4636 => "WLP4636 Saison/Brettanomyces Yeast Blend II",
-            Self::WLP4637 => "WLP4637 Amalgamation I Brettanomyces Blend",
-            Self::WLP4638 => "WLP4638 Brettanomyces bruxellensis strain TYB184",
-            Self::WLP4639 => "WLP4639 Brettanomyces bruxellensis strain TYB207",
-            Self::WLP4640 => "WLP4640 Brettanomyces bruxellensis strain TYB261",
-            Self::WLP4641 => "WLP4641 Amalgamation II Brettanomyces Blend",
-            Self::WLP4642 => "WLP4642 Oud Vat Brett",
-            Self::WLP4643 => "WLP4643 Amalgamation V Brettanomyces Blend",
-            Self::WLP4645 => "WLP4645 Transatlantic Berliner Blend",
-            Self::WLP4650 => "WLP4650 Metschnikowia reukaufii",
-            Self::WLP4651 => "WLP4651 Von Degenberg Hefe Blend",
-            Self::WLP4653 => "WLP4653 Dark Belgian Cask Yeast Blend",
-            Self::WLP4655 => "WLP4655 Brettanomyces bruxellensis strain TYB307",
-            Self::WLP4656 => "WLP4656 Brettanomyces bruxellensis strain TYB415",
-            Self::WLP4665 => "WLP4665 Berkeley Hills Sour Yeast",
-            Self::WLP4675 => "WLP4675 Farmhouse Sour Ale Yeast Blend",
-            Self::WLP4681 => "WLP4681 Lactobacillus brevis Strain TYB282",
-            Self::WLP4682 => "WLP4682 Lactobacillus Blend",
-            Self::WLP4684 => "WLP4684 The YEast Bay House Sour Blend",
-            */
+            // Self::WLP4605 => "WLP4605 Beersen Brettanomyces",
+            // Self::WLP4615 => "WLP4615 Brussels Brettanomyces",
+            // Self::WLP4620 => "WLP4620 Lochristi Brettanomyces",
+            // Self::WLP4626 => "WLP4626 Saison/Brettanomyces Yeast Blend I",
+            // Self::WLP4633 => "WLP4633 Mélange Yeast Blend",
+            // Self::WLP4636 => "WLP4636 Saison/Brettanomyces Yeast Blend II",
+            // Self::WLP4637 => "WLP4637 Amalgamation I Brettanomyces Blend",
+            // Self::WLP4638 => "WLP4638 Brettanomyces bruxellensis strain TYB184",
+            // Self::WLP4639 => "WLP4639 Brettanomyces bruxellensis strain TYB207",
+            // Self::WLP4640 => "WLP4640 Brettanomyces bruxellensis strain TYB261",
+            // Self::WLP4641 => "WLP4641 Amalgamation II Brettanomyces Blend",
+            // Self::WLP4642 => "WLP4642 Oud Vat Brett",
+            // Self::WLP4643 => "WLP4643 Amalgamation V Brettanomyces Blend",
+            // Self::WLP4645 => "WLP4645 Transatlantic Berliner Blend",
+            // Self::WLP4650 => "WLP4650 Metschnikowia reukaufii",
+            // Self::WLP4651 => "WLP4651 Von Degenberg Hefe Blend",
+            // Self::WLP4653 => "WLP4653 Dark Belgian Cask Yeast Blend",
+            // Self::WLP4655 => "WLP4655 Brettanomyces bruxellensis strain TYB307",
+            // Self::WLP4656 => "WLP4656 Brettanomyces bruxellensis strain TYB415",
+            // Self::WLP4665 => "WLP4665 Berkeley Hills Sour Yeast",
+            // Self::WLP4675 => "WLP4675 Farmhouse Sour Ale Yeast Blend",
+            // Self::WLP4681 => "WLP4681 Lactobacillus brevis Strain TYB282",
+            // Self::WLP4682 => "WLP4682 Lactobacillus Blend",
+            // Self::WLP4684 => "WLP4684 The YEast Bay House Sour Blend",
             Self::WLP500 => "WLP500 Monastery Ale Yeast",
             Self::WLP510 => "WLP510 Bastogne Belgian Ale Yeast",
             Self::WLP515 => "WLP515 Antwerp Ale Yeast",
@@ -861,30 +851,28 @@ impl Yeast {
             //Self::WLP616 => "WLP616 Funky Cider Blend",
             //Self::WLP618 => "WLP618 NA All Day",
             Self::WLP630 => "WLP630 Berliner Weisse Blend",
-            /*
-            Self::WLP631 => "WLP631 Appalachian Tart",
-            Self::WLP6420 => "WLP6420 Acid Tripp",
-            Self::WLP644 => "WLP644 Saccharomyces brux-like Trois",
-            Self::WLP645 => "WLP645 Brettanomyces claussenii",
-            Self::WLP648 => "WLP648 Brettanomyces bruxellensis Trois Vrai",
-            Self::WLP650 => "WLP650 Brettanomyces bruxellensis",
-            Self::WLP653 => "WLP653 Brettanomyces lambicus",
-            Self::WLP655 => "WLP655 Belgian Sour Mix 1",
-            Self::WLP661 => "WLP661 Pediococcus damnosus",
-            Self::WLP665 => "WLP665 Flemish Ale Blend",
-            Self::WLP669 => "WLP669 Lactobacillus paracollinoides",
-            Self::WLP670 => "WLP670 American Farmhouse Blend",
-            Self::WLP672 => "WLP672 Lactobacillus brevis",
-            Self::WLP673 => "WLP673 Lactobacillus buchneri",
-            Self::WLP675 => "WLP675 Malolactic Cultures",
-            Self::WLP677 => "WLP677 Lactobacillus delbrueckii",
-            Self::WLP678 => "WLP678 Lactobacillus hilgardii",
-            Self::WLP685 => "WLP685 Gluconobacter Oxydans",
-            Self::WLP686 => "WLP686 Zygosaccharomyces lentus",
-            Self::WLP690 => "WLP690 Acetobacter aceti",
-            Self::WLP692 => "WLP692 Debaromyces hansenii",
-            Self::WLP693 => "WLP693 Lactobacillus plantarum",
-            */
+            // Self::WLP631 => "WLP631 Appalachian Tart",
+            // Self::WLP6420 => "WLP6420 Acid Tripp",
+            // Self::WLP644 => "WLP644 Saccharomyces brux-like Trois",
+            // Self::WLP645 => "WLP645 Brettanomyces claussenii",
+            // Self::WLP648 => "WLP648 Brettanomyces bruxellensis Trois Vrai",
+            // Self::WLP650 => "WLP650 Brettanomyces bruxellensis",
+            // Self::WLP653 => "WLP653 Brettanomyces lambicus",
+            // Self::WLP655 => "WLP655 Belgian Sour Mix 1",
+            // Self::WLP661 => "WLP661 Pediococcus damnosus",
+            // Self::WLP665 => "WLP665 Flemish Ale Blend",
+            // Self::WLP669 => "WLP669 Lactobacillus paracollinoides",
+            // Self::WLP670 => "WLP670 American Farmhouse Blend",
+            // Self::WLP672 => "WLP672 Lactobacillus brevis",
+            // Self::WLP673 => "WLP673 Lactobacillus buchneri",
+            // Self::WLP675 => "WLP675 Malolactic Cultures",
+            // Self::WLP677 => "WLP677 Lactobacillus delbrueckii",
+            // Self::WLP678 => "WLP678 Lactobacillus hilgardii",
+            // Self::WLP685 => "WLP685 Gluconobacter Oxydans",
+            // Self::WLP686 => "WLP686 Zygosaccharomyces lentus",
+            // Self::WLP690 => "WLP690 Acetobacter aceti",
+            // Self::WLP692 => "WLP692 Debaromyces hansenii",
+            // Self::WLP693 => "WLP693 Lactobacillus plantarum",
             Self::WLP700 => "WLP700 Flor Sherry Yeast",
             Self::WLP705 => "WLP705 Sake Yeast #7",
             Self::WLP707 => "WLP707 California Pinot Noir Wine Yeast",
@@ -952,63 +940,53 @@ impl Yeast {
             Self::SafLagerSH45 => (12.0, 18.0),
             Self::SafLagerW3470 => (12.0, 18.0),
 
-            /*
-            Self::ImperialBarbarian => todo!(),
-            Self::ImperialBartlby => todo!(),
-            Self::ImperialCablecar => todo!(),
-            Self::ImperialCitrus => todo!(),
-            Self::ImperialDarkness => todo!(),
-            Self::ImperialDieter => todo!(),
-            Self::ImperialDryHop => todo!(),
-            Self::ImperialFlagship => todo!(),
-            Self::ImperialGlobal => todo!(),
-            Self::ImperialGnome => todo!(),
-            Self::ImperialHarvest => todo!(),
-            Self::ImperialHouse => todo!(),
-            Self::ImperialIndependence => todo!(),
-            Self::ImperialJoystick => todo!(),
-            Self::ImperialJuice => todo!(),
-            Self::ImperialKaiser => todo!(),
-            Self::ImperialKveiking => todo!(),
-            Self::ImperialLoki => todo!(),
-            Self::ImperialNapoleon => todo!(),
-            Self::ImperialPOG => todo!(),
-            Self::ImperialPub => todo!(),
-            Self::ImperialRustic => todo!(),
-            Self::ImperialSourBatchKidz => todo!(),
-            Self::ImperialStefon => todo!(),
-            Self::ImperialSuburbanBrett => todo!(),
-            Self::ImperialTartan => todo!(),
-            Self::ImperialTripleDouble => todo!(),
-            Self::ImperialUrkel => todo!(),
-            Self::ImperialWhiteout => todo!(),
-             */
+            // Self::ImperialBarbarian => todo!(),
+            // Self::ImperialBartlby => todo!(),
+            // Self::ImperialCablecar => todo!(),
+            // Self::ImperialCitrus => todo!(),
+            // Self::ImperialDarkness => todo!(),
+            // Self::ImperialDieter => todo!(),
+            // Self::ImperialDryHop => todo!(),
+            // Self::ImperialFlagship => todo!(),
+            // Self::ImperialGlobal => todo!(),
+            // Self::ImperialGnome => todo!(),
+            // Self::ImperialHarvest => todo!(),
+            // Self::ImperialHouse => todo!(),
+            // Self::ImperialIndependence => todo!(),
+            // Self::ImperialJoystick => todo!(),
+            // Self::ImperialJuice => todo!(),
+            // Self::ImperialKaiser => todo!(),
+            // Self::ImperialKveiking => todo!(),
+            // Self::ImperialLoki => todo!(),
+            // Self::ImperialNapoleon => todo!(),
+            // Self::ImperialPOG => todo!(),
+            // Self::ImperialPub => todo!(),
+            // Self::ImperialRustic => todo!(),
+            // Self::ImperialSourBatchKidz => todo!(),
+            // Self::ImperialStefon => todo!(),
+            // Self::ImperialSuburbanBrett => todo!(),
+            // Self::ImperialTartan => todo!(),
+            // Self::ImperialTripleDouble => todo!(),
+            // Self::ImperialUrkel => todo!(),
+            // Self::ImperialWhiteout => todo!(),
 
-            /*
-            Self::LalBrewAbbaye => todo!(),
-            Self::LalBrewBelleSaison => todo!(),
-            Self::LalBrewBRY97 => todo!(),
-            Self::LalBrewCBC1 => todo!(),
-            Self::LalBrewDiamondLager => todo!(),
-            Self::LalBrewKoln => todo!(),
-            Self::LalBrewLondon => todo!(),
-            */
+            // Self::LalBrewAbbaye => todo!(),
+            // Self::LalBrewBelleSaison => todo!(),
+            // Self::LalBrewBRY97 => todo!(),
+            // Self::LalBrewCBC1 => todo!(),
+            Self::LalBrewDiamondLager => (10.0, 15.0),
+            // Self::LalBrewKoln => todo!(),
+            // Self::LalBrewLondon => todo!(),
             Self::LalBrewMunichClassic => (17.0, 25.0),
-            /*
-            Self::LalBrewNewEngland => todo!(),
-            */
+            // Self::LalBrewNewEngland => todo!(),
             Self::LalBrewNottingham => (10.0, 25.0),
-            /*
-            Self::LalBrewVerdantIPA => todo!(),
-            Self::LalBrewVoss => todo!(),
-            */
+            // Self::LalBrewVerdantIPA => todo!(),
+            // Self::LalBrewVoss => todo!(),
             Self::LalBrewWindsor => (15.0, 25.0),
-            /*
-            Self::LalBrewWit => todo!(),
-            Self::LallemandPriseDeMousseWine => todo!(),
-            Self::LallemandSourvisiae => todo!(),
-            Self::LallemandWildBrewPhillySour => todo!(),
-            */
+            // Self::LalBrewWit => todo!(),
+            // Self::LallemandPriseDeMousseWine => todo!(),
+            // Self::LallemandSourvisiae => todo!(),
+            // Self::LallemandWildBrewPhillySour => todo!(),
             Self::OYL061 => (25.0, 40.0),
             Self::OYL071 => (12.0, 35.0),
 
@@ -1094,32 +1072,30 @@ impl Yeast {
             Self::WLP4061 => (14.0, 20.0),
             Self::WLP4062 => (23.0, 27.0),
             Self::WLP410 => (19.0, 23.0),
-            /*
-            Self::WLP4605 =>
-            Self::WLP4615 =>
-            Self::WLP4620 =>
-            Self::WLP4626 =>
-            Self::WLP4633 =>
-            Self::WLP4636 =>
-            Self::WLP4637 =>
-            Self::WLP4638 =>
-            Self::WLP4639 =>
-            Self::WLP4640 =>
-            Self::WLP4641 =>
-            Self::WLP4642 =>
-            Self::WLP4643 =>
-            Self::WLP4645 =>
-            Self::WLP4650 =>
-            Self::WLP4651 =>
-            Self::WLP4653 =>
-            Self::WLP4655 =>
-            Self::WLP4656 =>
-            Self::WLP4665 =>
-            Self::WLP4675 =>
-            Self::WLP4681 =>
-            Self::WLP4682 =>
-            Self::WLP4684 =>
-            */
+            // Self::WLP4605 =>
+            // Self::WLP4615 =>
+            // Self::WLP4620 =>
+            // Self::WLP4626 =>
+            // Self::WLP4633 =>
+            // Self::WLP4636 =>
+            // Self::WLP4637 =>
+            // Self::WLP4638 =>
+            // Self::WLP4639 =>
+            // Self::WLP4640 =>
+            // Self::WLP4641 =>
+            // Self::WLP4642 =>
+            // Self::WLP4643 =>
+            // Self::WLP4645 =>
+            // Self::WLP4650 =>
+            // Self::WLP4651 =>
+            // Self::WLP4653 =>
+            // Self::WLP4655 =>
+            // Self::WLP4656 =>
+            // Self::WLP4665 =>
+            // Self::WLP4675 =>
+            // Self::WLP4681 =>
+            // Self::WLP4682 =>
+            // Self::WLP4684 =>
             Self::WLP500 => (18.0, 22.0),
             Self::WLP510 => (19.0, 22.0),
             Self::WLP515 => (19.0, 21.0),
@@ -1148,30 +1124,28 @@ impl Yeast {
             //Self::WLP616 =>
             //Self::WLP618 =>
             Self::WLP630 => (20.0, 22.0),
-            /*
-            Self::WLP631 =>
-            Self::WLP6420 =>
-            Self::WLP644 =>
-            Self::WLP645 =>
-            Self::WLP648 =>
-            Self::WLP650 =>
-            Self::WLP653 =>
-            Self::WLP655 =>
-            Self::WLP661 =>
-            Self::WLP665 =>
-            Self::WLP669 =>
-            Self::WLP670 =>
-            Self::WLP672 =>
-            Self::WLP673 =>
-            Self::WLP675 =>
-            Self::WLP677 =>
-            Self::WLP678 =>
-            Self::WLP685 =>
-            Self::WLP686 =>
-            Self::WLP690 =>
-            Self::WLP692 =>
-            Self::WLP693 =>
-            */
+            // Self::WLP631 =>
+            // Self::WLP6420 =>
+            // Self::WLP644 =>
+            // Self::WLP645 =>
+            // Self::WLP648 =>
+            // Self::WLP650 =>
+            // Self::WLP653 =>
+            // Self::WLP655 =>
+            // Self::WLP661 =>
+            // Self::WLP665 =>
+            // Self::WLP669 =>
+            // Self::WLP670 =>
+            // Self::WLP672 =>
+            // Self::WLP673 =>
+            // Self::WLP675 =>
+            // Self::WLP677 =>
+            // Self::WLP678 =>
+            // Self::WLP685 =>
+            // Self::WLP686 =>
+            // Self::WLP690 =>
+            // Self::WLP692 =>
+            // Self::WLP693 =>
             Self::WLP700 => (21.0, 25.0), // top not listed
             Self::WLP705 => (21.0, 32.0),
             Self::WLP707 => (16.0, 32.0),
@@ -1241,6 +1215,7 @@ impl Yeast {
             Self::SafLagerS23 => 0.80..0.84,
             Self::SafLagerSH45 => 0.77..0.82,
             Self::SafLagerW3470 => 0.80..0.84,
+            Self::LalBrewDiamondLager => 0.77..0.83,
             Self::LalBrewMunichClassic => 0.76..0.83,
             Self::LalBrewNottingham => 0.78..0.84,
             Self::LalBrewWindsor => 0.65..0.72,
@@ -1329,32 +1304,30 @@ impl Yeast {
             Self::WLP4061 => 0.75..0.78,
             Self::WLP4062 => 0.75..0.80,
             Self::WLP410 => 0.70..0.75,
-            /*
-            Self::WLP4605 =>
-            Self::WLP4615 =>
-            Self::WLP4620 =>
-            Self::WLP4626 =>
-            Self::WLP4633 =>
-            Self::WLP4636 =>
-            Self::WLP4637 =>
-            Self::WLP4638 =>
-            Self::WLP4639 =>
-            Self::WLP4640 =>
-            Self::WLP4641 =>
-            Self::WLP4642 =>
-            Self::WLP4643 =>
-            Self::WLP4645 =>
-            Self::WLP4650 =>
-            Self::WLP4651 =>
-            Self::WLP4653 =>
-            Self::WLP4655 =>
-            Self::WLP4656 =>
-            Self::WLP4665 =>
-            Self::WLP4675 =>
-            Self::WLP4681 =>
-            Self::WLP4682 =>
-            Self::WLP4684 =>
-            */
+            // Self::WLP4605 =>
+            // Self::WLP4615 =>
+            // Self::WLP4620 =>
+            // Self::WLP4626 =>
+            // Self::WLP4633 =>
+            // Self::WLP4636 =>
+            // Self::WLP4637 =>
+            // Self::WLP4638 =>
+            // Self::WLP4639 =>
+            // Self::WLP4640 =>
+            // Self::WLP4641 =>
+            // Self::WLP4642 =>
+            // Self::WLP4643 =>
+            // Self::WLP4645 =>
+            // Self::WLP4650 =>
+            // Self::WLP4651 =>
+            // Self::WLP4653 =>
+            // Self::WLP4655 =>
+            // Self::WLP4656 =>
+            // Self::WLP4665 =>
+            // Self::WLP4675 =>
+            // Self::WLP4681 =>
+            // Self::WLP4682 =>
+            // Self::WLP4684 =>
             Self::WLP500 => 0.75..0.80,
             Self::WLP510 => 0.74..0.80,
             Self::WLP515 => 0.73..0.80,
@@ -1383,30 +1356,28 @@ impl Yeast {
             //Self::WLP616 =>
             //Self::WLP618 => x
             Self::WLP630 => 0.73..0.80,
-            /*
-            Self::WLP631 =>
-            Self::WLP6420 =>
-            Self::WLP644 =>
-            Self::WLP645 =>
-            Self::WLP648 =>
-            Self::WLP650 =>
-            Self::WLP653 =>
-            Self::WLP655 =>
-            Self::WLP661 =>
-            Self::WLP665 =>
-            Self::WLP669 =>
-            Self::WLP670 =>
-            Self::WLP672 =>
-            Self::WLP673 =>
-            Self::WLP675 =>
-            Self::WLP677 =>
-            Self::WLP678 =>
-            Self::WLP685 =>
-            Self::WLP686 =>
-            Self::WLP690 =>
-            Self::WLP692 =>
-            Self::WLP693 =>
-            */
+            // Self::WLP631 =>
+            // Self::WLP6420 =>
+            // Self::WLP644 =>
+            // Self::WLP645 =>
+            // Self::WLP648 =>
+            // Self::WLP650 =>
+            // Self::WLP653 =>
+            // Self::WLP655 =>
+            // Self::WLP661 =>
+            // Self::WLP665 =>
+            // Self::WLP669 =>
+            // Self::WLP670 =>
+            // Self::WLP672 =>
+            // Self::WLP673 =>
+            // Self::WLP675 =>
+            // Self::WLP677 =>
+            // Self::WLP678 =>
+            // Self::WLP685 =>
+            // Self::WLP686 =>
+            // Self::WLP690 =>
+            // Self::WLP692 =>
+            // Self::WLP693 =>
             Self::WLP700 => 0.70..0.90,
             Self::WLP705 => 0.70..0.90,
             Self::WLP707 => 0.70..0.90,
@@ -1475,6 +1446,7 @@ impl Yeast {
             Self::SafLagerS23 => (9, 11),
             Self::SafLagerSH45 => (9, 11), // unlisted on specs
             Self::SafLagerW3470 => (9, 11),
+            Self::LalBrewDiamondLager => (13, 13),
             Self::LalBrewMunichClassic => (12, 12),
             Self::LalBrewNottingham => (14, 14),
             Self::LalBrewWindsor => (12, 12),
@@ -1563,32 +1535,30 @@ impl Yeast {
             Self::WLP4061 => (5, 10),
             Self::WLP4062 => (10, 15),
             Self::WLP410 => (8, 12),
-            /*
-            Self::WLP4605 =>
-            Self::WLP4615 =>
-            Self::WLP4620 =>
-            Self::WLP4626 =>
-            Self::WLP4633 =>
-            Self::WLP4636 =>
-            Self::WLP4637 =>
-            Self::WLP4638 =>
-            Self::WLP4639 =>
-            Self::WLP4640 =>
-            Self::WLP4641 =>
-            Self::WLP4642 =>
-            Self::WLP4643 =>
-            Self::WLP4645 =>
-            Self::WLP4650 =>
-            Self::WLP4651 =>
-            Self::WLP4653 =>
-            Self::WLP4655 =>
-            Self::WLP4656 =>
-            Self::WLP4665 =>
-            Self::WLP4675 =>
-            Self::WLP4681 =>
-            Self::WLP4682 =>
-            Self::WLP4684 =>
-            */
+            // Self::WLP4605 =>
+            // Self::WLP4615 =>
+            // Self::WLP4620 =>
+            // Self::WLP4626 =>
+            // Self::WLP4633 =>
+            // Self::WLP4636 =>
+            // Self::WLP4637 =>
+            // Self::WLP4638 =>
+            // Self::WLP4639 =>
+            // Self::WLP4640 =>
+            // Self::WLP4641 =>
+            // Self::WLP4642 =>
+            // Self::WLP4643 =>
+            // Self::WLP4645 =>
+            // Self::WLP4650 =>
+            // Self::WLP4651 =>
+            // Self::WLP4653 =>
+            // Self::WLP4655 =>
+            // Self::WLP4656 =>
+            // Self::WLP4665 =>
+            // Self::WLP4675 =>
+            // Self::WLP4681 =>
+            // Self::WLP4682 =>
+            // Self::WLP4684 =>
             Self::WLP500 => (10, 15),
             Self::WLP510 => (10, 15),
             Self::WLP515 => (5, 10),
@@ -1617,30 +1587,28 @@ impl Yeast {
             //Self::WLP616 =>
             //Self::WLP618 =>
             Self::WLP630 => (5, 10),
-            /*
-            Self::WLP631 =>
-            Self::WLP6420 =>
-            Self::WLP644 =>
-            Self::WLP645 =>
-            Self::WLP648 =>
-            Self::WLP650 =>
-            Self::WLP653 =>
-            Self::WLP655 =>
-            Self::WLP661 =>
-            Self::WLP665 =>
-            Self::WLP669 =>
-            Self::WLP670 =>
-            Self::WLP672 =>
-            Self::WLP673 =>
-            Self::WLP675 =>
-            Self::WLP677 =>
-            Self::WLP678 =>
-            Self::WLP685 =>
-            Self::WLP686 =>
-            Self::WLP690 =>
-            Self::WLP692 =>
-            Self::WLP693 =>
-            */
+            // Self::WLP631 =>
+            // Self::WLP6420 =>
+            // Self::WLP644 =>
+            // Self::WLP645 =>
+            // Self::WLP648 =>
+            // Self::WLP650 =>
+            // Self::WLP653 =>
+            // Self::WLP655 =>
+            // Self::WLP661 =>
+            // Self::WLP665 =>
+            // Self::WLP669 =>
+            // Self::WLP670 =>
+            // Self::WLP672 =>
+            // Self::WLP673 =>
+            // Self::WLP675 =>
+            // Self::WLP677 =>
+            // Self::WLP678 =>
+            // Self::WLP685 =>
+            // Self::WLP686 =>
+            // Self::WLP690 =>
+            // Self::WLP692 =>
+            // Self::WLP693 =>
             Self::WLP700 => (15, 18),
             Self::WLP705 => (15, 18),
             Self::WLP707 => (15, 18),
@@ -1711,6 +1679,7 @@ impl Yeast {
             Self::SafLagerS23 => Flocculation::High,  // sed fast
             Self::SafLagerSH45 => Flocculation::Medium,
             Self::SafLagerW3470 => Flocculation::High,
+            Self::LalBrewDiamondLager => Flocculation::High,
             Self::LalBrewMunichClassic => Flocculation::Low,
             Self::LalBrewNottingham => Flocculation::High,
             Self::LalBrewWindsor => Flocculation::Low,
@@ -1799,32 +1768,30 @@ impl Yeast {
             Self::WLP4061 => Flocculation::LowMedium,
             Self::WLP4062 => Flocculation::LowMedium,
             Self::WLP410 => Flocculation::LowMedium,
-            /*
-            Self::WLP4605 => Flocculation::
-            Self::WLP4615 => Flocculation::
-            Self::WLP4620 => Flocculation::
-            Self::WLP4626 => Flocculation::
-            Self::WLP4633 => Flocculation::
-            Self::WLP4636 => Flocculation::
-            Self::WLP4637 => Flocculation::
-            Self::WLP4638 => Flocculation::
-            Self::WLP4639 => Flocculation::
-            Self::WLP4640 => Flocculation::
-            Self::WLP4641 => Flocculation::
-            Self::WLP4642 => Flocculation::
-            Self::WLP4643 => Flocculation::
-            Self::WLP4645 => Flocculation::
-            Self::WLP4650 => Flocculation::
-            Self::WLP4651 => Flocculation::
-            Self::WLP4653 => Flocculation::
-            Self::WLP4655 => Flocculation::
-            Self::WLP4656 => Flocculation::
-            Self::WLP4665 => Flocculation::
-            Self::WLP4675 => Flocculation::
-            Self::WLP4681 => Flocculation::
-            Self::WLP4682 => Flocculation::
-            Self::WLP4684 => Flocculation::
-            */
+            // Self::WLP4605 => Flocculation::
+            // Self::WLP4615 => Flocculation::
+            // Self::WLP4620 => Flocculation::
+            // Self::WLP4626 => Flocculation::
+            // Self::WLP4633 => Flocculation::
+            // Self::WLP4636 => Flocculation::
+            // Self::WLP4637 => Flocculation::
+            // Self::WLP4638 => Flocculation::
+            // Self::WLP4639 => Flocculation::
+            // Self::WLP4640 => Flocculation::
+            // Self::WLP4641 => Flocculation::
+            // Self::WLP4642 => Flocculation::
+            // Self::WLP4643 => Flocculation::
+            // Self::WLP4645 => Flocculation::
+            // Self::WLP4650 => Flocculation::
+            // Self::WLP4651 => Flocculation::
+            // Self::WLP4653 => Flocculation::
+            // Self::WLP4655 => Flocculation::
+            // Self::WLP4656 => Flocculation::
+            // Self::WLP4665 => Flocculation::
+            // Self::WLP4675 => Flocculation::
+            // Self::WLP4681 => Flocculation::
+            // Self::WLP4682 => Flocculation::
+            // Self::WLP4684 => Flocculation::
             Self::WLP500 => Flocculation::LowMedium,
             Self::WLP510 => Flocculation::Medium,
             Self::WLP515 => Flocculation::Medium,
@@ -1853,30 +1820,28 @@ impl Yeast {
             //Self::WLP616 => Flocculation::
             //Self::WLP618 => Flocculation::
             Self::WLP630 => Flocculation::Medium,
-            /*
-            Self::WLP631 => Flocculation::
-            Self::WLP6420 => Flocculation::
-            Self::WLP644 => Flocculation::
-            Self::WLP645 => Flocculation::
-            Self::WLP648 => Flocculation::
-            Self::WLP650 => Flocculation::
-            Self::WLP653 => Flocculation::
-            Self::WLP655 => Flocculation::
-            Self::WLP661 => Flocculation::
-            Self::WLP665 => Flocculation::
-            Self::WLP669 => Flocculation::
-            Self::WLP670 => Flocculation::
-            Self::WLP672 => Flocculation::
-            Self::WLP673 => Flocculation::
-            Self::WLP675 => Flocculation::
-            Self::WLP677 => Flocculation::
-            Self::WLP678 => Flocculation::
-            Self::WLP685 => Flocculation::
-            Self::WLP686 => Flocculation::
-            Self::WLP690 => Flocculation::
-            Self::WLP692 => Flocculation::
-            Self::WLP693 => Flocculation::
-            */
+            // Self::WLP631 => Flocculation::
+            // Self::WLP6420 => Flocculation::
+            // Self::WLP644 => Flocculation::
+            // Self::WLP645 => Flocculation::
+            // Self::WLP648 => Flocculation::
+            // Self::WLP650 => Flocculation::
+            // Self::WLP653 => Flocculation::
+            // Self::WLP655 => Flocculation::
+            // Self::WLP661 => Flocculation::
+            // Self::WLP665 => Flocculation::
+            // Self::WLP669 => Flocculation::
+            // Self::WLP670 => Flocculation::
+            // Self::WLP672 => Flocculation::
+            // Self::WLP673 => Flocculation::
+            // Self::WLP675 => Flocculation::
+            // Self::WLP677 => Flocculation::
+            // Self::WLP678 => Flocculation::
+            // Self::WLP685 => Flocculation::
+            // Self::WLP686 => Flocculation::
+            // Self::WLP690 => Flocculation::
+            // Self::WLP692 => Flocculation::
+            // Self::WLP693 => Flocculation::
             Self::WLP700 => Flocculation::Low,
             Self::WLP705 => Flocculation::Low,
             Self::WLP707 => Flocculation::Low,
@@ -1938,19 +1903,18 @@ impl Yeast {
             Self::SafLagerW3470 => true,
             Self::OYL061 => true,
             Self::OYL071 => false,
+            Self::LalBrewDiamondLager => true,
             Self::LalBrewMunichClassic => true,
             Self::LalBrewNottingham => true,
             Self::LalBrewWindsor => true,
-            /*
-            Self::WLP300 => false,
-            Self::WLP351 => false,
-            Self::WLP380 => false,
-            Self::WLP820 => false,
-            Self::WLP830 => false,
-            Self::WLP833 => false,
-            Self::WLP835 => false,
-            Self::WLP838 => false,
-             */
+            // Self::WLP300 => false,
+            // Self::WLP351 => false,
+            // Self::WLP380 => false,
+            // Self::WLP820 => false,
+            // Self::WLP830 => false,
+            // Self::WLP833 => false,
+            // Self::WLP835 => false,
+            // Self::WLP838 => false,
             _ => false,
         }
     }
@@ -1966,6 +1930,7 @@ impl Yeast {
                 | Self::SafLagerS23
                 | Self::SafLagerSH45
                 | Self::SafLagerW3470
+                | Self::LalBrewDiamondLager
                 | Self::WLP4030
                 | Self::WLP4035
                 | Self::WLP800
@@ -1989,15 +1954,28 @@ impl Yeast {
         )
     }
 
-    /// Pitching rate, if known
+    /// Yeast pitching rate, g/hL
     #[must_use]
-    pub fn pitching_rate(&self) -> Option<(Grams, Liters)> {
+    pub fn pitching_rate_range_ghl(&self) -> Option<Range<f32>> {
         match *self {
-            // 50-100g/hL
-            Self::LalBrewMunichClassic => Some((Grams(75.0), Liters(100.0))),
-            // 50-100g/hL
-            Self::LalBrewNottingham => Some((Grams(75.0), Liters(100.0))),
+            Self::SafAleBW20 => Some(50.0..80.0),
+            Self::SafAleW68 => Some(50.0..80.0),
+            Self::LalBrewDiamondLager => Some(100.0..200.0),
+            Self::LalBrewMunichClassic => Some(50.0..100.0),
+            Self::LalBrewNottingham => Some(50.0..100.0),
             _ => None,
+        }
+    }
+
+    /// Yeast pitching rate (cells per mL per Plato)
+    #[must_use]
+    pub fn pitching_rate_cmlp(&self) -> u64 {
+        if self.is_lager() {
+            // 1.5m per ml per plato for lagers
+            1_500_000
+        } else {
+            // 750k to 1m per ml per plato
+            750_000
         }
     }
 
@@ -2039,6 +2017,8 @@ impl Yeast {
     pub fn strain(&self) -> Option<Strain> {
         match *self {
             Self::SafAleUS05 => Some(Strain::Chico),
+            Self::SafAleW68 => Some(Strain::WeihenstephananWeizen68),
+            Self::SafLagerS189 => Some(Strain::Hurlimann),
             Self::SafLagerW3470 => Some(Strain::WeihenstephananLager),
             Self::WLP001 => Some(Strain::Chico), // BRY96), WY1056
             Self::WLP002 => Some(Strain::Fullers), // BE045), WY1968
@@ -2179,63 +2159,53 @@ impl Yeast {
             Self::SafLagerSH45 => None,
             Self::SafLagerW3470 => None,
 
-            /*
-            Self::ImperialBarbarian => None,
-            Self::ImperialBartlby => None,
-            Self::ImperialCablecar => None,
-            Self::ImperialCitrus => None,
-            Self::ImperialDarkness => None,
-            Self::ImperialDieter => None,
-            Self::ImperialDryHop => None,
-            Self::ImperialFlagship => None,
-            Self::ImperialGlobal => None,
-            Self::ImperialGnome => None,
-            Self::ImperialHarvest => None,
-            Self::ImperialHouse => None,
-            Self::ImperialIndependence => None,
-            Self::ImperialJoystick => None,
-            Self::ImperialJuice => None,
-            Self::ImperialKaiser => None,
-            Self::ImperialKveiking => None,
-            Self::ImperialLoki => None,
-            Self::ImperialNapoleon => None,
-            Self::ImperialPOG => None,
-            Self::ImperialPub => None,
-            Self::ImperialRustic => None,
-            Self::ImperialSourBatchKidz => None,
-            Self::ImperialStefon => None,
-            Self::ImperialSuburbanBrett => None,
-            Self::ImperialTartan => None,
-            Self::ImperialTripleDouble => None,
-            Self::ImperialUrkel => None,
-            Self::ImperialWhiteout => None,
-             */
+            // Self::ImperialBarbarian => None,
+            // Self::ImperialBartlby => None,
+            // Self::ImperialCablecar => None,
+            // Self::ImperialCitrus => None,
+            // Self::ImperialDarkness => None,
+            // Self::ImperialDieter => None,
+            // Self::ImperialDryHop => None,
+            // Self::ImperialFlagship => None,
+            // Self::ImperialGlobal => None,
+            // Self::ImperialGnome => None,
+            // Self::ImperialHarvest => None,
+            // Self::ImperialHouse => None,
+            // Self::ImperialIndependence => None,
+            // Self::ImperialJoystick => None,
+            // Self::ImperialJuice => None,
+            // Self::ImperialKaiser => None,
+            // Self::ImperialKveiking => None,
+            // Self::ImperialLoki => None,
+            // Self::ImperialNapoleon => None,
+            // Self::ImperialPOG => None,
+            // Self::ImperialPub => None,
+            // Self::ImperialRustic => None,
+            // Self::ImperialSourBatchKidz => None,
+            // Self::ImperialStefon => None,
+            // Self::ImperialSuburbanBrett => None,
+            // Self::ImperialTartan => None,
+            // Self::ImperialTripleDouble => None,
+            // Self::ImperialUrkel => None,
+            // Self::ImperialWhiteout => None,
 
-            /*
-            Self::LalBrewAbbaye => None,
-            Self::LalBrewBelleSaison => None,
-            Self::LalBrewBRY97 => None,
-            Self::LalBrewCBC1 => None,
+            // Self::LalBrewAbbaye => None,
+            // Self::LalBrewBelleSaison => None,
+            // Self::LalBrewBRY97 => None,
+            // Self::LalBrewCBC1 => None,
             Self::LalBrewDiamondLager => None,
-            Self::LalBrewKoln => None,
-            Self::LalBrewLondon => None,
-            */
+            // Self::LalBrewKoln => None,
+            // Self::LalBrewLondon => None,
             Self::LalBrewMunichClassic => None,
-            /*
-            Self::LalBrewNewEngland => None,
-            */
+            // Self::LalBrewNewEngland => None,
             Self::LalBrewNottingham => None,
-            /*
-            Self::LalBrewVerdantIPA => None,
-            Self::LalBrewVoss => None,
-            */
+            // Self::LalBrewVerdantIPA => None,
+            // Self::LalBrewVoss => None,
             Self::LalBrewWindsor => None,
-            /*
-            Self::LalBrewWit => None,
-            Self::LallemandPriseDeMousseWine => None,
-            Self::LallemandSourvisiae => None,
-            Self::LallemandWildBrewPhillySour => None,
-             */
+            // Self::LalBrewWit => None,
+            // Self::LallemandPriseDeMousseWine => None,
+            // Self::LallemandSourvisiae => None,
+            // Self::LallemandWildBrewPhillySour => None,
             Self::OYL061 => None,
             Self::OYL071 => None,
 
@@ -2321,32 +2291,30 @@ impl Yeast {
             Self::WLP4061 => None,
             Self::WLP4062 => None,
             Self::WLP410 => Some((Gallone::Be076, 0.6)), // yellow guess
-            /*
-            Self::WLP4605 => None,
-            Self::WLP4615 => None,
-            Self::WLP4620 => None,
-            Self::WLP4626 => None,
-            Self::WLP4633 => None,
-            Self::WLP4636 => None,
-            Self::WLP4637 => None,
-            Self::WLP4638 => None,
-            Self::WLP4639 => None,
-            Self::WLP4640 => None,
-            Self::WLP4641 => None,
-            Self::WLP4642 => None,
-            Self::WLP4643 => None,
-            Self::WLP4645 => None,
-            Self::WLP4650 => None,
-            Self::WLP4651 => None,
-            Self::WLP4653 => None,
-            Self::WLP4655 => None,
-            Self::WLP4656 => None,
-            Self::WLP4665 => None,
-            Self::WLP4675 => None,
-            Self::WLP4681 => None,
-            Self::WLP4682 => None,
-            Self::WLP4684 => None,
-            */
+            // Self::WLP4605 => None,
+            // Self::WLP4615 => None,
+            // Self::WLP4620 => None,
+            // Self::WLP4626 => None,
+            // Self::WLP4633 => None,
+            // Self::WLP4636 => None,
+            // Self::WLP4637 => None,
+            // Self::WLP4638 => None,
+            // Self::WLP4639 => None,
+            // Self::WLP4640 => None,
+            // Self::WLP4641 => None,
+            // Self::WLP4642 => None,
+            // Self::WLP4643 => None,
+            // Self::WLP4645 => None,
+            // Self::WLP4650 => None,
+            // Self::WLP4651 => None,
+            // Self::WLP4653 => None,
+            // Self::WLP4655 => None,
+            // Self::WLP4656 => None,
+            // Self::WLP4665 => None,
+            // Self::WLP4675 => None,
+            // Self::WLP4681 => None,
+            // Self::WLP4682 => None,
+            // Self::WLP4684 => None,
             Self::WLP500 => None,
             Self::WLP510 => Some((Gallone::Be077, 0.6)),
             Self::WLP515 => Some((Gallone::Be082, 0.2)), // orange guess
@@ -2375,30 +2343,28 @@ impl Yeast {
             //Self::WLP616 => None,
             //Self::WLP618 => None,
             Self::WLP630 => None,
-            /*
-            Self::WLP631 => None,
-            Self::WLP6420 => None,
-            Self::WLP644 => None,
-            Self::WLP645 => None,
-            Self::WLP648 => None,
-            Self::WLP650 => None,
-            Self::WLP653 => None,
-            Self::WLP655 => None,
-            Self::WLP661 => None,
-            Self::WLP665 => None,
-            Self::WLP669 => None,
-            Self::WLP670 => None,
-            Self::WLP672 => None,
-            Self::WLP673 => None,
-            Self::WLP675 => None,
-            Self::WLP677 => None,
-            Self::WLP678 => None,
-            Self::WLP685 => None,
-            Self::WLP686 => None,
-            Self::WLP690 => None,
-            Self::WLP692 => None,
-            Self::WLP693 => None,
-            */
+            // Self::WLP631 => None,
+            // Self::WLP6420 => None,
+            // Self::WLP644 => None,
+            // Self::WLP645 => None,
+            // Self::WLP648 => None,
+            // Self::WLP650 => None,
+            // Self::WLP653 => None,
+            // Self::WLP655 => None,
+            // Self::WLP661 => None,
+            // Self::WLP665 => None,
+            // Self::WLP669 => None,
+            // Self::WLP670 => None,
+            // Self::WLP672 => None,
+            // Self::WLP673 => None,
+            // Self::WLP675 => None,
+            // Self::WLP677 => None,
+            // Self::WLP678 => None,
+            // Self::WLP685 => None,
+            // Self::WLP686 => None,
+            // Self::WLP690 => None,
+            // Self::WLP692 => None,
+            // Self::WLP693 => None,
             Self::WLP700 => None,
             Self::WLP705 => Some((Gallone::Sa002, 0.8)), // genome sequencing match, but 2 close hits
             Self::WLP707 => None,

@@ -564,22 +564,6 @@ impl Style {
         crate::union_ranges(self.color_ranges())
     }
 
-    /// Yeast pitching rate (cells per mL per Plato)
-    #[must_use]
-    pub fn yeast_pitching_rate(&self) -> u64 {
-        if self.is_a_wheat_beer() {
-            // 600k per ml per plato for Weissbier as
-            // stressed growth promotes esters
-            600_000
-        } else if self.fermentation() == Fermentation::Lager {
-            // 1.5m per ml per plato for lagers
-            1_500_000
-        } else {
-            // 750k to 1m per ml per plato
-            750_000
-        }
-    }
-
     /// Carbonation volume
     #[must_use]
     pub fn carbonation_volume(&self) -> f32 {
@@ -622,8 +606,9 @@ impl Style {
     #[allow(clippy::match_like_matches_macro)]
     pub fn is_a_wheat_beer(&self) -> bool {
         match *self {
-            Self::DunklesWeissbier => true,
+            Self::AmericanWheatBeer => true,
             Self::Weissbier => true,
+            Self::DunklesWeissbier => true,
             Self::LeichtesWeizen => true,
             _ => false,
         }

@@ -563,7 +563,11 @@ impl Process {
     pub fn yeast_cells(&self) -> u64 {
         let ml: Milliliters = self.batch_size.into();
         let plato: Plato = self.recipe.original_gravity.into();
-        let pitch_rate: u64 = self.recipe.style.yeast_pitching_rate();
+        let mut pitch_rate: u64 = self.recipe.yeast.pitching_rate_cmlp();
+        if self.recipe.style.is_a_wheat_beer() {
+            pitch_rate *= 600;
+            pitch_rate /= 750;
+        }
         pitch_rate * (ml.0 * plato.0) as u64
     }
 
@@ -571,8 +575,21 @@ impl Process {
     #[must_use]
     #[allow(clippy::cast_precision_loss)]
     pub fn yeast_grams(&self) -> Option<Grams> {
-        if let Some((grams, liters)) = self.recipe.yeast.pitching_rate() {
-            Some(grams * (self.batch_size.0 / liters.0))
+        if let Some(ghl_range) = self.recipe.yeast.pitching_rate_range_ghl() {
+            // We assume their low number maps to 1.035
+            // We assume their high number maps to 1.070
+            let fraction_in: f32 = {
+                let low_plato: Plato = SpecificGravity(1.035).into();
+                let plato_range: f32 = {
+                    let high_plato: Plato = SpecificGravity(1.070).into();
+                    high_plato.0 - low_plato.0
+                };
+                let plato: Plato = self.recipe.original_gravity.into();
+                (plato.0 - low_plato.0) / plato_range
+            };
+
+            let ghl = ghl_range.start + (ghl_range.end - ghl_range.start) * fraction_in;
+            Some(Grams(ghl / 100.0 * self.batch_size.0))
         } else {
             let cells = self.yeast_cells();
             if self.recipe.yeast.is_dry() {
