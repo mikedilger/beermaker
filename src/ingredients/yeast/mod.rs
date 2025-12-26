@@ -90,7 +90,11 @@ pub enum Yeast {
     /// but these can fade out quickly.
     SafLagerS189,
 
+    /// SafLager S-23
+    /// Lager yeast from Berlin
+    /// Recommended for fruitier or more estery lagers.
     SafLagerS23,
+
     SafLagerSH45,
     SafLagerW3470,
 
@@ -2019,6 +2023,7 @@ impl Yeast {
             Self::SafAleUS05 => Some(Strain::Chico),
             Self::SafAleW68 => Some(Strain::WeihenstephananWeizen68),
             Self::SafLagerS189 => Some(Strain::Hurlimann),
+            Self::SafLagerS23 => Some(Strain::BerlinLager),
             Self::SafLagerW3470 => Some(Strain::WeihenstephananLager),
             Self::WLP001 => Some(Strain::Chico), // BRY96), WY1056
             Self::WLP002 => Some(Strain::Fullers), // BE045), WY1968

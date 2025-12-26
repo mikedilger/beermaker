@@ -159,6 +159,10 @@ impl From<Abv> for Percent {
     }
 }
 
+/// 1 PPG = 8.3454 PKL
+/// via the conversion of pounds to kilograms 2.204623
+/// and the conversion of gallons to liters 3.7854
+
 #[cfg(test)]
 mod test {
     use super::*;

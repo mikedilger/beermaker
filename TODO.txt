@@ -1,12 +1,15 @@
-ABV test is wrong (off by 100 probably)
-Abv type exists now, stop using f32
+Ppg: retire this, use fermentability (which according to sugar.rs
+	is ppg / 46.0.
+
+pH-offset: recipe option to specify a measured Ph offset
+
+Unermentability: Points isn't enough. We want to know what percent
+	of those points are fermentable, independent of yeast
+    attenuation.  Use like we do the unfermentability of sugar.
 
 Lagering vessel is not selected, lagering steps are missing.
 
-pH calculation could use some love.
-
 Terminology: use the terms liquor and grist.
-
 
 Data sources that went into the now-gone brewstillery:
 

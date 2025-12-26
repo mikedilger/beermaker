@@ -32,6 +32,10 @@ pub enum Strain {
     // WLP051, BRY97, WY1272
     Ballantine,
 
+    /// Berlin Lager
+    /// VLB Institute in Germany
+    BerlinLager,
+
     /// Boddingtons
     // WY1318
     Boddingtons,
@@ -94,7 +98,7 @@ pub enum Strain {
     // WLP004
     Guinness,
 
-    /// Henlty of Thames, brakspear bitter
+    /// Henley of Thames, brakspear bitter
     // WY1275
     HenleyOfThames,
 
