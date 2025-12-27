@@ -16,7 +16,7 @@ mod sugar;
 pub use sugar::Sugar;
 
 mod hops;
-pub use hops::Hops;
+pub use hops::{Hops, HopsUsage};
 
 mod yeast;
 pub use yeast::{Flocculation, Gallone, STA1, Strain, Yeast, YeastProvider};

@@ -129,7 +129,7 @@ const MILLILITERS_PER_LITER: f32 = 1000.0;
 const LITERS_PER_GALLON: f32 = 3.7854;
 const QUARTS_PER_GALLON: f32 = 4.0;
 const FLUID_OUNCES_PER_GALLON: f32 = 128.0;
-const MILLILITERS_PER_FLUID_OUNCE: f32 = 29.5734375;
+const MILLILITERS_PER_FLUID_OUNCE: f32 = 29.573_437;
 
 impl From<Liters> for Milliliters {
     fn from(v: Liters) -> Self {
@@ -307,5 +307,5 @@ mod test {
         assert!(approx_eq!(f32, a.0, b.0, ulps = 10));
         let b = Into::<FluidOunces>::into(Into::<Quarts>::into(a));
         assert!(approx_eq!(f32, a.0, b.0, ulps = 10));
-}
+    }
 }

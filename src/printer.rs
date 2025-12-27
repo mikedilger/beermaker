@@ -252,10 +252,11 @@ pub fn print_process(
             .push("You will need to start a yeast starter the day before.".to_string());
     }
 
-    steps
-        .acquire
-        .push("Set the temperature on the fermentation chamber so it has time to \
-               get there.".to_string());
+    steps.acquire.push(
+        "Set the temperature on the fermentation chamber so it has time to \
+               get there."
+            .to_string(),
+    );
 
     // -- prep ------------
 
@@ -266,10 +267,11 @@ pub fn print_process(
              \n{water_doses}\n\nThis Yields:\n\n{adjusted_water_profile}"
     ));
 
-    steps
-        .prep
-        .push("Weigh out malts. Assemble all other ingredients and other \
-               materials.".to_string());
+    steps.prep.push(
+        "Weigh out malts. Assemble all other ingredients and other \
+               materials."
+            .to_string(),
+    );
 
     steps
         .prep
@@ -289,7 +291,6 @@ pub fn print_process(
     steps
         .prep
         .push("Sanitize equipment now, or during the mash.".to_string());
-
 
     steps
         .acquire
@@ -354,42 +355,43 @@ pub fn print_process(
             .to_string(),
     );
 
-    steps
-        .mash
-        .push("Mash out by raising the temperature to 77°C and hold for 5 to \
-               10 minutes.".to_string());
+    steps.mash.push(
+        "Mash out by raising the temperature to 77°C and hold for 5 to \
+               10 minutes."
+            .to_string(),
+    );
 
     steps
         .mash
         .push("Take the pH of the sample that cooled and record it.".to_string());
 
-    steps
-        .mash
-        .push("Vorlauf: Lauter out of the mash tun into a jug, pouring back into the \
+    steps.mash.push(
+        "Vorlauf: Lauter out of the mash tun into a jug, pouring back into the \
                mash tun, until the wort runs clear. The clearer the wort the better. \
-               Solids that end up in the fermenter usually taste bad.".to_string());
+               Solids that end up in the fermenter usually taste bad."
+            .to_string(),
+    );
 
     steps
         .mash
         .push("Lauter the first runnings into the boil kettle.".to_string());
 
     steps.mash.push(format!(
-        "Batch sparge the mash with {sparge_volume} water of about 77°C, stir it well."));
+        "Batch sparge the mash with {sparge_volume} water of about 77°C, stir it well."
+    ));
 
-    steps
-        .mash
-        .push("Vorlauf again: Lauter out of the mash tun into a jug, pouring back into \
+    steps.mash.push(
+        "Vorlauf again: Lauter out of the mash tun into a jug, pouring back into \
                the mash tun, until the wort runs clear. The clearer the wort the better. \
-               Solids that end up in the fermenter usually taste bad.".to_string());
+               Solids that end up in the fermenter usually taste bad."
+            .to_string(),
+    );
 
     steps
         .mash
         .push("Lauter the second runnings into the boil kettle.".to_string());
 
-    steps
-        .mash
-        .push("Discard the grains.".to_string());
-
+    steps.mash.push("Discard the grains.".to_string());
 
     // -- boil ------------
 
@@ -408,7 +410,9 @@ pub fn print_process(
          The target temp-correct pre-boil gravity is {pre_boil_gravity}"
     ));
 
-    steps.boil.push("Turn on the ventilation hood, full blast.".to_string());
+    steps
+        .boil
+        .push("Turn on the ventilation hood, full blast.".to_string());
 
     steps
         .boil
@@ -500,10 +504,11 @@ pub fn print_process(
         );
     }
 
-    steps
-        .chill
-        .push("After the wort drops below 62C, it is no longer Pasteurized and can \
-               become infected. Sanitization is now important.".to_string());
+    steps.chill.push(
+        "After the wort drops below 62C, it is no longer Pasteurized and can \
+               become infected. Sanitization is now important."
+            .to_string(),
+    );
 
     if process.equipment.ice_bath {
         steps.chill.push(
@@ -525,17 +530,17 @@ pub fn print_process(
             .push("Chill the wart according to your setup and equipment".to_string());
     }
 
-
     steps
         .chill
         .push("Sanitize the fermenter and any equipment used for transfer.".to_string());
 
-    steps
-        .chill
-        .push("Before or after the wort has completely cooled, transfer the wort into the \
+    steps.chill.push(
+        "Before or after the wort has completely cooled, transfer the wort into the \
                fermenter.  Be careful to transfer as little of the protein break and \
                other trub solids into the fermenter as possible. They usually taste \
-               bad.".to_string());
+               bad."
+            .to_string(),
+    );
 
     steps
         .chill
