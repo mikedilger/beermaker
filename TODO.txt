@@ -3,9 +3,12 @@ Ppg: retire this, use fermentability (which according to sugar.rs
 
 pH-offset: recipe option to specify a measured Ph offset
 
-Unermentability: Points isn't enough. We want to know what percent
+Unfermentability: Points isn't enough. We want to know what percent
 	of those points are fermentable, independent of yeast
     attenuation.  Use like we do the unfermentability of sugar.
+	JP says yeast attenuation is an 'average'. JP also says
+    malts have on average 25% unfermentable dextrins and
+    14% maltotriose (some yeast doesn't ferment this).
 
 Lagering vessel is not selected, lagering steps are missing.
 

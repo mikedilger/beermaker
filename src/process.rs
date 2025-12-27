@@ -663,8 +663,12 @@ impl Process {
         //    0.15 to 0.3 mg Zn / L -- minimum required
         //    0.3 to 0.5 mg/L
         //    0.6 (a high-end lallemand yeast nutrient providing it)
+        // But recall that some zinc is already provided by the malt.
+        // JP says 0.1-0.3 mg/L with 0.5 as a maximum
+        //
+        // Wyeast packs already has zinc. TODO.
 
-        Milligrams(0.5 * self.batch_size.0)
+        Milligrams(0.2 * self.batch_size.0)
     }
 
     /// The estimated gravity after fermentation, before any dilution
