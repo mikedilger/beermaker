@@ -59,7 +59,7 @@ impl Process {
     pub fn water_salts(&self) -> Vec<SaltConcentration> {
         let mut water_adjustment = WaterAdjustment::new(
             self.equipment.water_profile,
-            self.recipe.chloride_sulfate_ratio_range.clone(),
+            self.recipe.sulfate_chloride_ratio_range.clone(),
             self.equipment.salts_available.clone(),
         );
 
@@ -994,15 +994,15 @@ impl Process {
     pub fn get_warnings(&self) -> Vec<Warning> {
         let mut warnings: Vec<Warning> = Vec::new();
 
-        // Check chloride-sulfate ratio
+        // Check sulfate/chloride ratio
         let water_profile = self.adjusted_water_profile();
         let current = water_profile.cl.0 / water_profile.so4.0;
-        if current < self.recipe.chloride_sulfate_ratio_range.start {
-            warnings.push(Warning::ChlorideSulfateRatioLow {
+        if current < self.recipe.sulfate_chloride_ratio_range.start {
+            warnings.push(Warning::SulfateChlorideRatioLow {
                 current_ratio: current,
             });
-        } else if current > self.recipe.chloride_sulfate_ratio_range.end {
-            warnings.push(Warning::ChlorideSulfateRatioHigh {
+        } else if current > self.recipe.sulfate_chloride_ratio_range.end {
+            warnings.push(Warning::SulfateChlorideRatioHigh {
                 current_ratio: current,
             });
         }

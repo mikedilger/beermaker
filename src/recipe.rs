@@ -14,8 +14,8 @@ pub struct Recipe {
     /// The style of beer
     pub style: Style,
 
-    /// Water profile requirements, Cl to SO4 ratio
-    pub chloride_sulfate_ratio_range: Range<f32>,
+    /// Water profile requirements, SO4 to Cl ratio
+    pub sulfate_chloride_ratio_range: Range<f32>,
 
     // TBD water alkalinity requirements
 

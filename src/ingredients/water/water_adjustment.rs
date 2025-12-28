@@ -22,7 +22,7 @@ fn salt_concentration_for_ion(salt: Salt, ion: Ion, additional_ppm: Ppm) -> Salt
 pub struct WaterAdjustment {
     profile: WaterProfile,
     salts_available: Vec<Salt>,
-    chloride_sulfate_ratio_range: Range<f32>,
+    sulfate_chloride_ratio_range: Range<f32>,
 }
 
 impl WaterAdjustment {
@@ -30,24 +30,24 @@ impl WaterAdjustment {
     #[must_use]
     pub fn new(
         profile: WaterProfile,
-        chloride_sulfate_ratio_range: Range<f32>,
+        sulfate_chloride_ratio_range: Range<f32>,
         salts_available: Vec<Salt>,
     ) -> WaterAdjustment {
         WaterAdjustment {
             profile,
             salts_available,
-            chloride_sulfate_ratio_range,
+            sulfate_chloride_ratio_range,
         }
     }
 
     fn cl_target_range(&self) -> Range<Ppm> {
-        self.profile.so4 * self.chloride_sulfate_ratio_range.start
-            ..self.profile.so4 * self.chloride_sulfate_ratio_range.end
+        self.profile.so4 / self.sulfate_chloride_ratio_range.start
+            ..self.profile.so4 / self.sulfate_chloride_ratio_range.end
     }
 
     fn so4_target_range(&self) -> Range<Ppm> {
-        self.profile.cl / self.chloride_sulfate_ratio_range.end
-            ..self.profile.cl / self.chloride_sulfate_ratio_range.start
+        self.profile.cl * self.sulfate_chloride_ratio_range.end
+            ..self.profile.cl * self.sulfate_chloride_ratio_range.start
     }
 
     /// Salts needed to achieve what we want

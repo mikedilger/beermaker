@@ -59,16 +59,39 @@ impl WaterProfile {
         ph: Ph(7.5), // guess
     };
 
-    /// Water hardness, permanent
+    /// Water hardness on account of Calcium, permanent, in CaCO3 units
     #[must_use]
-    pub fn water_hardness(&self) -> Ppm {
-        (self.ca * 2.497) + (self.mg * 4.118)
+    pub fn calcium_water_hardness(&self) -> CaCO3 {
+        // We multiply by the molecular weight of CaCO3
+        // divided by the molecular weight of Ca
+        // (40.078 + 12.0096 + 3.0 * 15.999) / 40.078 = 2.497(24..)
+        CaCO3(self.ca.0 * 2.497)
+    }
+
+    /// Water hardness on account of Magnesium, permanent, in CaCO3 units
+    #[must_use]
+    pub fn magnesium_water_hardness(&self) -> CaCO3 {
+        // We multiply by the molecular weight of CaCO3
+        // divided by the molecular weight of Mg
+        // (40.078 + 12.0096 + 3.0 * 15.999) / 24.304 = 4.118(03..)
+        CaCO3(self.mg.0 * 4.118)
+    }
+
+    /// Total water hardness, permanent, in CaCO3
+    #[must_use]
+    pub fn water_hardness(&self) -> CaCO3 {
+        self.calcium_water_hardness() + self.magnesium_water_hardness()
     }
 
     /// Effective water hardness as `CaCO3` ppm
     #[must_use]
     pub fn effective_water_hardness_caco3(&self) -> CaCO3 {
-        CaCO3((self.ca.0 / 1.4) + (self.mg.0 / 1.7))
+        // this is sometimes calculated as ca / 1.4 + mg / 1.7
+        // but that calc is both converting to CaCO3 units and
+        // computing the effective hardness in a single step.
+
+        self.calcium_water_hardness() / 3.5
+            + self.magnesium_water_hardness() / 7.0
     }
 
     /// Compute residual alkalinity (RA)
@@ -83,10 +106,17 @@ impl WaterProfile {
         self.alkalinity_caco3 - self.effective_water_hardness_caco3()
     }
 
-    /// Approx mash pH, John Palmer 1990s
+    /// Approx mash pH, Pale Malts only
     #[must_use]
     pub fn approx_mash_ph(&self) -> Ph {
-        Ph(5.7 + self.residual_alkalinity().0 / 60.0)
+        // Approx mash pH, John Palmer 1990s, did this:
+        // (not sure what units he used)
+        // 5.7 + self.residual_alkalinity().0 / 60.0
+
+        // The below is supposedly equivalent to
+		// 5.5 + 0.084 * RA as mEq/L
+
+    	Ph(5.5 + 0.00168 * self.residual_alkalinity().0)
     }
 
     /// Hardness Alkalinity ratio
@@ -95,9 +125,9 @@ impl WaterProfile {
         self.effective_water_hardness_caco3().0 / self.residual_alkalinity().0
     }
 
-    /// Chloride Sulfate ratio
+    /// Sulfate/Chloride ratio
     #[must_use]
-    pub fn chloride_sulfate_ratio(&self) -> f32 {
+    pub fn sulfate_chloride_ratio(&self) -> f32 {
         self.cl.0 / self.so4.0
     }
 

@@ -5,17 +5,17 @@ use std::ops::Range;
 /// A warning related to a Process
 #[derive(Debug, Clone)]
 pub enum Warning {
-    /// There is too much sulfate, not enough chloride, and there is no salt
+    /// There is too much chloride, not enough sulfate, and there is no salt
     /// available to correct this.
-    ChlorideSulfateRatioLow {
-        /// The current ratio of chloride to sulfate
+    SulfateChlorideRatioLow {
+        /// The current ratio of sulfate to chloride
         current_ratio: f32,
     },
 
-    /// There is too much chloride, not enough sulfate, and there is no salt
+    /// There is too much sulfate, not enough chloride, and there is no salt
     /// available to correct this.
-    ChlorideSulfateRatioHigh {
-        /// The current ratio of chloride to sulfate
+    SulfateChlorideRatioHigh {
+        /// The current ratio of sulfate to chloride
         current_ratio: f32,
     },
 
@@ -162,17 +162,17 @@ impl fmt::Display for Warning {
     #[allow(clippy::too_many_lines)]
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
         match self {
-            Self::ChlorideSulfateRatioLow { current_ratio } => {
+            Self::SulfateChlorideRatioLow { current_ratio } => {
                 write!(
                     f,
-                    "Chloride-Sulfate ratio is too low ({current_ratio}), and \
+                    "Sulfate/Chloride ratio is too low ({current_ratio}), and \
                            we have no salt to fix it with."
                 )
             }
-            Self::ChlorideSulfateRatioHigh { current_ratio } => {
+            Self::SulfateChlorideRatioHigh { current_ratio } => {
                 write!(
                     f,
-                    "Chloride-Sulfate ratio is too high ({current_ratio}), and \
+                    "Sulfate/Chloride ratio is too high ({current_ratio}), and \
                            we have no salt to fix it with."
                 )
             }
