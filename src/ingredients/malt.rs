@@ -100,6 +100,9 @@ pub enum Malt {
     /// Weyermann Caramunich Type II
     WeyermannCaramunich2,
 
+    /// Weyermann Carapils
+    WeyermannCarapils,
+
     /// Weyermann Melanoidin
     WeyermannMelanoidin,
 
@@ -151,6 +154,7 @@ impl Malt {
             Malt::WeyermannCarafaSpecial2 => MaltCategory::Roasted,
             Malt::WeyermannCarafaSpecial3 => MaltCategory::Roasted,
             Malt::WeyermannCaramunich2 => MaltCategory::Crystal,
+            Malt::WeyermannCarapils => MaltCategory::Crystal,
             Malt::WeyermannMelanoidin => MaltCategory::Crystal,
             Malt::WeyermannMunich1 => MaltCategory::Base,
             Malt::WeyermannMunich2 => MaltCategory::Base,
@@ -190,6 +194,7 @@ impl Malt {
             Malt::WeyermannCarafaSpecial2 => None,
             Malt::WeyermannCarafaSpecial3 => None,
             Malt::WeyermannCaramunich2 => None,
+            Malt::WeyermannCarapils => None,
             Malt::WeyermannMelanoidin => None,
             Malt::WeyermannMunich1 => Some(Ph(5.3)),  // [1]
             Malt::WeyermannMunich2 => Some(Ph(5.43)), // [1]
@@ -270,9 +275,10 @@ impl Malt {
             Malt::WeyermannCarafaSpecial2 => (Ebc(1100.0), Ebc(1200.0)),
             Malt::WeyermannCarafaSpecial3 => (Ebc(1300.0), Ebc(1500.0)),
             Malt::WeyermannCaramunich2 => (Ebc(110.0), Ebc(130.0)), // 41.9 - 49.5
-            Malt::WeyermannMelanoidin => (Ebc(60.0), Ebc(80.0)),    // 23.1 - 30.6
-            Malt::WeyermannMunich1 => (Ebc(12.0), Ebc(18.0)),       // 5.0 - 7.2
-            Malt::WeyermannMunich2 => (Ebc(20.0), Ebc(25.0)),       // 8.0 - 9.9
+            Malt::WeyermannCarapils => (Ebc(2.5), Ebc(6.5)),
+            Malt::WeyermannMelanoidin => (Ebc(60.0), Ebc(80.0)), // 23.1 - 30.6
+            Malt::WeyermannMunich1 => (Ebc(12.0), Ebc(18.0)),    // 5.0 - 7.2
+            Malt::WeyermannMunich2 => (Ebc(20.0), Ebc(25.0)),    // 8.0 - 9.9
             Malt::WeyermannPilsner => (Ebc(2.5), Ebc(4.5)),
             Malt::WeyermannVienna => (Ebc(6.0), Ebc(9.0)), // 2.7 - 3.8
             Malt::WeyermannWheatPale => (Ebc(3.0), Ebc(5.0)), // 1.6 - 2.3
@@ -316,6 +322,7 @@ impl Malt {
             Malt::WeyermannCarafaSpecial2 => 5.0,
             Malt::WeyermannCarafaSpecial3 => 5.0,
             Malt::WeyermannCaramunich2 => 10.0,
+            Malt::WeyermannCarapils => 10.0,
             Malt::WeyermannMelanoidin => 20.0,
             Malt::WeyermannMunich1 => 100.0,
             Malt::WeyermannMunich2 => 100.0,
@@ -357,6 +364,7 @@ impl Malt {
             Malt::WeyermannCarafaSpecial2 => 29.9,
             Malt::WeyermannCarafaSpecial3 => 29.9,
             Malt::WeyermannCaramunich2 => 34.0,
+            Malt::WeyermannCarapils => 34.5,
             Malt::WeyermannMelanoidin => 34.5,
             Malt::WeyermannMunich1 => 38.0,
             Malt::WeyermannMunich2 => 37.0,
@@ -397,6 +405,7 @@ impl Malt {
             Malt::WeyermannCarafaSpecial2 => Some(0.0), // presume none
             Malt::WeyermannCarafaSpecial3 => Some(0.0), // presume none
             Malt::WeyermannCaramunich2 => Some(0.0),    // presume none
+            Malt::WeyermannCarapils => Some(0.0),       // presume none
             Malt::WeyermannMelanoidin => Some(0.0),     // presume none
             Malt::WeyermannMunich1 => Some(f32::midpoint(9.0, 12.5)),
             Malt::WeyermannMunich2 => Some(f32::midpoint(9.0, 12.5)),
@@ -438,6 +447,7 @@ impl Malt {
             Malt::WeyermannCarafaSpecial2 => None,
             Malt::WeyermannCarafaSpecial3 => None,
             Malt::WeyermannCaramunich2 => Some(37.0), // of zero
+            Malt::WeyermannCarapils => Some(37.0),    // of zero
             Malt::WeyermannMelanoidin => Some(37.0),  // of zero
             Malt::WeyermannMunich1 => Some(f32::midpoint(37.0, 46.0)),
             Malt::WeyermannMunich2 => Some(f32::midpoint(37.0, 46.0)),
@@ -478,6 +488,7 @@ impl Malt {
             Malt::WeyermannCarafaSpecial2 => Some(Ppm(0.0)), // assume 0
             Malt::WeyermannCarafaSpecial3 => Some(Ppm(0.0)), // assume 0
             Malt::WeyermannCaramunich2 => Some(Ppm(0.0)),    // assume 0
+            Malt::WeyermannCarapils => Some(Ppm(0.0)),       // assume 0
             Malt::WeyermannMelanoidin => Some(Ppm(0.0)),     // assume 0
             Malt::WeyermannMunich1 => None,
             Malt::WeyermannMunich2 => None,
@@ -539,6 +550,7 @@ impl fmt::Display for Malt {
             Malt::WeyermannCarafaSpecial2 => write!(f, "[Weyermann Carafa Special II]"),
             Malt::WeyermannCarafaSpecial3 => write!(f, "[Weyermann Carafa Special III]"),
             Malt::WeyermannCaramunich2 => write!(f, "[Weyermann CaraMunich Malt II]"),
+            Malt::WeyermannCarapils => write!(f, "[Weyermann Carapils Malt]"),
             Malt::WeyermannMelanoidin => write!(f, "[Weyermann Melanoidin Malt]"),
             Malt::WeyermannMunich1 => write!(f, "[Weyermann Munich Malt I]"),
             Malt::WeyermannMunich2 => write!(f, "[Weyermann Munich Malt II]"),
