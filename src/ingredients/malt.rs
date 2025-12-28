@@ -22,6 +22,9 @@ pub enum MaltCategory {
 /// A type of Malt
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, EnumIter)]
 pub enum Malt {
+    /// Briess Victory
+    BriessVictory,
+
     /// Dingemans Special-B
     DingemansSpecialB,
 
@@ -122,6 +125,7 @@ impl Malt {
     #[allow(clippy::match_same_arms)]
     pub fn category(&self) -> MaltCategory {
         match *self {
+            Malt::BriessVictory => MaltCategory::Roasted,
             Malt::DingemansSpecialB => MaltCategory::Crystal,
             Malt::FawcettPaleChocolate => MaltCategory::Roasted,
             Malt::GladfieldAle => MaltCategory::Base,
@@ -160,6 +164,7 @@ impl Malt {
     #[must_use]
     pub fn distilled_water_mash_ph(&self) -> Option<Ph> {
         match *self {
+            Malt::BriessVictory => None,
             Malt::DingemansSpecialB => None,
             Malt::FawcettPaleChocolate => None,
             Malt::GladfieldAle => Some(Ph(f32::midpoint(5.7, 6.0))), // [2]
@@ -239,6 +244,7 @@ impl Malt {
     #[allow(clippy::match_same_arms)]
     pub fn ebc_range(&self) -> (Ebc, Ebc) {
         match *self {
+            Malt::BriessVictory => (Ebc(55.0), Ebc(55.0)),
             Malt::DingemansSpecialB => (Ebc(300.0), Ebc(300.0)),
             Malt::FawcettPaleChocolate => (Ebc(560.0), Ebc(690.0)),
             Malt::GladfieldAle => (Ebc(5.0), Ebc(6.0)),
@@ -284,6 +290,7 @@ impl Malt {
     #[allow(clippy::match_same_arms)]
     pub fn recommended_max_percent(&self) -> f32 {
         match *self {
+            Malt::BriessVictory => 10.0,
             Malt::DingemansSpecialB => 15.0,
             Malt::FawcettPaleChocolate => 5.0,
             Malt::GladfieldAle => 100.0,
@@ -324,6 +331,7 @@ impl Malt {
     #[allow(clippy::match_same_arms)]
     pub fn ppg(&self) -> f32 {
         match *self {
+            Malt::BriessVictory => 34.5,
             Malt::DingemansSpecialB => 33.1,
             Malt::FawcettPaleChocolate => 32.2,
             Malt::GladfieldAle => 37.4,
@@ -363,6 +371,7 @@ impl Malt {
     #[allow(clippy::match_same_arms)]
     pub fn percent_protein(&self) -> Option<f32> {
         match *self {
+            Malt::BriessVictory => None,
             Malt::DingemansSpecialB => None,
             Malt::FawcettPaleChocolate => Some(11.6), // less than
             Malt::GladfieldAle => None,
@@ -403,6 +412,7 @@ impl Malt {
     #[allow(clippy::match_same_arms)]
     pub fn kolbach_index(&self) -> Option<f32> {
         match *self {
+            Malt::BriessVictory => None,
             Malt::DingemansSpecialB => None,
             Malt::FawcettPaleChocolate => None,
             Malt::GladfieldAle => Some(38.0), // spec 35 - 41
@@ -442,6 +452,7 @@ impl Malt {
     #[must_use]
     pub fn fan_from_spec(&self) -> Option<Ppm> {
         match *self {
+            Malt::BriessVictory => None,
             Malt::DingemansSpecialB => Some(Ppm(0.0)), // assume 0
             Malt::FawcettPaleChocolate => None,
             Malt::GladfieldAle => Some(Ppm(130.0)), // min spec 120.0
@@ -502,6 +513,7 @@ impl Malt {
 impl fmt::Display for Malt {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match *self {
+            Malt::BriessVictory => write!(f, "[Briess Victory]"),
             Malt::DingemansSpecialB => write!(f, "[Dingemans Special B]"),
             Malt::FawcettPaleChocolate => write!(f, "[Thomas Fawcett Pale Chocolate Malt]"),
             Malt::GladfieldAle => write!(f, "[Gladfield Ale Malt]"),

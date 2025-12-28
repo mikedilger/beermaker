@@ -46,8 +46,14 @@ pub enum Hops {
     /// Simcoe
     Simcoe,
 
+    /// Target
+    Target,
+
     /// Tettnang
     Tettnang,
+
+    /// Williamette
+    Williamette,
 }
 
 impl fmt::Display for Hops {
@@ -64,7 +70,9 @@ impl fmt::Display for Hops {
             Hops::NelsonSauvin => write!(f, "[Nelson Sauvin]"),
             Hops::Saaz => write!(f, "[Saaz]"),
             Hops::Simcoe => write!(f, "[Simcoe]"),
+            Hops::Target => write!(f, "[Target]"),
             Hops::Tettnang => write!(f, "[Tettnang]"),
+            Hops::Williamette => write!(f, "[Williamette]"),
         }
     }
 }
@@ -85,7 +93,9 @@ impl Hops {
             Hops::NelsonSauvin => HopsUsage::DualPurpose,
             Hops::Saaz => HopsUsage::Finishing,
             Hops::Simcoe => HopsUsage::DualPurpose,
+            Hops::Target => HopsUsage::DualPurpose,
             Hops::Tettnang => HopsUsage::Finishing,
+            Hops::Williamette => HopsUsage::Finishing,
         }
     }
 
@@ -104,7 +114,9 @@ impl Hops {
             Hops::NelsonSauvin => f32::midpoint(12.0, 13.0),
             Hops::Saaz => f32::midpoint(2.0, 4.5),
             Hops::Simcoe => f32::midpoint(12.0, 14.0),
+            Hops::Target => 0.115,
             Hops::Tettnang => f32::midpoint(3.0, 5.0),
+            Hops::Williamette => 0.054,
         }
     }
 }

@@ -142,8 +142,8 @@ pub enum Style {
     // 18A. Blonde Ale
 
     // 18B. American Pale Ale
-
-    // 19A. American Amber Ale
+    /// 19A. American Amber Ale
+    AmericanAmberAle,
 
     // 19B. California Common
 
@@ -235,6 +235,7 @@ impl fmt::Display for Style {
             Self::Weissbier => write!(f, "Weissbier"),
             Self::LeichtesWeizen => write!(f, "Leichtes Weizen"),
             Self::IrishRedAle => write!(f, "Irish Red Ale"),
+            Self::AmericanAmberAle => write!(f, "American Amber Ale"),
             Self::BelgianDarkStrongAle => write!(f, "Belgian Dark Strong Ale"),
         }
     }
@@ -258,6 +259,7 @@ impl Style {
             Self::Weissbier => StyleOrigin::German,
             Self::LeichtesWeizen => StyleOrigin::German,
             Self::IrishRedAle => StyleOrigin::Irish,
+            Self::AmericanAmberAle => StyleOrigin::American,
             Self::BelgianDarkStrongAle => StyleOrigin::Belgian,
         }
     }
@@ -279,6 +281,7 @@ impl Style {
             Self::Weissbier => Fermentation::Ale,
             Self::LeichtesWeizen => Fermentation::Ale,
             Self::IrishRedAle => Fermentation::Ale,
+            Self::AmericanAmberAle => Fermentation::Ale,
             Self::BelgianDarkStrongAle => Fermentation::Ale,
         }
     }
@@ -300,6 +303,7 @@ impl Style {
             Self::Weissbier => Conditioning::None,
             Self::LeichtesWeizen => Conditioning::None,
             Self::IrishRedAle => Conditioning::None,
+            Self::AmericanAmberAle => Conditioning::None,
             Self::BelgianDarkStrongAle => Conditioning::None,
         }
     }
@@ -384,6 +388,13 @@ impl Style {
                  caramel and sweetness more, while others will favor the grainy \
                  palate and roasted dryness."
             }
+            Self::AmericanAmberAle => {
+                "An amber, hoppy, moderate-strength \
+                 American craft beer with a malty caramel flavor. The balance \
+                 can vary quite a bit, with some versions being fairly malty and \
+                 others being aggressively hoppy. Hoppy and bitter versions \
+                 should not have clashing flavors with the caramel malt profile."
+            }
             Self::BelgianDarkStrongAle => "(not listed with BJCP 2021)",
         }
     }
@@ -420,6 +431,9 @@ impl Style {
             Self::IrishRedAle => &[
                 SpecificGravity(1.036)..SpecificGravity(1.046), // BJCP
                 SpecificGravity(1.040)..SpecificGravity(1.048), // BA
+            ],
+            Self::AmericanAmberAle => &[
+                SpecificGravity(1.045)..SpecificGravity(1.060), // BJCP
             ],
             Self::BelgianDarkStrongAle => &[
                 SpecificGravity(1.092)..SpecificGravity(1.120), // BA
@@ -466,6 +480,9 @@ impl Style {
                 SpecificGravity(1.010)..SpecificGravity(1.014), // BJCP
                 SpecificGravity(1.010)..SpecificGravity(1.014), // BA
             ],
+            Self::AmericanAmberAle => &[
+                SpecificGravity(1.010)..SpecificGravity(1.015), // BJCP
+            ],
             Self::BelgianDarkStrongAle => &[
                 SpecificGravity(1.014)..SpecificGravity(1.020), // BA
             ],
@@ -495,6 +512,7 @@ impl Style {
             Self::Weissbier => vec![4.3..5.6, 4.9..5.6],
             Self::LeichtesWeizen => vec![2.5..3.5],
             Self::IrishRedAle => vec![3.8..5.0, 4.0..4.8],
+            Self::AmericanAmberAle => vec![4.5..6.2],
             Self::BelgianDarkStrongAle => vec![10.0..14.2],
         };
 
@@ -527,6 +545,7 @@ impl Style {
             Self::Weissbier => &[Ibu(8.0)..Ibu(15.0), Ibu(10.0)..Ibu(15.0)],
             Self::LeichtesWeizen => &[Ibu(10.0)..Ibu(15.0)],
             Self::IrishRedAle => &[Ibu(18.0)..Ibu(28.0), Ibu(20.0)..Ibu(28.0)],
+            Self::AmericanAmberAle => &[Ibu(25.0)..Ibu(40.0)],
             Self::BelgianDarkStrongAle => &[Ibu(25.0)..Ibu(50.0)],
         }
     }
@@ -554,6 +573,7 @@ impl Style {
             Self::Weissbier => &[Srm(2.0)..Srm(6.0), Srm(3.0)..Srm(9.0)],
             Self::LeichtesWeizen => &[Srm(3.5)..Srm(15.0)],
             Self::IrishRedAle => &[Srm(9.0)..Srm(14.0), Srm(11.0)..Srm(18.0)],
+            Self::AmericanAmberAle => &[Srm(10.0)..Srm(17.0)],
             Self::BelgianDarkStrongAle => &[Srm(16.0)..Srm(36.0)],
         }
     }
@@ -597,6 +617,7 @@ impl Style {
             Self::Weissbier => 3.3,
             Self::LeichtesWeizen => 4.0,
             Self::IrishRedAle => 1.9,
+            Self::AmericanAmberAle => 2.5,
             Self::BelgianDarkStrongAle => 3.0,
         }
     }
