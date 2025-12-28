@@ -1,4 +1,4 @@
-use super::{Equipment, Recipe, Warning};
+use super::{Brewery, Recipe, Warning};
 use crate::Packaging;
 use crate::prelude::*;
 use serde::{Deserialize, Serialize};
@@ -8,7 +8,7 @@ use std::fmt::Write;
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Process {
     /// The equipment being used
-    pub equipment: Equipment,
+    pub brewery: Brewery,
 
     /// The recipe to brew
     pub recipe: Recipe,
@@ -29,9 +29,9 @@ impl Process {
     /// differently to the desired one.  If no size is specified, the
     /// maximum batch size will be computed.
     #[must_use]
-    pub fn new(equipment: Equipment, recipe: Recipe, batch_size: Liters) -> Process {
+    pub fn new(brewery: Brewery, recipe: Recipe, batch_size: Liters) -> Process {
         Process {
-            equipment,
+            brewery,
             recipe,
             batch_size,
         }
@@ -42,7 +42,7 @@ impl Process {
     pub fn time_until_done(&self) -> Days {
         let mut conditioning = self.recipe.style.recommended_conditioning_time();
 
-        if let Packaging::Bottle(_, _) = self.equipment.packaging {
+        if let Packaging::Bottle(_, _) = self.brewery.packaging {
             // At least bottle conditioning time.
             // NOTE: Bottle conditioning counts as conditioning time.
             if conditioning < Days(14) {
@@ -58,9 +58,9 @@ impl Process {
     #[must_use]
     pub fn water_salts(&self) -> Vec<SaltConcentration> {
         let mut water_adjustment = WaterAdjustment::new(
-            self.equipment.water_profile,
+            self.brewery.water_profile,
             self.recipe.sulfate_chloride_ratio_range.clone(),
-            self.equipment.salts_available.clone(),
+            self.brewery.salts_available.clone(),
         );
 
         water_adjustment.salts_needed()
@@ -76,7 +76,7 @@ impl Process {
     /// The water profile (after salts and acids)
     #[must_use]
     pub fn adjusted_water_profile(&self) -> WaterProfile {
-        let mut profile = self.equipment.water_profile;
+        let mut profile = self.brewery.water_profile;
 
         for salt_conc in &self.water_salts() {
             profile.add_salt(*salt_conc);
@@ -106,7 +106,7 @@ impl Process {
 
         // Choose the smallest fermenter that handles this
         let chosen = self
-            .equipment
+            .brewery
             .fermenters
             .iter()
             .copied()
@@ -130,17 +130,16 @@ impl Process {
     #[must_use]
     #[allow(clippy::cast_precision_loss)]
     pub fn boil_evaporation(&self) -> Liters {
-        self.equipment.boil_evaporation_per_hour / 60.0 * self.recipe.boil_length.0 as f32
+        self.brewery.boil_evaporation_per_hour / 60.0 * self.recipe.boil_length.0 as f32
     }
 
     /// Partial boil dilution
     #[must_use]
     pub fn partial_boil_dilution(&self) -> Liters {
-        let volume_needed =
-            self.batch_size + self.equipment.kettle_losses + self.boil_evaporation();
+        let volume_needed = self.batch_size + self.brewery.kettle_losses + self.boil_evaporation();
 
-        if self.equipment.max_kettle_volume < volume_needed {
-            volume_needed - self.equipment.max_kettle_volume
+        if self.brewery.max_kettle_volume < volume_needed {
+            volume_needed - self.brewery.max_kettle_volume
         } else {
             Liters(0.0)
         }
@@ -155,7 +154,7 @@ impl Process {
     /// The volume of undiluted wart after the boil, before kettle losses.
     #[must_use]
     pub fn post_boil_pre_loss_volume(&self) -> Liters {
-        self.post_boil_volume() + self.equipment.kettle_losses
+        self.post_boil_volume() + self.brewery.kettle_losses
     }
 
     /// The pre-boil volume
@@ -192,7 +191,7 @@ impl Process {
             &malt_doses,
             &sugar_doses,
             self.batch_size.into(),
-            self.equipment.mash_efficiency,
+            self.brewery.mash_efficiency,
         );
 
         let actual_points = sg.0 - 1.0;
@@ -240,7 +239,7 @@ impl Process {
             &self.malt_doses(),
             &self.sugar_doses(),
             pre_boil_volume,
-            self.equipment.mash_efficiency,
+            self.brewery.mash_efficiency,
         )
     }
 
@@ -368,7 +367,7 @@ impl Process {
             output
         };
 
-        let alkalinity: AlkMEqL = self.equipment.water_profile.alkalinity_caco3.into();
+        let alkalinity: AlkMEqL = self.brewery.water_profile.alkalinity_caco3.into();
         let alkalinity_component = 0.06 * alkalinity.0;
 
         let mut output: Vec<Ph> = Vec::new();
@@ -438,7 +437,7 @@ impl Process {
     /// The water absorption of the malts
     #[must_use]
     pub fn water_absorption(&self) -> Liters {
-        self.equipment.grain_absorption_per_kg * self.grain_weight().0
+        self.brewery.grain_absorption_per_kg * self.grain_weight().0
     }
 
     /// The pre-sparge volume
@@ -480,7 +479,7 @@ impl Process {
                     current_water,
                     rest.target_temperature,
                     current_tmp,
-                    self.equipment.infusion_temperature,
+                    self.brewery.infusion_temperature,
                 );
 
                 // Subtract that much water
@@ -500,7 +499,7 @@ impl Process {
         crate::mash::strike_water_temp(
             self.strike_volume(),
             self.grain_weight(),
-            self.equipment.room_temperature,
+            self.brewery.room_temperature,
             self.recipe.mash_rests[0].target_temperature,
         )
     }
@@ -528,7 +527,7 @@ impl Process {
                 current_water,
                 cur_tmp,
                 rest.target_temperature,
-                self.equipment.infusion_temperature,
+                self.brewery.infusion_temperature,
             );
 
             infusions.push(infusion);
@@ -609,7 +608,7 @@ impl Process {
             let pounds: Pounds = malt_dose.weight.into();
             let points = {
                 let ppg = malt_dose.malt.ppg(); // points/(pounds*gallons) at 100% eff.
-                self.equipment.mash_efficiency * ppg * pounds.0 / gallons.0
+                self.brewery.mash_efficiency * ppg * pounds.0 / gallons.0
             };
             let malt_fan_per_point: Ppm = malt_dose.malt.fan() / 40.0;
             total = total + malt_fan_per_point * points;
@@ -781,11 +780,11 @@ impl Process {
         )
         .unwrap();
 
-        total = total - self.equipment.kettle_losses;
+        total = total - self.brewery.kettle_losses;
         writeln!(
             output,
             "Kettle Losses: -{}     = {total}  post boil volume",
-            self.equipment.kettle_losses
+            self.brewery.kettle_losses
         )
         .unwrap();
 
@@ -1013,7 +1012,7 @@ impl Process {
 
             // Choose the smallest fermenter that handles this
             let chosen = self
-                .equipment
+                .brewery
                 .fermenters
                 .iter()
                 .copied()
@@ -1069,10 +1068,10 @@ impl Process {
         }
 
         // Verify the pre-boil volume fits into the kettle
-        if self.pre_boil_volume() > self.equipment.max_kettle_volume {
+        if self.pre_boil_volume() > self.brewery.max_kettle_volume {
             warnings.push(Warning::BoilKettleTooSmall {
                 needed: self.pre_boil_volume(),
-                available: self.equipment.max_kettle_volume,
+                available: self.brewery.max_kettle_volume,
             });
         }
 
@@ -1084,25 +1083,25 @@ impl Process {
             });
         }
 
-        if self.equipment.room_temperature > Celsius(35.0) {
+        if self.brewery.room_temperature > Celsius(35.0) {
             warnings.push(Warning::UnusualRoomTemperature(
-                self.equipment.room_temperature,
+                self.brewery.room_temperature,
             ));
         }
-        if self.equipment.room_temperature < Celsius(10.0) {
+        if self.brewery.room_temperature < Celsius(10.0) {
             warnings.push(Warning::UnusualRoomTemperature(
-                self.equipment.room_temperature,
+                self.brewery.room_temperature,
             ));
         }
 
-        if self.equipment.infusion_temperature > Celsius(100.0) {
+        if self.brewery.infusion_temperature > Celsius(100.0) {
             warnings.push(Warning::ImpossibleInfusionTemperature(
-                self.equipment.infusion_temperature,
+                self.brewery.infusion_temperature,
             ));
         }
-        if self.equipment.infusion_temperature < Celsius(67.0) {
+        if self.brewery.infusion_temperature < Celsius(67.0) {
             warnings.push(Warning::UnusualInfusionTemperature(
-                self.equipment.infusion_temperature,
+                self.brewery.infusion_temperature,
             ));
         }
 

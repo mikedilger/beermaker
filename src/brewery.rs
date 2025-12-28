@@ -7,7 +7,7 @@ use serde::{Deserialize, Serialize};
 /// Set of equipment and supplies that are used to make beer.
 /// Independent of any recipe.
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Equipment {
+pub struct Brewery {
     /// Water profile
     pub water_profile: WaterProfile,
 
@@ -83,7 +83,7 @@ pub struct Equipment {
     pub packaging: Packaging,
 }
 
-impl Equipment {
+impl Brewery {
     /// Ice bath ice weight
     #[must_use]
     pub fn ice_weight(&self) -> Kilograms {

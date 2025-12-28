@@ -144,15 +144,15 @@ pub fn print_process(
     let abv = process.abv();
     let min_abv = process.recipe.style.abv_range().start;
     let max_abv = process.recipe.style.abv_range().end;
-    let ice_weight = process.equipment.ice_weight();
-    let ice_bath_volume = process.equipment.chilled_water_volume();
+    let ice_weight = process.brewery.ice_weight();
+    let ice_bath_volume = process.brewery.chilled_water_volume();
     let total_water_volume = process.total_water();
     let water_doses = process.water_doses();
     let adjusted_water_profile = process.adjusted_water_profile();
     let ingredient_list = process.ingredient_list_string();
     let strike_volume = process.strike_volume();
     let strike_temp = process.strike_temperature();
-    let infusion_temp = process.equipment.infusion_temperature;
+    let infusion_temp = process.brewery.infusion_temperature;
     let sparge_volume = process.sparge_volume();
     let pre_boil_gravity = process.pre_boil_gravity();
     let boil_minutes = process.recipe.boil_length;
@@ -229,7 +229,7 @@ pub fn print_process(
     }
     steps.acquire.push(bits);
 
-    if process.equipment.ice_bath {
+    if process.brewery.ice_bath {
         steps.acquire.push(format!(
             "Acquire {ice_weight} of ice. Also place a good part of \
                  {ice_bath_volume} of tap water into refrigerator to chill for \
@@ -455,7 +455,7 @@ pub fn print_process(
         ));
     }
 
-    if process.equipment.ice_bath {
+    if process.brewery.ice_bath {
         steps.boil.push(
             "Prepare the ice bath before the boil is complete. \
              Place all the prepared chilled water and ice into the bath."
@@ -510,7 +510,7 @@ pub fn print_process(
             .to_string(),
     );
 
-    if process.equipment.ice_bath {
+    if process.brewery.ice_bath {
         steps.chill.push(
             "Remove the kettle from the stove and dunk into the ice bath to rapidly \
              chill in the ice bath."
@@ -658,7 +658,7 @@ pub fn print_process(
 
     // -- package ------------
 
-    if let Packaging::Bottle(bottle_volume, sugar) = process.equipment.packaging {
+    if let Packaging::Bottle(bottle_volume, sugar) = process.brewery.packaging {
         steps.package.push(
             "Sanitize all equipment including siphon racking cane and tube, bottles, \
              sampler and measuring devices."
@@ -680,7 +680,7 @@ pub fn print_process(
         let total_priming_amount = sugar.priming_amount(
             process.recipe.style.carbonation_volume(),
             process.product_volume(),
-            process.equipment.room_temperature,
+            process.brewery.room_temperature,
         );
 
         steps.package.push(format!(
@@ -694,7 +694,7 @@ pub fn print_process(
         let bottle_priming_amount = sugar.priming_amount(
             process.recipe.style.carbonation_volume(),
             bottle_volume,
-            process.equipment.room_temperature,
+            process.brewery.room_temperature,
         );
 
         let num_bottles = (process.product_volume().0 / bottle_volume.0).ceil();

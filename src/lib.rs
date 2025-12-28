@@ -44,14 +44,14 @@ pub mod prelude {
     pub use crate::units::volume::*;
     pub use crate::units::weight::*;
     pub use crate::units::{Ibu, Ph};
-    pub use crate::{Equipment, MashRest, Packaging, Process, Recipe, Steps, Warning};
+    pub use crate::{Brewery, MashRest, Packaging, Process, Recipe, Steps, Warning};
 }
 
 mod chemistry;
 pub use chemistry::{Element, Ion, MEqL};
 
-mod equipment;
-pub use equipment::Equipment;
+mod brewery;
+pub use brewery::Brewery;
 
 mod style;
 pub use style::{Conditioning, Fermentation, Style, StyleOrigin};
