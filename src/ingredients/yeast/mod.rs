@@ -160,6 +160,7 @@ pub enum Yeast {
 
     // MuntonsPremiumGold,
     // MuntonsStandardAle,
+    // OYL-052 (Conan strain)
     OYL061, // Voss Kveik
     OYL071, // Lutra Kveik
 
@@ -2060,6 +2061,7 @@ impl Yeast {
             Self::WLP080 => None, // blend
             Self::WLP085 => None, // blend
             Self::WLP091 => None, // blend
+            Self::WLP095 => Some(Strain::Conan),
             Self::WLP096 => None, // blend
             Self::WLP101 => None, // blend
             Self::WLP300 => Some(Strain::WeihenstephananWeizen68),
@@ -2164,7 +2166,7 @@ impl Yeast {
             Self::SafLagerSH45 => None,
             Self::SafLagerW3470 => None,
 
-            // Self::ImperialBarbarian => None,
+            // Self::ImperialBarbarian => None, // Conan strain
             // Self::ImperialBartlby => None,
             // Self::ImperialCablecar => None,
             // Self::ImperialCitrus => None,
@@ -2202,7 +2204,7 @@ impl Yeast {
             // Self::LalBrewKoln => None,
             // Self::LalBrewLondon => None,
             Self::LalBrewMunichClassic => None,
-            // Self::LalBrewNewEngland => None,
+            // Self::LalBrewNewEngland => None, // Conan strain
             Self::LalBrewNottingham => None,
             // Self::LalBrewVerdantIPA => None,
             // Self::LalBrewVoss => None,

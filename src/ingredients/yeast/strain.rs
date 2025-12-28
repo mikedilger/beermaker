@@ -62,6 +62,10 @@ pub enum Strain {
     // WLP500, WY1214
     Chimay,
 
+    /// Conan, The Alchemist brewery, Stowe VT
+    /// From their Heady Topper Double IPA
+    Conan,
+
     /// Coopers, Australian Ale
     // WLP009
     Coopers,
