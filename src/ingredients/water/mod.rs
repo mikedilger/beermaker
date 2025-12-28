@@ -90,8 +90,7 @@ impl WaterProfile {
         // but that calc is both converting to CaCO3 units and
         // computing the effective hardness in a single step.
 
-        self.calcium_water_hardness() / 3.5
-            + self.magnesium_water_hardness() / 7.0
+        self.calcium_water_hardness() / 3.5 + self.magnesium_water_hardness() / 7.0
     }
 
     /// Compute residual alkalinity (RA)
@@ -114,9 +113,9 @@ impl WaterProfile {
         // 5.7 + self.residual_alkalinity().0 / 60.0
 
         // The below is supposedly equivalent to
-		// 5.5 + 0.084 * RA as mEq/L
+        // 5.5 + 0.084 * RA as mEq/L
 
-    	Ph(5.5 + 0.00168 * self.residual_alkalinity().0)
+        Ph(5.5 + 0.00168 * self.residual_alkalinity().0)
     }
 
     /// Hardness Alkalinity ratio
@@ -134,7 +133,7 @@ impl WaterProfile {
     /// Add salt
     #[allow(clippy::match_same_arms)]
     pub fn add_salt(&mut self, salt_conc: SaltConcentration) {
-        let mut distinct_ions = salt_conc.salt.ions();
+        let mut distinct_ions: Vec<Ion> = salt_conc.salt.ions().to_owned();
         distinct_ions.sort();
         distinct_ions.dedup();
 

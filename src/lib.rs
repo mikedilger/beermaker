@@ -32,6 +32,7 @@ pub mod ingredients;
 ///
 /// `use beermaker::prelude::*`
 pub mod prelude {
+    pub use crate::chemistry::{Element, Ion, MEqL};
     pub use crate::ingredients::*;
     pub use crate::style::*;
     pub use crate::units::alkalinity::*;
@@ -45,6 +46,9 @@ pub mod prelude {
     pub use crate::units::{Ibu, Ph};
     pub use crate::{Equipment, MashRest, Packaging, Process, Recipe, Steps, Warning};
 }
+
+mod chemistry;
+pub use chemistry::{Element, Ion, MEqL};
 
 mod equipment;
 pub use equipment::Equipment;

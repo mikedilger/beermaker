@@ -4,7 +4,7 @@ mod water;
 pub use water::{WaterAdjustment, WaterProfile};
 
 mod salt;
-pub use salt::{Ion, Salt};
+pub use salt::Salt;
 
 mod acid;
 pub use acid::Acid;
@@ -21,7 +21,7 @@ pub use hops::{Hops, HopsUsage};
 mod yeast;
 pub use yeast::{Flocculation, Gallone, STA1, Strain, Yeast, YeastProvider};
 
-use crate::units::prelude::*;
+use crate::prelude::*;
 
 /// A dose of Water
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]

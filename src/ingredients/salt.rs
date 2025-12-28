@@ -1,3 +1,4 @@
+use crate::chemistry::Ion;
 use serde::{Deserialize, Serialize};
 use std::fmt;
 
@@ -52,10 +53,16 @@ impl fmt::Display for Salt {
 impl Salt {
     /// What ions does this salt have?
     #[must_use]
-    pub fn ions(&self) -> Vec<Ion> {
+    #[rustfmt::skip]
+    pub fn ions(&self) -> &[Ion] {
         match *self {
-            Salt::Gypsum => vec![Ion::Calcium, Ion::Sulfate, Ion::Water, Ion::Water],
-            Salt::Epsom => vec![
+            Salt::Gypsum => &[
+                Ion::Calcium,
+                Ion::Sulfate,
+                Ion::Water,
+                Ion::Water,
+            ],
+            Salt::Epsom => &[
                 Ion::Magnesium,
                 Ion::Sulfate,
                 Ion::Water,
@@ -66,15 +73,18 @@ impl Salt {
                 Ion::Water,
                 Ion::Water,
             ],
-            Salt::TableSalt => vec![Ion::Sodium, Ion::Chloride],
-            Salt::CalciumChloride => vec![
+            Salt::TableSalt => &[
+                Ion::Sodium,
+                Ion::Chloride,
+            ],
+            Salt::CalciumChloride => &[
                 Ion::Calcium,
                 Ion::Chloride,
                 Ion::Chloride,
                 Ion::Water,
                 Ion::Water,
             ],
-            Salt::MagnesiumChloride => vec![
+            Salt::MagnesiumChloride => &[
                 Ion::Magnesium,
                 Ion::Chloride,
                 Ion::Chloride,
@@ -85,81 +95,49 @@ impl Salt {
                 Ion::Water,
                 Ion::Water,
             ],
-            Salt::BakingSoda => vec![Ion::Sodium, Ion::Bicarbonate],
-            Salt::SlakedLime => vec![Ion::Calcium, Ion::Hydroxide, Ion::Hydroxide],
-            Salt::CausticSoda => vec![Ion::Sodium, Ion::Hydroxide],
-            Salt::SodiumSulfate => vec![Ion::Sodium, Ion::Sodium, Ion::Sulfate],
+            Salt::BakingSoda => &[
+                Ion::Sodium,
+                Ion::Bicarbonate,
+            ],
+            Salt::SlakedLime => &[
+                Ion::Calcium,
+                Ion::Hydroxide,
+                Ion::Hydroxide,
+            ],
+            Salt::CausticSoda => &[
+                Ion::Sodium,
+                Ion::Hydroxide,
+            ],
+            Salt::SodiumSulfate => &[
+                Ion::Sodium,
+                Ion::Sodium,
+                Ion::Sulfate,
+            ],
         }
     }
 
+    /// Molecular weight
+    #[must_use]
+    pub fn molecular_weight(&self) -> f32 {
+        let mut weight: f32 = 0.0;
+        for ion in self.ions() {
+            weight += ion.molecular_weight();
+        }
+        weight
+    }
+
     /// What fraction (by weight) of this salt is the ion
+    // this handles the fact that the ion may appear more than once.
     #[must_use]
     pub fn ion_fraction(&self, target_ion: Ion) -> f32 {
         let mut numerator: f32 = 0.0;
         let mut denominator: f32 = 0.0;
-        for ion in self.ions().clone().drain(..) {
+        for ion in self.ions().to_owned().drain(..) {
             denominator += ion.molecular_weight();
             if ion == target_ion {
                 numerator += ion.molecular_weight();
             }
         }
         numerator / denominator
-    }
-}
-
-/// An ion
-#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord)]
-pub enum Ion {
-    /// H+
-    Hydrogen,
-
-    /// OH-
-    Hydroxide,
-
-    /// H2O
-    Water,
-
-    /// HCO3
-    Bicarbonate,
-
-    /// Na+2
-    Sodium,
-
-    /// Mg+2
-    Magnesium,
-
-    /// SO4-2
-    Sulfate,
-
-    /// Cl-2
-    Chloride,
-
-    /// Ca+2
-    Calcium,
-}
-
-impl Ion {
-    /// The molecular weight of the ion
-    #[must_use]
-    pub fn molecular_weight(self) -> f32 {
-        match self {
-            Self::Hydrogen => 1.008,
-            Self::Hydroxide => {
-                1.008 + 15.999 // OH
-            }
-            Self::Water => {
-                1.008 * 2.0 + 15.999 // H2O
-            }
-            Self::Bicarbonate => {
-                1.008 + 12.011 + 15.999 * 3.0 // HCO3
-            }
-            Self::Sodium => 22.990,
-            Self::Magnesium => 24.305,
-            Self::Sulfate => {
-                32.06 + 15.999 * 4.0 // SO4
-            }
-            Self::Chloride => 35.45,
-            Self::Calcium => 40.078,
-        }
     }
 }
