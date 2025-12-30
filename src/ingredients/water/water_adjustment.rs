@@ -41,30 +41,35 @@ impl WaterAdjustment {
     }
 
     fn cl_target_range(&self) -> Range<Ppm> {
-        self.profile.so4 / self.sulfate_chloride_ratio_range.start
-            ..self.profile.so4 / self.sulfate_chloride_ratio_range.end
+        self.profile.so4 / self.sulfate_chloride_ratio_range.end
+            ..self.profile.so4 / self.sulfate_chloride_ratio_range.start
     }
 
     fn so4_target_range(&self) -> Range<Ppm> {
-        self.profile.cl * self.sulfate_chloride_ratio_range.end
-            ..self.profile.cl * self.sulfate_chloride_ratio_range.start
+        self.profile.cl * self.sulfate_chloride_ratio_range.start
+            ..self.profile.cl * self.sulfate_chloride_ratio_range.end
     }
 
     /// Salts needed to achieve what we want
     pub fn salts_needed(&mut self) -> Vec<SaltConcentration> {
+        const CALCIUM_NEEDED: Ppm = Ppm(100.0);
+
         let mut output: Vec<SaltConcentration> = Vec::new();
 
         // If we need calcium
-        if self.profile.ca < Ppm(50.0) {
+        if self.profile.ca < CALCIUM_NEEDED {
             let salt = Salt::CalciumChloride;
             if self.salts_available.contains(&salt) {
                 // If we can increase chloride, use CalciumChloride
                 let cl_range = self.cl_target_range();
                 if self.profile.cl < cl_range.end {
-                    let amount_for_ca =
-                        salt_concentration_for_ion(salt, Ion::Calcium, Ppm(50.0) - self.profile.ca)
-                            .ppm
-                            .0;
+                    let amount_for_ca = salt_concentration_for_ion(
+                        salt,
+                        Ion::Calcium,
+                        CALCIUM_NEEDED - self.profile.ca,
+                    )
+                    .ppm
+                    .0;
 
                     let max_amount_for_cl = salt_concentration_for_ion(
                         salt,
@@ -91,10 +96,13 @@ impl WaterAdjustment {
                 // If we can increase sulfate, use Gypsum
                 let so4_range = self.so4_target_range();
                 if self.profile.so4 < so4_range.end {
-                    let amount_for_ca =
-                        salt_concentration_for_ion(salt, Ion::Calcium, Ppm(50.0) - self.profile.ca)
-                            .ppm
-                            .0;
+                    let amount_for_ca = salt_concentration_for_ion(
+                        salt,
+                        Ion::Calcium,
+                        CALCIUM_NEEDED - self.profile.ca,
+                    )
+                    .ppm
+                    .0;
 
                     let max_amount_for_so4 = salt_concentration_for_ion(
                         salt,
