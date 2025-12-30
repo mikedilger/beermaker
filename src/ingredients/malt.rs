@@ -55,6 +55,9 @@ pub enum Malt {
     /// Gladfield Crystal Medium
     GladfieldCrystalMedium,
 
+    /// Gladfield Chocolate Dark
+    GladfieldDarkChocolate,
+
     /// Gladfield base malt, German Pilsner Malt
     GladfieldGermanPilsner,
 
@@ -139,6 +142,7 @@ impl Malt {
             Malt::GladfieldCrystalDark => MaltCategory::Crystal,
             Malt::GladfieldCrystalLight => MaltCategory::Crystal,
             Malt::GladfieldCrystalMedium => MaltCategory::Crystal,
+            Malt::GladfieldDarkChocolate => MaltCategory::Roasted,
             Malt::GladfieldGermanPilsner => MaltCategory::Base,
             Malt::GladfieldLagerLight => MaltCategory::Base,
             Malt::GladfieldMunich => MaltCategory::Base,
@@ -179,6 +183,7 @@ impl Malt {
             Malt::GladfieldCrystalDark => Some(Ph(4.7)), // [2]
             Malt::GladfieldCrystalLight => Some(Ph(5.15)), // [2]
             Malt::GladfieldCrystalMedium => Some(Ph(4.84)), // [2]
+            Malt::GladfieldDarkChocolate => Some(Ph(f32::midpoint(5.62, 5.65))), // [2]
             Malt::GladfieldGermanPilsner => Some(Ph(f32::midpoint(5.7, 6.0))), // [2]
             Malt::GladfieldLagerLight => Some(Ph(f32::midpoint(5.8, 6.1))), // [2]
             Malt::GladfieldMunich => Some(Ph(f32::midpoint(5.6, 5.9))), // [2]
@@ -260,6 +265,7 @@ impl Malt {
             Malt::GladfieldCrystalDark => (Ebc(175.0), Ebc(225.0)),
             Malt::GladfieldCrystalLight => (Ebc(40.0), Ebc(70.0)),
             Malt::GladfieldCrystalMedium => (Ebc(90.0), Ebc(130.0)),
+            Malt::GladfieldDarkChocolate => (Ebc(950.0), Ebc(1300.0)),
             Malt::GladfieldGermanPilsner => (Ebc(3.0), Ebc(4.5)), // 2.03
             Malt::GladfieldLagerLight => (Ebc(2.5), Ebc(2.9)),
             Malt::GladfieldMunich => (Ebc(14.0), Ebc(17.0)),
@@ -307,6 +313,7 @@ impl Malt {
             Malt::GladfieldCrystalDark => 25.0,
             Malt::GladfieldCrystalLight => 25.0,
             Malt::GladfieldCrystalMedium => 25.0,
+            Malt::GladfieldDarkChocolate => 15.0,
             Malt::GladfieldGermanPilsner => 100.0,
             Malt::GladfieldLagerLight => 100.0,
             Malt::GladfieldMunich => 100.0,
@@ -349,6 +356,7 @@ impl Malt {
             Malt::GladfieldCrystalDark => 35.4,
             Malt::GladfieldCrystalLight => 35.4,
             Malt::GladfieldCrystalMedium => 35.4,
+            Malt::GladfieldDarkChocolate => 24.0,
             Malt::GladfieldGermanPilsner => 36.3,
             Malt::GladfieldLagerLight => 35.0,
             Malt::GladfieldMunich => 36.8,
@@ -390,6 +398,7 @@ impl Malt {
             Malt::GladfieldCrystalDark => None,
             Malt::GladfieldCrystalLight => None,
             Malt::GladfieldCrystalMedium => None,
+            Malt::GladfieldDarkChocolate => None,
             Malt::GladfieldGermanPilsner => None,
             Malt::GladfieldLagerLight => None,
             Malt::GladfieldMunich => None,
@@ -432,6 +441,7 @@ impl Malt {
             Malt::GladfieldCrystalDark => None,
             Malt::GladfieldCrystalLight => None,
             Malt::GladfieldCrystalMedium => None,
+            Malt::GladfieldDarkChocolate => None,
             Malt::GladfieldGermanPilsner => Some(41.0), // spec 37 - 42
             Malt::GladfieldLagerLight => Some(39.0),    // spec 35 - 41
             Malt::GladfieldMunich => Some(40.0),        // spec 37 - 43
@@ -473,15 +483,16 @@ impl Malt {
             Malt::GladfieldCrystalDark => Some(Ppm(0.0)), // assume 0
             Malt::GladfieldCrystalLight => Some(Ppm(0.0)), // assume 0
             Malt::GladfieldCrystalMedium => Some(Ppm(0.0)), // assume 0
+            Malt::GladfieldDarkChocolate => None,
             Malt::GladfieldGermanPilsner => Some(Ppm(140.0)), // min spec 135.0
-            Malt::GladfieldLagerLight => Some(Ppm(130.0)), // min spec 120.0
-            Malt::GladfieldMunich => Some(Ppm(125.0)), // min spec 120
-            Malt::GladfieldPilsner => Some(Ppm(130.0)), // min spec 120.0
+            Malt::GladfieldLagerLight => Some(Ppm(130.0)),    // min spec 120.0
+            Malt::GladfieldMunich => Some(Ppm(125.0)),        // min spec 120
+            Malt::GladfieldPilsner => Some(Ppm(130.0)),       // min spec 120.0
             Malt::GladfieldShepherdsDelight => Some(Ppm(0.0)), // assume 0
-            Malt::GladfieldVienna => Some(Ppm(140.0)), // min spec 120
-            Malt::GladfieldWheat => Some(Ppm(85.0)), // no spec
-            Malt::OatHulls => Some(Ppm(0.0)),       // assume 0
-            Malt::RiceHulls => Some(Ppm(0.0)),      // assume 0
+            Malt::GladfieldVienna => Some(Ppm(140.0)),        // min spec 120
+            Malt::GladfieldWheat => Some(Ppm(85.0)),          // no spec
+            Malt::OatHulls => Some(Ppm(0.0)),                 // assume 0
+            Malt::RiceHulls => Some(Ppm(0.0)),                // assume 0
             Malt::SimpsonsMarisOtterPale => None,
             Malt::WeyermannAcidulated => Some(Ppm(0.0)), // assume 0
             Malt::WeyermannBohemianPilsner => None,
@@ -535,6 +546,7 @@ impl fmt::Display for Malt {
             Malt::GladfieldCrystalDark => write!(f, "[Gladfield Dark Crystal]"),
             Malt::GladfieldCrystalLight => write!(f, "[Gladfield Light Crystal]"),
             Malt::GladfieldCrystalMedium => write!(f, "[Gladfield Medium Crystal]"),
+            Malt::GladfieldDarkChocolate => write!(f, "[Gladfield Dark Chocolate]"),
             Malt::GladfieldGermanPilsner => write!(f, "[Gladfield German Pilsner Malt]"),
             Malt::GladfieldLagerLight => write!(f, "[Gladfield Lager Light Malt]"),
             Malt::GladfieldMunich => write!(f, "[Gladfield Munich Malt]"),
