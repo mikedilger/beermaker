@@ -127,7 +127,7 @@ impl WaterProfile {
     /// Sulfate/Chloride ratio
     #[must_use]
     pub fn sulfate_chloride_ratio(&self) -> f32 {
-        self.cl.0 / self.so4.0
+        self.so4.0 / self.cl.0
     }
 
     /// Add salt

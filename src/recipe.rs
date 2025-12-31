@@ -2,7 +2,6 @@ use crate::mash::MashRest;
 use crate::prelude::*;
 use crate::style::Style;
 use serde::{Deserialize, Serialize};
-use std::ops::Range;
 
 /// Recipe for beer
 // Recipe
@@ -14,8 +13,8 @@ pub struct Recipe {
     /// The style of beer
     pub style: Style,
 
-    /// Water profile requirements, SO4 to Cl ratio
-    pub sulfate_chloride_ratio_range: Range<f32>,
+    /// Ideal ratio of Sulfate to Chloride for this beer
+    pub sulfate_chloride_target: f32,
 
     // TBD water alkalinity requirements
 

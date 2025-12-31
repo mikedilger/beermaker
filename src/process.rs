@@ -57,11 +57,12 @@ impl Process {
     /// Water salts to adjust ions
     #[must_use]
     pub fn water_salts(&self) -> Vec<SaltConcentration> {
-        let mut water_adjustment = WaterAdjustment::new(
-            self.brewery.water_profile,
-            self.recipe.sulfate_chloride_ratio_range.clone(),
-            self.brewery.salts_available.clone(),
-        );
+        let water_adjustment = WaterAdjustment {
+            profile: self.brewery.water_profile,
+            mash_ph_distilled: self.mash_ph_distilled().pop().unwrap(),
+            target_ph: Ph(5.4),
+            sulfate_chloride_target: self.recipe.sulfate_chloride_target,
+        };
 
         water_adjustment.salts_needed()
     }
@@ -307,9 +308,11 @@ impl Process {
         self.malt_doses().iter().map(|dose| dose.weight).sum()
     }
 
-    /// Estimated mash pH
+    /// Mash pHs with distilled water, not including any acid additions.
+    /// This is used to help figure out water adjustments, and feeds into the mash_ph()
+    /// function (rather than "beer color" which is a poorer proxy)
     #[must_use]
-    pub fn mash_ph(&self) -> Vec<Ph> {
+    pub fn mash_ph_distilled(&self) -> Vec<Ph> {
         // http://braukaiser.com/documents/effect_of_water_and_grist_on_mash_pH.pdf
 
         let grain_weight = self.grain_weight();
@@ -367,16 +370,27 @@ impl Process {
             output
         };
 
-        let alkalinity: AlkMEqL = self.brewery.water_profile.alkalinity_caco3.into();
-        let alkalinity_component = 0.06 * alkalinity.0;
-
         let mut output: Vec<Ph> = Vec::new();
 
         for t2 in &specialty_malt_ph_term_two {
-            output.push(Ph(base_malt_ph
-                + specialty_malt_ph_term_one
-                + t2
-                + alkalinity_component));
+            output.push(Ph(base_malt_ph + specialty_malt_ph_term_one + t2));
+        }
+
+        output
+    }
+
+    /// Estimated mash pH
+    #[must_use]
+    pub fn mash_ph(&self) -> Vec<Ph> {
+        // http://braukaiser.com/documents/effect_of_water_and_grist_on_mash_pH.pdf
+
+        let mut output = self.mash_ph_distilled();
+
+        let alkalinity: AlkMEqL = self.brewery.water_profile.alkalinity_caco3.into();
+        let alkalinity_component = 0.06 * alkalinity.0;
+
+        for out in &mut output {
+            out.0 += alkalinity_component;
         }
 
         output
@@ -992,19 +1006,6 @@ impl Process {
     #[allow(clippy::too_many_lines)]
     pub fn get_warnings(&self) -> Vec<Warning> {
         let mut warnings: Vec<Warning> = Vec::new();
-
-        // Check sulfate/chloride ratio
-        let water_profile = self.adjusted_water_profile();
-        let current = water_profile.cl.0 / water_profile.so4.0;
-        if current < self.recipe.sulfate_chloride_ratio_range.start {
-            warnings.push(Warning::SulfateChlorideRatioLow {
-                current_ratio: current,
-            });
-        } else if current > self.recipe.sulfate_chloride_ratio_range.end {
-            warnings.push(Warning::SulfateChlorideRatioHigh {
-                current_ratio: current,
-            });
-        }
 
         // Check fermenter volume
         {
