@@ -42,14 +42,13 @@ impl WaterAdjustment {
         // These are the salts we will be adding
         let mut salts: Vec<SaltConcentration> = Vec::new();
 
-        // Target pH is 5.4 (in the middle of 5.2 and 5.6)
-        let ph_shift_desired = self.target_ph.0 - self.mash_ph_distilled.0;
-        let ra_desired = CaCO3(ph_shift_desired / 0.00168);
-        let ra_actual = profile.residual_alkalinity();
+        let ra_desired: CaCO3 = {
+            let ph_shift_desired = self.target_ph.0 - self.mash_ph_distilled.0;
+            CaCO3(ph_shift_desired / 0.00168)
+        };
+        let ra_source_water = profile.residual_alkalinity();
 
-        eprintln!("RA Desired = {ra_desired}, RA Actual = {ra_actual}");
-
-        if ra_desired < ra_actual {
+        if ra_desired < ra_source_water {
             // Increase hardness to decrease RA
             // with calcium and magnesium
 
@@ -60,10 +59,9 @@ impl WaterAdjustment {
             // Solving two equasions:
             let mg = (profile.alkalinity_caco3.0 - ra_desired.0) / 5.5822857;
             let ca = mg * 7.0;
-            eprintln!("Target ca={ca}, mg={mg}");
 
             self.compute_cation_salts(&mut profile, &mut salts, Ppm(ca), Ppm(mg));
-        } else if ra_desired > ra_actual {
+        } else if ra_desired > ra_source_water {
             // Increase Alkalinity to increase RA
             // with baking soda
             todo!()

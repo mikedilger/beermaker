@@ -317,6 +317,7 @@ impl Process {
 
         let grain_weight = self.grain_weight();
 
+        // base malt term (all steps)
         let base_malt_ph: f32 = {
             let mut ph: f32 = 0.0;
             for dose in self.malt_doses() {
@@ -333,6 +334,7 @@ impl Process {
             ph
         };
 
+        // specialty malt term (all steps)
         let specialty_malt_ph_term_one: f32 = {
             let mut ph: f32 = 0.0;
             for dose in self.malt_doses() {
@@ -348,6 +350,7 @@ impl Process {
             ph
         };
 
+        // specialty malt term (per step, thickness-dependent)
         let specialty_malt_ph_term_two: Vec<f32> = {
             let mut acidity: f32 = 0.0;
             for dose in self.malt_doses() {
@@ -382,15 +385,15 @@ impl Process {
     /// Estimated mash pH
     #[must_use]
     pub fn mash_ph(&self) -> Vec<Ph> {
-        // http://braukaiser.com/documents/effect_of_water_and_grist_on_mash_pH.pdf
-
         let mut output = self.mash_ph_distilled();
 
-        let alkalinity: AlkMEqL = self.brewery.water_profile.alkalinity_caco3.into();
-        let alkalinity_component = 0.06 * alkalinity.0;
+        // from https://byo.com/articles/understanding-residual-alkalinity-ph/
+        // pH shift = 0.00168 * RA (as CaCO3) or pH shift = 0.084 * RA (as mEq/L)
+        let ra = self.adjusted_water_profile().residual_alkalinity();
+        let shift = 0.00168 * ra.0;
 
         for out in &mut output {
-            out.0 += alkalinity_component;
+            out.0 += shift;
         }
 
         output

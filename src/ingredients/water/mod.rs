@@ -105,19 +105,6 @@ impl WaterProfile {
         self.alkalinity_caco3 - self.effective_water_hardness_caco3()
     }
 
-    /// Approx mash pH, Pale Malts only
-    #[must_use]
-    pub fn approx_mash_ph(&self) -> Ph {
-        // Approx mash pH, John Palmer 1990s, did this:
-        // (not sure what units he used)
-        // 5.7 + self.residual_alkalinity().0 / 60.0
-
-        // The below is supposedly equivalent to
-        // 5.5 + 0.084 * RA as mEq/L
-
-        Ph(5.5 + 0.00168 * self.residual_alkalinity().0)
-    }
-
     /// Hardness Alkalinity ratio
     #[must_use]
     pub fn hardness_alkalinity_ratio(&self) -> f32 {
@@ -206,16 +193,17 @@ impl Add for WaterProfile {
 
 impl fmt::Display for WaterProfile {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let ra = self.residual_alkalinity();
         write!(
             f,
-            "Ca {:.0}   Mg {:.0}   Na {:.0}   SO4 {:.0}   Cl {:.0}   CaCO3 {:.0}   pH {:.2}",
+            "Ca {:.0}   Mg {:.0}   Na {:.0}   SO4 {:.0}   Cl {:.0}   CaCO3 {:.0}   RA {:.0}",
             self.ca.0,
             self.mg.0,
             self.na.0,
             self.so4.0,
             self.cl.0,
             self.alkalinity_caco3.0,
-            self.ph.0
+            ra.0,
         )
     }
 }
