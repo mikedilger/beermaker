@@ -62,9 +62,17 @@ impl WaterAdjustment {
 
             self.compute_cation_salts(&mut profile, &mut salts, Ppm(ca), Ppm(mg));
         } else if ra_desired > ra_source_water {
+
             // Increase Alkalinity to increase RA
             // with baking soda
-            todo!()
+
+            let alkalinity_desired: HCO3 = (ra_desired - ra_source_water).into();
+
+            // we know this is 1:1 in baking soda so
+            salts.push(SaltConcentration {
+                salt: Salt::BakingSoda,
+                ppm: Ppm(alkalinity_desired.0),
+            });
         }
 
         salts

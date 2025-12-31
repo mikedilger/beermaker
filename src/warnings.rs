@@ -156,6 +156,9 @@ pub enum Warning {
         /// range acceptable for the style
         range: Range<Srm>,
     },
+
+    /// Acidity Needed Cancelling
+    AcidityNeededCancelling,
 }
 
 impl fmt::Display for Warning {
@@ -290,6 +293,13 @@ impl fmt::Display for Warning {
                     f,
                     "SRM {srm} out of range {}..{} for the style.",
                     range.start, range.end
+                )
+            }
+            Self::AcidityNeededCancelling => {
+                write!(
+                    f,
+                    "Acidity needed cancelling with Baking Soda, but the acidity was not required \
+                     in the first place. Please adjust the recipe."
                 )
             }
         }
