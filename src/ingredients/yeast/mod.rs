@@ -127,31 +127,31 @@ pub enum Yeast {
     // ImperialTripleDouble,
     // ImperialUrkel,
     // ImperialWhiteout,
-
-    // LalBrewAbbaye,
-    // LalBrewBelleSaison,
-    // LalBrewBRY97,
-    // LalBrewCBC1,
+    LalBrewAbbaye,
+    LalBrewAurora,
+    LalBrewBelleSaison,
+    LalBrewBRY97,
+    LalBrewCBC1,
     LalBrewDiamondLager,
-    // LalBrewKoln,
-    // LalBrewLondon,
+    LalBrewFarmhouse,
+    LalBrewHouseAle,
+    LalBrewLoNa,
     LalBrewMunichClassic,
-    // LalBrewNewEngland,
+    LalBrewNewEngland,
     LalBrewNottingham,
-    // LalBrewVerdantIPA,
-    // LalBrewVoss,    // KveikVoss
+    LalBrewNovaLager,
+    LalBrewPomona,
+    LalBrewVerdantIPA,
+    LalBrewVoss,
     LalBrewWindsor,
-    // LalBrewWit
-    // LallemandPriseDeMousseWine,
-    // LallemandSourvisiae
-    // LallemandWildBrewPhillySour,
+    LalBrewWit,
 
     // MangroveJackBavarianWheat,
     // MangroveJackBelgianAle,
     // MangroveJackBelgianWit,
     // MangroveJackBohemianLager,
     // MangroveJackCaliforniaLager,
-    // MangroveJackEmpireAle,
+    // MangroveJackEmpireAle,  ScottishHeavyAle, ...
     // MangroveJackFrenchSaisonAle,
     // MangroveJackLibertyBellAle,
     // MangroveJackNewWorldStrongAle,
@@ -436,24 +436,24 @@ impl Yeast {
             // Self::ImperialUrkel |
             // Self::ImperialWhiteout => YeastProvider::ImperialYeast,
 
-            // Self::LalBrewAbbaye |
-            // Self::LalBrewBelleSaison |
-            // Self::LalBrewBRY97 |
-            // Self::LalBrewCBC1 |
+            Self::LalBrewAbbaye |
+            Self::LalBrewAurora |
+            Self::LalBrewBelleSaison |
+            Self::LalBrewBRY97 |
+            Self::LalBrewCBC1 |
             Self::LalBrewDiamondLager |
-            // Self::LalBrewKoln |
-            // Self::LalBrewLondon |
-
+            Self::LalBrewFarmhouse |
+            Self::LalBrewHouseAle |
+            Self::LalBrewLoNa |
             Self::LalBrewMunichClassic |
-            // Self::LalBrewNewEngland |
+            Self::LalBrewNewEngland |
             Self::LalBrewNottingham |
-            // Self::LalBrewVerdantIPA |
-            // Self::LalBrewVoss |
-            Self::LalBrewWindsor => YeastProvider::Lallemand,
-            // Self::LalBrewWit |
-            // Self::LallemandPriseDeMousseWine |
-            // Self::LallemandSourvisiae |
-            // Self::LallemandWildBrewPhillySour => YeastProvider::Lallemand,
+            Self::LalBrewNovaLager |
+            Self::LalBrewPomona |
+            Self::LalBrewVerdantIPA |
+            Self::LalBrewVoss |
+            Self::LalBrewWindsor |
+            Self::LalBrewWit => YeastProvider::Lallemand,
 
             Self::OYL061 |
             Self::OYL071 => YeastProvider::OmegaYeastLabs,
@@ -702,24 +702,25 @@ impl Yeast {
             // Self::ImperialTripleDouble => "",
             // Self::ImperialUrkel => "",
             // Self::ImperialWhiteout => "",
-
-            // Self::LalBrewAbbaye => "",
-            // Self::LalBrewBelleSaison => "",
-            // Self::LalBrewBRY97 => "",
-            // Self::LalBrewCBC1 => "",
+            Self::LalBrewAbbaye => "LalBrew Abbaye",
+            Self::LalBrewAurora => "LalBrew Aurora",
+            Self::LalBrewBelleSaison => "LalBrew Belle Saison",
+            Self::LalBrewBRY97 => "LalBrew BRY-97",
+            Self::LalBrewCBC1 => "LalBrew CBC-1",
             Self::LalBrewDiamondLager => "LalBrew Diamond Lager",
-            // Self::LalBrewKoln => "",
-            // Self::LalBrewLondon => "",
+            Self::LalBrewFarmhouse => "LalBrew Farmhouse",
+            Self::LalBrewHouseAle => "LalBrew House Ale",
+            Self::LalBrewLoNa => "LalBrew LoNa",
             Self::LalBrewMunichClassic => "LalBrew Munich Classic",
-            // Self::LalBrewNewEngland => "",
+            Self::LalBrewNewEngland => "LalBrew New England",
             Self::LalBrewNottingham => "LalBrew Nottingham",
-            // Self::LalBrewVerdantIPA => "",
-            // Self::LalBrewVoss => "",
+            Self::LalBrewNovaLager => "LalBrew NovaLager",
+            Self::LalBrewPomona => "LalBrew Pomona",
+            Self::LalBrewVerdantIPA => "LalBrew Verdant IPA",
+            Self::LalBrewVoss => "LalBrew Voss",
             Self::LalBrewWindsor => "LalBrew Windsor",
-            // Self::LalBrewWit => "",
-            // Self::LallemandPriseDeMousseWine => "",
-            // Self::LallemandSourvisiae => "",
-            // Self::LallemandWildBrewPhillySour => "",
+            Self::LalBrewWit => "LalBrew Wit",
+
             Self::OYL061 => "Voss Kveik",
             Self::OYL071 => "Lutra Kveik",
             Self::WLP001 => "WLP001 California Ale Yeast",
@@ -974,24 +975,25 @@ impl Yeast {
             // Self::ImperialTripleDouble => todo!(),
             // Self::ImperialUrkel => todo!(),
             // Self::ImperialWhiteout => todo!(),
-
-            // Self::LalBrewAbbaye => todo!(),
-            // Self::LalBrewBelleSaison => todo!(),
-            // Self::LalBrewBRY97 => todo!(),
-            // Self::LalBrewCBC1 => todo!(),
+            Self::LalBrewAbbaye => (17.0, 25.0),
+            Self::LalBrewAurora => (12.0, 30.0),
+            Self::LalBrewBelleSaison => (20.0, 35.0),
+            Self::LalBrewBRY97 => (15.0, 22.0),
+            Self::LalBrewCBC1 => (20.0, 30.0),
             Self::LalBrewDiamondLager => (10.0, 15.0),
-            // Self::LalBrewKoln => todo!(),
-            // Self::LalBrewLondon => todo!(),
+            Self::LalBrewFarmhouse => (22.0, 30.0),
+            Self::LalBrewHouseAle => (16.0, 22.0),
+            Self::LalBrewLoNa => (20.0, 25.0),
             Self::LalBrewMunichClassic => (17.0, 25.0),
-            // Self::LalBrewNewEngland => todo!(),
+            Self::LalBrewNewEngland => (18.0, 25.0),
             Self::LalBrewNottingham => (10.0, 25.0),
-            // Self::LalBrewVerdantIPA => todo!(),
-            // Self::LalBrewVoss => todo!(),
+            Self::LalBrewNovaLager => (10.0, 20.0),
+            Self::LalBrewPomona => (18.0, 22.0),
+            Self::LalBrewVerdantIPA => (18.0, 25.0),
+            Self::LalBrewVoss => (25.0, 40.0),
             Self::LalBrewWindsor => (15.0, 25.0),
-            // Self::LalBrewWit => todo!(),
-            // Self::LallemandPriseDeMousseWine => todo!(),
-            // Self::LallemandSourvisiae => todo!(),
-            // Self::LallemandWildBrewPhillySour => todo!(),
+            Self::LalBrewWit => (17.0, 25.0),
+
             Self::OYL061 => (25.0, 40.0),
             Self::OYL071 => (12.0, 35.0),
 
@@ -1220,10 +1222,26 @@ impl Yeast {
             Self::SafLagerS23 => 0.80..0.84,
             Self::SafLagerSH45 => 0.77..0.82,
             Self::SafLagerW3470 => 0.80..0.84,
+
+            Self::LalBrewAbbaye => 0.77..0.83,
+            Self::LalBrewAurora => 0.74..0.82,
+            Self::LalBrewBelleSaison => 0.86..0.94,
+            Self::LalBrewBRY97 => 0.78..0.84,
+            Self::LalBrewCBC1 => 0.0..0.0, // n/a glucose only
             Self::LalBrewDiamondLager => 0.77..0.83,
+            Self::LalBrewFarmhouse => 0.78..0.84,
+            Self::LalBrewHouseAle => 0.78..0.86,
+            Self::LalBrewLoNa => 0.16..0.20,
             Self::LalBrewMunichClassic => 0.76..0.83,
+            Self::LalBrewNewEngland => 0.78..0.83,
             Self::LalBrewNottingham => 0.78..0.84,
+            Self::LalBrewNovaLager => 0.78..0.84,
+            Self::LalBrewPomona => 0.75..0.84,
+            Self::LalBrewVerdantIPA => 0.75..0.82,
+            Self::LalBrewVoss => 0.76..0.82,
             Self::LalBrewWindsor => 0.65..0.72,
+            Self::LalBrewWit => 0.75..0.82,
+
             Self::OYL061 => 0.76..0.82,
             Self::OYL071 => 0.75..0.82,
 
@@ -1451,10 +1469,26 @@ impl Yeast {
             Self::SafLagerS23 => (9, 11),
             Self::SafLagerSH45 => (9, 11), // unlisted on specs
             Self::SafLagerW3470 => (9, 11),
+
+            Self::LalBrewAbbaye => (14, 14),
+            Self::LalBrewAurora => (13, 13),
+            Self::LalBrewBelleSaison => (15, 15),
+            Self::LalBrewBRY97 => (13, 13),
+            Self::LalBrewCBC1 => (12, 14), // for bottle cond; 18% for cider, mead
             Self::LalBrewDiamondLager => (13, 13),
+            Self::LalBrewFarmhouse => (13, 13),
+            Self::LalBrewHouseAle => (14, 14),
+            Self::LalBrewLoNa => (5, 5), // n/a they say
             Self::LalBrewMunichClassic => (12, 12),
+            Self::LalBrewNewEngland => (9, 9),
             Self::LalBrewNottingham => (14, 14),
+            Self::LalBrewNovaLager => (13, 13),
+            Self::LalBrewPomona => (14, 14),
+            Self::LalBrewVerdantIPA => (12, 12),
+            Self::LalBrewVoss => (12, 12),
             Self::LalBrewWindsor => (12, 12),
+            Self::LalBrewWit => (12, 12),
+
             Self::OYL061 => (12, 12),
             Self::OYL071 => (15, 15),
 
@@ -1684,10 +1718,26 @@ impl Yeast {
             Self::SafLagerS23 => Flocculation::High,  // sed fast
             Self::SafLagerSH45 => Flocculation::Medium,
             Self::SafLagerW3470 => Flocculation::High,
+
+            Self::LalBrewAbbaye => Flocculation::MediumHigh,
+            Self::LalBrewAurora => Flocculation::MediumHigh,
+            Self::LalBrewBelleSaison => Flocculation::Low,
+            Self::LalBrewBRY97 => Flocculation::High,
+            Self::LalBrewCBC1 => Flocculation::High,
             Self::LalBrewDiamondLager => Flocculation::High,
+            Self::LalBrewFarmhouse => Flocculation::Low,
+            Self::LalBrewHouseAle => Flocculation::Medium,
+            Self::LalBrewLoNa => Flocculation::Medium,
             Self::LalBrewMunichClassic => Flocculation::Low,
+            Self::LalBrewNewEngland => Flocculation::Medium,
             Self::LalBrewNottingham => Flocculation::High,
+            Self::LalBrewNovaLager => Flocculation::Medium,
+            Self::LalBrewPomona => Flocculation::Medium,
+            Self::LalBrewVerdantIPA => Flocculation::Medium,
+            Self::LalBrewVoss => Flocculation::VeryHigh,
             Self::LalBrewWindsor => Flocculation::Low,
+            Self::LalBrewWit => Flocculation::Low,
+
             Self::OYL061 => Flocculation::VeryHigh,
             Self::OYL071 => Flocculation::MediumHigh,
 
@@ -1908,10 +1958,26 @@ impl Yeast {
             Self::SafLagerW3470 => true,
             Self::OYL061 => true,
             Self::OYL071 => false,
+
+            Self::LalBrewAbbaye => true,
+            Self::LalBrewAurora => true,
+            Self::LalBrewBelleSaison => true,
+            Self::LalBrewBRY97 => true,
+            Self::LalBrewCBC1 => true,
             Self::LalBrewDiamondLager => true,
+            Self::LalBrewFarmhouse => true,
+            Self::LalBrewHouseAle => true,
+            Self::LalBrewLoNa => true,
             Self::LalBrewMunichClassic => true,
+            Self::LalBrewNewEngland => true,
             Self::LalBrewNottingham => true,
+            Self::LalBrewNovaLager => true,
+            Self::LalBrewPomona => true,
+            Self::LalBrewVerdantIPA => true,
+            Self::LalBrewVoss => true,
             Self::LalBrewWindsor => true,
+            Self::LalBrewWit => true,
+
             // Self::WLP300 => false,
             // Self::WLP351 => false,
             // Self::WLP380 => false,
@@ -1936,6 +2002,7 @@ impl Yeast {
                 | Self::SafLagerSH45
                 | Self::SafLagerW3470
                 | Self::LalBrewDiamondLager
+                | Self::LalBrewNovaLager
                 | Self::WLP4030
                 | Self::WLP4035
                 | Self::WLP800
@@ -1965,9 +2032,28 @@ impl Yeast {
         match *self {
             Self::SafAleBW20 => Some(50.0..80.0),
             Self::SafAleW68 => Some(50.0..80.0),
+
+            Self::LalBrewAbbaye => Some(50.0..100.0),
+            Self::LalBrewAurora => Some(50.0..100.0),
+            Self::LalBrewBelleSaison => Some(50.0..100.0),
+            Self::LalBrewBRY97 => Some(50.0..100.0),
+            Self::LalBrewCBC1 => Some(10.0..10.0), // for bottle cond
             Self::LalBrewDiamondLager => Some(100.0..200.0),
+            Self::LalBrewFarmhouse => Some(50.0..100.0),
+            Self::LalBrewHouseAle => Some(50.0..100.0),
+            Self::LalBrewLoNa => Some(50.0..50.0),
             Self::LalBrewMunichClassic => Some(50.0..100.0),
+            Self::LalBrewNewEngland => Some(100.0..200.0),
             Self::LalBrewNottingham => Some(50.0..100.0),
+            Self::LalBrewNovaLager => Some(50.0..100.0),
+            Self::LalBrewPomona => Some(50.0..100.0),
+            Self::LalBrewVerdantIPA => Some(50.0..100.0),
+            Self::LalBrewVoss => Some(50.0..100.0),
+            Self::LalBrewWindsor => Some(50.0..100.0),
+            Self::LalBrewWit => Some(50.0..100.0),
+            // Self::LallemandPriseDeMousseWine => ,
+            // Self::LallemandSourvisiae
+            // Self::LallemandWildBrewPhillySour => ,
             _ => None,
         }
     }
@@ -1993,6 +2079,7 @@ impl Yeast {
         match *self {
             Self::OYL061 => Ppm(180.0),
             Self::OYL071 => Ppm(180.0),
+
             Self::LalBrewMunichClassic => Ppm(180.0),
             Self::LalBrewNottingham => Ppm(150.0), // ale
             Self::LalBrewWindsor => Ppm(150.0),    // ale
@@ -2021,6 +2108,8 @@ impl Yeast {
     #[allow(clippy::match_same_arms)]
     pub fn strain(&self) -> Option<Strain> {
         match *self {
+            Self::LalBrewNewEngland => Some(Strain::Conan),
+            Self::LalBrewVoss => Some(Strain::VossKveik),
             Self::SafAleUS05 => Some(Strain::Chico),
             Self::SafAleW68 => Some(Strain::WeihenstephananWeizen68),
             Self::SafLagerS189 => Some(Strain::Hurlimann),
@@ -2107,7 +2196,7 @@ impl Yeast {
             // Self::WY1316 or 1318 => Some(Strain::Boddingtons),
             // Self::WY1275 => Some(Strain::HenleyOfThames),
             // Self::WY1469 => Some(Strain::TimothyTaylor),
-            // Self::LalBrewBRY97 => Some(Strain::Ballantine),
+            Self::LalBrewBRY97 => Some(Strain::Ballantine),
             _ => None,
         }
     }
@@ -2117,6 +2206,7 @@ impl Yeast {
     #[allow(clippy::match_same_arms)]
     pub fn sta1(&self) -> Option<bool> {
         match *self {
+            Self::LalBrewLoNa => Some(false),
             Self::WLP045 => Some(true),
             Self::WLP096 => Some(true),
             Self::WLP099 => Some(true),
@@ -2195,21 +2285,24 @@ impl Yeast {
             // Self::ImperialTripleDouble => None,
             // Self::ImperialUrkel => None,
             // Self::ImperialWhiteout => None,
-
-            // Self::LalBrewAbbaye => None,
-            // Self::LalBrewBelleSaison => None,
-            // Self::LalBrewBRY97 => None,
-            // Self::LalBrewCBC1 => None,
+            Self::LalBrewAbbaye => None,
+            Self::LalBrewAurora => None,
+            Self::LalBrewBelleSaison => None,
+            Self::LalBrewBRY97 => None,
+            Self::LalBrewCBC1 => None,
             Self::LalBrewDiamondLager => None,
-            // Self::LalBrewKoln => None,
-            // Self::LalBrewLondon => None,
+            Self::LalBrewFarmhouse => None,
+            Self::LalBrewHouseAle => None,
+            Self::LalBrewLoNa => None,
             Self::LalBrewMunichClassic => None,
-            // Self::LalBrewNewEngland => None, // Conan strain
+            Self::LalBrewNewEngland => None,
             Self::LalBrewNottingham => None,
-            // Self::LalBrewVerdantIPA => None,
-            // Self::LalBrewVoss => None,
+            Self::LalBrewNovaLager => None,
+            Self::LalBrewPomona => None,
+            Self::LalBrewVerdantIPA => None,
+            Self::LalBrewVoss => None,
             Self::LalBrewWindsor => None,
-            // Self::LalBrewWit => None,
+            Self::LalBrewWit => None,
             // Self::LallemandPriseDeMousseWine => None,
             // Self::LallemandSourvisiae => None,
             // Self::LallemandWildBrewPhillySour => None,

@@ -1152,7 +1152,11 @@ impl Process {
         // acidity needed cancelling
         // TBD if in the future we have manual acid additions, check those too
         if self.recipe.malts.iter().any(|m| m.malt.acidity() > 100.0) {
-            if self.water_salts().iter().any(|s| s.salt == Salt::BakingSoda) {
+            if self
+                .water_salts()
+                .iter()
+                .any(|s| s.salt == Salt::BakingSoda)
+            {
                 warnings.push(Warning::AcidityNeededCancelling);
             }
         }

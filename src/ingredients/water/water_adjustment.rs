@@ -62,7 +62,6 @@ impl WaterAdjustment {
 
             self.compute_cation_salts(&mut profile, &mut salts, Ppm(ca), Ppm(mg));
         } else if ra_desired > ra_source_water {
-
             // Increase Alkalinity to increase RA
             // with baking soda
 

@@ -197,13 +197,7 @@ impl fmt::Display for WaterProfile {
         write!(
             f,
             "Ca {:.0}   Mg {:.0}   Na {:.0}   SO4 {:.0}   Cl {:.0}   CaCO3 {:.0}   RA {:.0}",
-            self.ca.0,
-            self.mg.0,
-            self.na.0,
-            self.so4.0,
-            self.cl.0,
-            self.alkalinity_caco3.0,
-            ra.0,
+            self.ca.0, self.mg.0, self.na.0, self.so4.0, self.cl.0, self.alkalinity_caco3.0, ra.0,
         )
     }
 }
