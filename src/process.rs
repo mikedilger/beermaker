@@ -56,6 +56,7 @@ impl Process {
 
     /// Water salts to adjust ions
     #[must_use]
+    #[allow(clippy::missing_panics_doc)]
     pub fn water_salts(&self) -> Vec<SaltConcentration> {
         let water_adjustment = WaterAdjustment {
             profile: self.brewery.water_profile,
@@ -1151,14 +1152,13 @@ impl Process {
         // If the recipe calls for acids or acidulated malt, and some of that
         // acidity needed cancelling
         // TBD if in the future we have manual acid additions, check those too
-        if self.recipe.malts.iter().any(|m| m.malt.acidity() > 100.0) {
-            if self
+        if self.recipe.malts.iter().any(|m| m.malt.acidity() > 100.0)
+            && self
                 .water_salts()
                 .iter()
                 .any(|s| s.salt == Salt::BakingSoda)
-            {
-                warnings.push(Warning::AcidityNeededCancelling);
-            }
+        {
+            warnings.push(Warning::AcidityNeededCancelling);
         }
 
         // Verify the style OG

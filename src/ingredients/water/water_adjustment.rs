@@ -35,6 +35,7 @@ pub struct WaterAdjustment {
 
 impl WaterAdjustment {
     /// Salts needed to achieve what we want
+    #[must_use]
     pub fn salts_needed(&self) -> Vec<SaltConcentration> {
         // The running profile
         let mut profile = self.profile;
@@ -57,7 +58,7 @@ impl WaterAdjustment {
             // but also Ca 50-150, mg 5-40... ratio being about 7x
             // ca = 7 * mg
             // Solving two equasions:
-            let mg = (profile.alkalinity_caco3.0 - ra_desired.0) / 5.5822857;
+            let mg = (profile.alkalinity_caco3.0 - ra_desired.0) / 5.582_286;
             let ca = mg * 7.0;
 
             self.compute_cation_salts(&mut profile, &mut salts, Ppm(ca), Ppm(mg));

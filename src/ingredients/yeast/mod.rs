@@ -2108,6 +2108,12 @@ impl Yeast {
     #[allow(clippy::match_same_arms)]
     pub fn strain(&self) -> Option<Strain> {
         match *self {
+            // BRY96 and BRY97 are unclear. Only BRY97 is commercially
+            // available. BRY96 is held by Siebel which Lallemand owns.
+            // BRY96 is probably Chico and BRY97 is probably Ballantine.
+            // Chico decends from "Slant #96" (BRY96) from Siebel, but
+            // Chico may be a mutant child strain of it.
+            Self::LalBrewBRY97 => Some(Strain::Ballantine),
             Self::LalBrewNewEngland => Some(Strain::Conan),
             Self::LalBrewVoss => Some(Strain::VossKveik),
             Self::SafAleUS05 => Some(Strain::Chico),
@@ -2115,7 +2121,7 @@ impl Yeast {
             Self::SafLagerS189 => Some(Strain::Hurlimann),
             Self::SafLagerS23 => Some(Strain::BerlinLager),
             Self::SafLagerW3470 => Some(Strain::WeihenstephananLager),
-            Self::WLP001 => Some(Strain::Chico), // BRY96), WY1056
+            Self::WLP001 => Some(Strain::Chico), // Siebel BRY96), WY1056
             Self::WLP002 => Some(Strain::Fullers), // BE045), WY1968
             Self::WLP003 => None, // unknown german brewery may match Wyeast 2575PC Kolsch II
             Self::WLP004 => Some(Strain::Guinness),
@@ -2196,7 +2202,6 @@ impl Yeast {
             // Self::WY1316 or 1318 => Some(Strain::Boddingtons),
             // Self::WY1275 => Some(Strain::HenleyOfThames),
             // Self::WY1469 => Some(Strain::TimothyTaylor),
-            Self::LalBrewBRY97 => Some(Strain::Ballantine),
             _ => None,
         }
     }
