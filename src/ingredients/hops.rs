@@ -38,6 +38,7 @@ pub enum Hops {
     Mosaic,
 
     /// Nelson Sauvin
+    // NZ, bright peel-like bitterness, sweet, tropical
     NelsonSauvin,
 
     /// Saaz (Czech)
@@ -54,6 +55,16 @@ pub enum Hops {
 
     /// Williamette
     Williamette,
+    // Superdelic (NZ)
+    // Nectaron (NZ, sweet fruit, pineapple, passion fruit)
+    // Motueka (NZ, lime zest, lemon, mint, herbal, floral, papaya,
+    // lychee, guava)
+
+    // Riwaka (NZ, thiols, diesel, dank, passion fruit, kumquat,
+    //    grapefruit, lime), hard to grow, fussy, low yield, so most
+    //    expensive hop in world
+    // Waimea (arm pit?)
+    // Waiiti (NZ, apricot peach)
 }
 
 impl fmt::Display for Hops {

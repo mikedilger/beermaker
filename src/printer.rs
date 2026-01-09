@@ -450,8 +450,9 @@ pub fn print_process(
         ));
     } else {
         steps.boil.push(format!(
-            "Do not add yeast nutrient. Instead, at 10 minutes before \
-             the end of the boil, add {zn} of zinc."
+            "Do not add yeast nutrient. However, if the yeast is repitched \
+             or otherwise requires it, at 10 minutes before \
+             the end of the boil, add {zn} of Zn+2 (e.g. via Zinc Sulfate)."
         ));
     }
 
@@ -568,7 +569,9 @@ pub fn print_process(
     }
 
     steps.pitch.push(format!(
-        "Verify the wort temperature is below {yeast_max_temperature}.",
+        "Verify the wort temperature is below {yeast_max_temperature}, which \
+         is the manufacturers maximum recommended temp for that yeast. But \
+         more ideally, get down to {fermentation_temp} (unless that is higher)",
     ));
 
     steps

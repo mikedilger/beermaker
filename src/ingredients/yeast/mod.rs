@@ -2192,8 +2192,12 @@ impl Yeast {
             Self::WLP802 => Some(Strain::Samsons),
             Self::WLP808 => None, // blend
             Self::WLP810 => Some(Strain::AnchorSteam),
-            Self::WLP820 => Some(Strain::WeihenstephananLager),
-            Self::WLP830 => Some(Strain::WeihenstephananLager206),
+            // This video says he got confirmation from White Labs that
+            //   820 is W206, https://www.youtube.com/watch?v=LFv79wjXflw
+            //   and 830 is W3470
+            // Mr Malty website has these backwards.
+            Self::WLP820 => Some(Strain::WeihenstephananLager206),
+            Self::WLP830 => Some(Strain::WeihenstephananLager),
             Self::WLP833 => Some(Strain::Ayinger),
             Self::WLP840 => Some(Strain::Budweiser),
             Self::WLP860 => Some(Strain::Augustiner),
@@ -2233,6 +2237,7 @@ impl Yeast {
             Self::WLP585 => Some(true),
             Self::WLP590 => Some(true),
             Self::WLP630 => Some(true),
+            Self::WLP830 => Some(false),
             _ => None,
         }
     }
