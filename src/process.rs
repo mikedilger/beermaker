@@ -61,7 +61,7 @@ impl Process {
         let water_adjustment = WaterAdjustment {
             profile: self.brewery.water_profile,
             mash_ph_distilled: self.mash_ph_distilled().pop().unwrap(),
-            target_ph: Ph(5.4),
+            target_ph: self.recipe.mash_ph_target,
             sulfate_chloride_target: self.recipe.sulfate_chloride_target,
         };
 

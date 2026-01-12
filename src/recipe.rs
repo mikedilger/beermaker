@@ -34,6 +34,9 @@ pub struct Recipe {
     /// Typical range is 2.4 - 3.1.
     pub mash_thickness: f32,
 
+    /// Mash pH target. Generally from 5.2 to 5.6.
+    pub mash_ph_target: Ph,
+
     /// The sugars added after mashing, in proportion to all malts and sugars
     /// by weight. The actual weights are calculated.
     pub sugars: Vec<SugarProportion>,

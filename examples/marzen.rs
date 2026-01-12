@@ -1,5 +1,5 @@
 use beermaker::prelude::*;
-use beermaker::{Equipment, Process, Recipe, print_process};
+use beermaker::{Brewery, Process, Recipe, print_process};
 use beermaker::{MashRest, Packaging, Style};
 
 /// This is a very small 4.25 L batch experiment that I did.
@@ -20,7 +20,7 @@ fn main() {
     };
 
     // And this is my equipment
-    let equipment = Equipment {
+    let brewery = Brewery {
         water_profile: PAPAIOEA_PARK_BORE,
         salts_available: vec![
             Salt::CalciumChloride,
@@ -100,7 +100,7 @@ fn main() {
 
         // The salts aren't that important, but I don't want too much
         // sulfate relative to chloride.
-        chloride_sulfate_ratio_range: 3.0..4.5,
+        sulfate_chloride_target: 0.33,
 
         // The malt bill.  The proportions don't have to add up
         // to anything in particular.
@@ -116,6 +116,10 @@ fn main() {
             MaltProportion {
                 malt: Malt::WeyermannMelanoidin,
                 proportion: 4.,
+            },
+            MaltProportion {
+                malt: Malt::WeyermannAcidulated,
+                proportion: 2.,
             },
         ],
 
@@ -134,6 +138,8 @@ fn main() {
         // Fairly typical for two-step mash
         // Final mash thickness 3.3 L/kg, but 2.5 L/kg at first rest
         mash_thickness: 3.3,
+
+        mash_ph_target: Ph(5.3),
 
         // No sugars. If you add DME or maltodextrin you can
         // put that here.
@@ -173,7 +179,7 @@ fn main() {
         custom_steps: Some(custom_steps),
     };
 
-    let process = Process::new(equipment, recipe, Liters(7.0));
+    let process = Process::new(brewery, recipe, Liters(7.0));
 
     println!("{}", print_process(&process, None, Some(70)));
 
