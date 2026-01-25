@@ -28,6 +28,9 @@ pub enum Malt {
     /// Dingemans Special-B
     DingemansSpecialB,
 
+    /// Thomas Fawcett Halcyon Pale Ale Malt
+    FawcettHalcyonPaleAle,
+
     /// Thomas Fawcett Pale Chocolate
     FawcettPaleChocolate,
 
@@ -133,6 +136,7 @@ impl Malt {
         match *self {
             Malt::BriessVictory => MaltCategory::Roasted,
             Malt::DingemansSpecialB => MaltCategory::Crystal,
+            Malt::FawcettHalcyonPaleAle => MaltCategory::Base,
             Malt::FawcettPaleChocolate => MaltCategory::Roasted,
             Malt::GladfieldAle => MaltCategory::Base,
             Malt::GladfieldAmericanAle => MaltCategory::Base,
@@ -174,6 +178,7 @@ impl Malt {
         match *self {
             Malt::BriessVictory => None,
             Malt::DingemansSpecialB => None,
+            Malt::FawcettHalcyonPaleAle => None,
             Malt::FawcettPaleChocolate => None,
             Malt::GladfieldAle => Some(Ph(f32::midpoint(5.7, 6.0))), // [2]
             Malt::GladfieldAmericanAle => Some(Ph(f32::midpoint(5.7, 6.0))), // [2]
@@ -256,6 +261,7 @@ impl Malt {
         match *self {
             Malt::BriessVictory => (Ebc(55.0), Ebc(55.0)),
             Malt::DingemansSpecialB => (Ebc(300.0), Ebc(300.0)),
+            Malt::FawcettHalcyonPaleAle => (Ebc(4.0), Ebc(6.0)),
             Malt::FawcettPaleChocolate => (Ebc(560.0), Ebc(690.0)),
             Malt::GladfieldAle => (Ebc(5.0), Ebc(6.0)),
             Malt::GladfieldAmericanAle => (Ebc(4.5), Ebc(5.5)),
@@ -304,6 +310,7 @@ impl Malt {
         match *self {
             Malt::BriessVictory => 10.0,
             Malt::DingemansSpecialB => 15.0,
+            Malt::FawcettHalcyonPaleAle => 100.0,
             Malt::FawcettPaleChocolate => 5.0,
             Malt::GladfieldAle => 100.0,
             Malt::GladfieldAmericanAle => 100.0,
@@ -347,6 +354,7 @@ impl Malt {
         match *self {
             Malt::BriessVictory => 34.5,
             Malt::DingemansSpecialB => 33.1,
+            Malt::FawcettHalcyonPaleAle => 36.3,
             Malt::FawcettPaleChocolate => 32.2,
             Malt::GladfieldAle => 37.4,
             Malt::GladfieldAmericanAle => 37.3,
@@ -389,6 +397,7 @@ impl Malt {
         match *self {
             Malt::BriessVictory => None,
             Malt::DingemansSpecialB => None,
+            Malt::FawcettHalcyonPaleAle => None,
             Malt::FawcettPaleChocolate => Some(11.6), // less than
             Malt::GladfieldAle => None,
             Malt::GladfieldAmericanAle => None,
@@ -432,6 +441,7 @@ impl Malt {
         match *self {
             Malt::BriessVictory => None,
             Malt::DingemansSpecialB => None,
+            Malt::FawcettHalcyonPaleAle => None,
             Malt::FawcettPaleChocolate => None,
             Malt::GladfieldAle => Some(38.0), // spec 35 - 41
             Malt::GladfieldAmericanAle => Some(38.0), // spec 35 - 41
@@ -474,6 +484,7 @@ impl Malt {
         match *self {
             Malt::BriessVictory => None,
             Malt::DingemansSpecialB => Some(Ppm(0.0)), // assume 0
+            Malt::FawcettHalcyonPaleAle => None,
             Malt::FawcettPaleChocolate => None,
             Malt::GladfieldAle => Some(Ppm(130.0)), // min spec 120.0
             Malt::GladfieldAmericanAle => Some(Ppm(135.0)), // min spec 120.0
@@ -537,6 +548,7 @@ impl fmt::Display for Malt {
         match *self {
             Malt::BriessVictory => write!(f, "[Briess Victory]"),
             Malt::DingemansSpecialB => write!(f, "[Dingemans Special B]"),
+            Malt::FawcettHalcyonPaleAle => write!(f, "[Thomas Fawcett Halcyon Pale Ale Malt]"),
             Malt::FawcettPaleChocolate => write!(f, "[Thomas Fawcett Pale Chocolate Malt]"),
             Malt::GladfieldAle => write!(f, "[Gladfield Ale Malt]"),
             Malt::GladfieldAmericanAle => write!(f, "[Gladfield American Ale Malt]"),

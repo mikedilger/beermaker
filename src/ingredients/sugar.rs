@@ -37,6 +37,9 @@ pub enum Sugar {
 
     /// Maple Syrup
     MapleSyrup,
+
+    /// Light Liquid Malt Extract
+    LightLME,
 }
 
 impl Sugar {
@@ -66,6 +69,7 @@ impl Sugar {
             Sugar::Honey => 0.74, // omnicalculator says 0.78
             Sugar::CornSyrup => 0.69,
             Sugar::DME => 0.68, // brewersfriend and omnicalculator agree 0.68
+            Sugar::LightLME => 0.68, // presume it is like DME
         }
     }
 
@@ -88,6 +92,7 @@ impl Sugar {
             Sugar::Honey => 0.075,     // honey is 17-20% water, 5-10% unferm
             Sugar::CornSyrup => 0.05,  // wild guess
             Sugar::DME => 0.12,        // 20% water
+            Sugar::LightLME => 0.12, // presume it is like DME
         }
     }
 
@@ -127,6 +132,7 @@ impl fmt::Display for Sugar {
             Sugar::Honey => write!(f, "[Honey]"),
             Sugar::CornSyrup => write!(f, "[Corn Syrup]"),
             Sugar::DME => write!(f, "[DME]"),
+            Sugar::LightLME => write!(f, "[Light LME]"),
         }
     }
 }

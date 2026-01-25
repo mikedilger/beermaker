@@ -16,6 +16,9 @@ pub enum Hops {
     /// Cascade
     Cascade,
 
+    /// Challenger,
+    Challenger,
+
     /// Chinook,
     Chinook,
 
@@ -40,6 +43,9 @@ pub enum Hops {
     /// Nelson Sauvin
     // NZ, bright peel-like bitterness, sweet, tropical
     NelsonSauvin,
+
+    /// Northdown
+    Northdown,
 
     /// Saaz (Czech)
     Saaz,
@@ -71,6 +77,7 @@ impl fmt::Display for Hops {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match *self {
             Hops::Cascade => write!(f, "[Cascade]"),
+            Hops::Challenger => write!(f, "[Challenger]"),
             Hops::Chinook => write!(f, "[Chinook]"),
             Hops::Citra => write!(f, "[Citra]"),
             Hops::EastKentGoldings => write!(f, "[East Kent Goldings]"),
@@ -79,6 +86,7 @@ impl fmt::Display for Hops {
             Hops::Magnum => write!(f, "[Magnum]"),
             Hops::Mosaic => write!(f, "[Mosaic]"),
             Hops::NelsonSauvin => write!(f, "[Nelson Sauvin]"),
+            Hops::Northdown => write!(f, "[Northdown]"),
             Hops::Saaz => write!(f, "[Saaz]"),
             Hops::Simcoe => write!(f, "[Simcoe]"),
             Hops::Target => write!(f, "[Target]"),
@@ -94,6 +102,7 @@ impl Hops {
     pub fn usage(&self) -> HopsUsage {
         match *self {
             Hops::Cascade => HopsUsage::Finishing,
+            Hops::Challenger => HopsUsage::DualPurpose,
             Hops::Chinook => HopsUsage::DualPurpose,
             Hops::Citra => HopsUsage::DualPurpose,
             Hops::EastKentGoldings => HopsUsage::DualPurpose,
@@ -102,6 +111,7 @@ impl Hops {
             Hops::Magnum => HopsUsage::Bittering,
             Hops::Mosaic => HopsUsage::DualPurpose,
             Hops::NelsonSauvin => HopsUsage::DualPurpose,
+            Hops::Northdown => HopsUsage::DualPurpose,
             Hops::Saaz => HopsUsage::Finishing,
             Hops::Simcoe => HopsUsage::DualPurpose,
             Hops::Target => HopsUsage::DualPurpose,
@@ -115,6 +125,7 @@ impl Hops {
     pub fn alpha_acid(&self) -> f32 {
         match *self {
             Hops::Cascade => f32::midpoint(0.04, 0.07),
+            Hops::Challenger => f32::midpoint(0.065, 0.09),
             Hops::Chinook => f32::midpoint(0.12, 0.14),
             Hops::Citra => 0.133,
             Hops::EastKentGoldings => 0.055,
@@ -123,6 +134,7 @@ impl Hops {
             Hops::Magnum => f32::midpoint(0.12, 0.14),
             Hops::Mosaic => f32::midpoint(0.115, 0.135),
             Hops::NelsonSauvin => f32::midpoint(0.12, 0.13),
+            Hops::Northdown => f32::midpoint(0.06, 0.09),
             Hops::Saaz => f32::midpoint(0.02, 0.045),
             Hops::Simcoe => f32::midpoint(0.12, 0.14),
             Hops::Target => 0.115,
