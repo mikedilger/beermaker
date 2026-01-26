@@ -994,7 +994,11 @@ impl Process {
         for dose in &self.malt_doses() {
             let pounds: Pounds = dose.weight.into();
             let lovabond: Lovabond = dose.malt.ebc().into();
-
+            mcu += pounds.0 * lovabond.0;
+        }
+        for dose in &self.sugar_doses() {
+            let pounds: Pounds = dose.weight.into();
+            let lovabond: Lovabond = dose.sugar.ebc().into();
             mcu += pounds.0 * lovabond.0;
         }
 

@@ -49,6 +49,20 @@ impl Sugar {
         self.fermentability() * 46.0
     }
 
+    /// Color, EBC
+    #[must_use]
+    pub fn ebc(&self) -> Ebc {
+        match *self {
+            Sugar::DME => Ebc(4.0), // guess
+            Sugar::BrownSugar => Ebc(15.0), // guess
+            Sugar::CornSyrup => Ebc(2.0), // guess
+            Sugar::Honey => Ebc(5.0), // guess
+            Sugar::MapleSyrup => Ebc(10.0), // guess
+            Sugar::LightLME => Ebc(8.0), // Estimate
+            _ => Ebc(0.0),
+        }
+    }
+
     /// Fermentability
     ///
     /// This is what fraction will ferment, via yeast, like pure sugar.
