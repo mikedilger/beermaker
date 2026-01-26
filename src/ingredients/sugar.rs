@@ -53,12 +53,12 @@ impl Sugar {
     #[must_use]
     pub fn ebc(&self) -> Ebc {
         match *self {
-            Sugar::DME => Ebc(4.0), // guess
+            Sugar::DME => Ebc(4.0),         // guess
             Sugar::BrownSugar => Ebc(15.0), // guess
-            Sugar::CornSyrup => Ebc(2.0), // guess
-            Sugar::Honey => Ebc(5.0), // guess
+            Sugar::CornSyrup => Ebc(2.0),   // guess
+            Sugar::Honey => Ebc(5.0),       // guess
             Sugar::MapleSyrup => Ebc(10.0), // guess
-            Sugar::LightLME => Ebc(8.0), // Estimate
+            Sugar::LightLME => Ebc(8.0),    // Estimate
             _ => Ebc(0.0),
         }
     }
@@ -106,7 +106,7 @@ impl Sugar {
             Sugar::Honey => 0.075,     // honey is 17-20% water, 5-10% unferm
             Sugar::CornSyrup => 0.05,  // wild guess
             Sugar::DME => 0.12,        // 20% water
-            Sugar::LightLME => 0.12, // presume it is like DME
+            Sugar::LightLME => 0.12,   // presume it is like DME
         }
     }
 

@@ -44,7 +44,7 @@ pub mod prelude {
     pub use crate::units::volume::*;
     pub use crate::units::weight::*;
     pub use crate::units::{Ibu, Ph};
-    pub use crate::{Brewery, MashRest, Packaging, Process, Recipe, Steps, Warning};
+    pub use crate::{Brewery, MashRest, Packaging, PhMethod, Process, Recipe, Steps, Warning};
 }
 
 mod chemistry;
@@ -66,7 +66,7 @@ mod mash;
 pub use mash::MashRest;
 
 mod recipe;
-pub use recipe::Recipe;
+pub use recipe::{PhMethod, Recipe};
 
 mod printer;
 pub use printer::{Steps, print_process};

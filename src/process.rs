@@ -58,21 +58,39 @@ impl Process {
     #[must_use]
     #[allow(clippy::missing_panics_doc)]
     pub fn water_salts(&self) -> Vec<SaltConcentration> {
-        let water_adjustment = WaterAdjustment {
-            profile: self.brewery.water_profile,
-            mash_ph_distilled: self.mash_ph_distilled().pop().unwrap(),
-            target_ph: self.recipe.mash_ph_target,
-            sulfate_chloride_target: self.recipe.sulfate_chloride_target,
-        };
+        if let PhMethod::ComputeAcid(_acid) = self.recipe.ph_method {
+            Vec::new()
+        } else {
+            let water_adjustment = WaterAdjustment {
+                profile: self.brewery.water_profile,
+                mash_ph_distilled: self.mash_ph_distilled().pop().unwrap(),
+                target_ph: self.recipe.mash_ph_target,
+                sulfate_chloride_target: self.recipe.sulfate_chloride_target,
+            };
 
-        water_adjustment.salts_needed()
+            water_adjustment.salts_needed()
+        }
     }
 
     /// Water acids to adjust mash pH
     #[must_use]
+    #[allow(clippy::missing_panics_doc)]
     pub fn water_acids(&self) -> Vec<AcidConcentration> {
-        // TODO: compute acid additions
-        vec![]
+        if let PhMethod::ComputeAcid(acid) = self.recipe.ph_method {
+            let start = self.mash_ph_preacid().pop().unwrap();
+            let end = self.recipe.mash_ph_target;
+
+            let shift = start.0 - end.0;
+
+            // FIXME this is only for Lactic Acid 88%
+            // FIXME this is not very accurate
+            // 25-80 ppm to drop by 0.15 pH
+            let ppm = Ppm(50.0 * (shift / 0.15));
+
+            vec![AcidConcentration { acid, ppm }]
+        } else {
+            Vec::new()
+        }
     }
 
     /// The water profile (after salts and acids)
@@ -309,9 +327,12 @@ impl Process {
         self.malt_doses().iter().map(|dose| dose.weight).sum()
     }
 
-    /// Mash pHs with distilled water, not including any acid additions.
-    /// This is used to help figure out water adjustments, and feeds into the mash_ph()
-    /// function (rather than "beer color" which is a poorer proxy)
+    /// Mash pHs with distilled water, considering only the malts.
+    /// This neither considers RA of water, nor acid additions.
+    ///
+    /// This is used to help figure out water adjustments and acid additions.
+    /// It also feeds into the mash_ph() function
+    /// (rather than "beer color" which is a poorer proxy)
     #[must_use]
     pub fn mash_ph_distilled(&self) -> Vec<Ph> {
         // http://braukaiser.com/documents/effect_of_water_and_grist_on_mash_pH.pdf
@@ -383,9 +404,10 @@ impl Process {
         output
     }
 
-    /// Estimated mash pH
+    /// Estimated mash pH prior to acid additions
     #[must_use]
-    pub fn mash_ph(&self) -> Vec<Ph> {
+    pub fn mash_ph_preacid(&self) -> Vec<Ph> {
+        // Start from the pH effect of the grains only
         let mut output = self.mash_ph_distilled();
 
         // from https://byo.com/articles/understanding-residual-alkalinity-ph/
@@ -395,6 +417,27 @@ impl Process {
 
         for out in &mut output {
             out.0 += shift;
+        }
+
+        output
+    }
+
+    /// Estimated mash pH
+    /// Considering all effects (grains, water, acids)
+    #[must_use]
+    pub fn mash_ph(&self) -> Vec<Ph> {
+        let mut output = self.mash_ph_preacid();
+
+        let acids = self.water_acids();
+
+        for out in &mut output {
+            // FIXME this is only for Lactic Acid 88%
+            for acid in &acids {
+                // FIXME this is not very accurate
+                // 25-80 ppm to drop by 0.15 pH
+                let shift = (acid.ppm.0 / 50.0) * 0.15;
+                out.0 += shift;
+            }
         }
 
         output

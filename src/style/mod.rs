@@ -43,7 +43,6 @@ pub enum Style {
     // 2C. International Dark Lager
 
     // 3A. Czech Pale Lager
-
     /// 3B. Czech Premium Pale Lager
     CzechPremiumPaleLager,
 

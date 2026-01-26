@@ -3,6 +3,17 @@ use crate::prelude::*;
 use crate::style::Style;
 use serde::{Deserialize, Serialize};
 
+/// Method of achieving mash pH
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+pub enum PhMethod {
+    /// Adjust water.
+    AdjustWater,
+
+    /// Compute Acid Addition.
+    /// In this case, water salts will not be computed at all (FIXME)
+    ComputeAcid(Acid),
+}
+
 /// Recipe for beer
 // Recipe
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -36,6 +47,9 @@ pub struct Recipe {
 
     /// Mash pH target. Generally from 5.2 to 5.6.
     pub mash_ph_target: Ph,
+
+    /// Method of adjusting pH
+    pub ph_method: PhMethod,
 
     /// The sugars added after mashing, in proportion to all malts and sugars
     /// by weight. The actual weights are calculated.
