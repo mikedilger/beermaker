@@ -93,6 +93,18 @@ impl Process {
         }
     }
 
+    /// The water profile (after salts, before acids)
+    #[must_use]
+    pub fn adjusted_water_profile_preacid(&self) -> WaterProfile {
+        let mut profile = self.brewery.water_profile;
+
+        for salt_conc in &self.water_salts() {
+            profile.add_salt(*salt_conc);
+        }
+
+        profile
+    }
+
     /// The water profile (after salts and acids)
     #[must_use]
     pub fn adjusted_water_profile(&self) -> WaterProfile {
@@ -412,7 +424,7 @@ impl Process {
 
         // from https://byo.com/articles/understanding-residual-alkalinity-ph/
         // pH shift = 0.00168 * RA (as CaCO3) or pH shift = 0.084 * RA (as mEq/L)
-        let ra = self.adjusted_water_profile().residual_alkalinity();
+        let ra = self.adjusted_water_profile_preacid().residual_alkalinity();
         let shift = 0.00168 * ra.0;
 
         for out in &mut output {
