@@ -58,7 +58,7 @@ impl Process {
     #[must_use]
     #[allow(clippy::missing_panics_doc)]
     pub fn water_salts(&self) -> Vec<SaltConcentration> {
-        if let PhMethod::ComputeAcid(_acid) = self.recipe.ph_method {
+        if let PhMethod::ComputeAcid(_) = self.recipe.ph_method {
             Vec::new()
         } else {
             let water_adjustment = WaterAdjustment {
@@ -85,7 +85,7 @@ impl Process {
             // FIXME this is only for Lactic Acid 88%
             // FIXME this is not very accurate
             // 25-80 ppm to drop by 0.15 pH
-            let ppm = Ppm(50.0 * (shift / 0.15));
+            let ppm = Ppm(300.0 * shift);
 
             vec![AcidConcentration { acid, ppm }]
         } else {
@@ -447,8 +447,8 @@ impl Process {
             for acid in &acids {
                 // FIXME this is not very accurate
                 // 25-80 ppm to drop by 0.15 pH
-                let shift = (acid.ppm.0 / 50.0) * 0.15;
-                out.0 += shift;
+                let shift = acid.ppm.0 / 300.0;
+                out.0 -= shift;
             }
         }
 

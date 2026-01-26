@@ -141,6 +141,8 @@ fn main() {
 
         mash_ph_target: Ph(5.3),
 
+        ph_method: PhMethod::ComputeAcid(Acid::LacticAcid),
+
         // No sugars. If you add DME or maltodextrin you can
         // put that here.
         sugars: vec![],
