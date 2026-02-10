@@ -1,3 +1,21 @@
+Water Minerals:
+  * Add Ca and Mg to help offset Alkalinity for mash pH
+  * Add Ca because Ca should be between 50 and 150
+  * Add Cl and SO4 in a ratio to accentuate malt or hops
+  * Avoid too many minerals or it will taste over mineralized
+
+  * Ca:   50 - 150  Yeast Health, Enzyme Function, Clarity
+  * Mg:   10 - 30   Yeast nutrient
+  * SO4:  50 - 150 (balanced), 150 - 350 (bitter/dry)
+  * Cl:    0 - 250  Enhances malt sweetness and body
+  * Na:    0 - 150  Enhances flavor, but don't go salty
+  * HCO3:  0 - 250  Raises mash pH (counteracts acid malts)
+
+  Balanced:   Ca= 80, Mg= 5, Na=25, Cl= 75, SO4=80, HCO3=100
+
+  Balanced2:  Ca=150, Mg=10, Na=80, Cl=150, SO4=160, HCO3=220
+
+
 Ppg: retire this, use fermentability (which according to sugar.rs
 	is ppg / 46.0.
 
