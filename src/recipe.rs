@@ -6,11 +6,15 @@ use serde::{Deserialize, Serialize};
 /// Method of achieving mash pH
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 pub enum PhMethod {
-    /// Adjust water.
+    /// None. Don't adjust pH.
+    None,
+
+    /// Adjust water
+    /// This algorithm is pretty bad currently. FIXME.
     AdjustWater,
 
     /// Compute Acid Addition.
-    /// In this case, water salts will not be computed at all (FIXME)
+    /// In this case, water salts will not be computed at all.
     ComputeAcid(Acid),
 }
 

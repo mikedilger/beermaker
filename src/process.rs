@@ -58,9 +58,7 @@ impl Process {
     #[must_use]
     #[allow(clippy::missing_panics_doc)]
     pub fn water_salts(&self) -> Vec<SaltConcentration> {
-        if let PhMethod::ComputeAcid(_) = self.recipe.ph_method {
-            Vec::new()
-        } else {
+        if matches!(self.recipe.ph_method, PhMethod::AdjustWater) {
             let water_adjustment = WaterAdjustment {
                 profile: self.brewery.water_profile,
                 mash_ph_distilled: self.mash_ph_distilled().pop().unwrap(),
@@ -69,6 +67,8 @@ impl Process {
             };
 
             water_adjustment.salts_needed()
+        } else {
+            Vec::new()
         }
     }
 
