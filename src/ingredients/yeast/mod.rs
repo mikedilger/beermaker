@@ -111,7 +111,7 @@ pub enum Yeast {
     // ImperialHarvest,
     // ImperialHouse,
     // ImperialIndependence,
-    // ImperialJoystick,
+    // ImperialJoystick, - A18 = Pacman
     // ImperialJuice,
     // ImperialKaiser,
     // ImperialKveiking,
@@ -382,6 +382,9 @@ pub enum Yeast {
 
     // CBC-1
     // great for bottle conditioning
+
+    // Wyeast 1764 - Pacman
+    // RVA Yeast Labs Pacman Ale (RVA-103) - Pacman
 }
 
 impl Yeast {
@@ -2115,6 +2118,7 @@ impl Yeast {
             // Chico may be a mutant child strain of it.
             Self::LalBrewBRY97 => Some(Strain::Ballantine),
             Self::LalBrewNewEngland => Some(Strain::Conan),
+            Self::LalBrewNottingham => Some(Strain::Nottingham),
             Self::LalBrewVoss => Some(Strain::VossKveik),
             Self::SafAleUS05 => Some(Strain::Chico),
             Self::SafAleW68 => Some(Strain::WeihenstephananWeizen68),

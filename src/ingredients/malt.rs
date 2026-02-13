@@ -3,6 +3,31 @@ use serde::{Deserialize, Serialize};
 use std::fmt;
 use strum::EnumIter;
 
+/*
+Malt companies:
+
+Bairds - peated distilling malt, light caramalt, pale ale
+BestMalz: Red-X
+Briess (American): Victory, Carapils, Chocolate
+Crisp (UK)
+Dingemans: Special B, Aromatic
+Franco-Belges kiln Coffee Malt
+Gambrinus - Honey Malt
+Gladfield (New Zealand)
+Great Western (California)
+Muntons (UK) - liquid malt extracts
+Rahr (US)
+Simpsons (UK): Maris Otter, Golden Promise
+Thomas Fawcett (UK): Pale Chocolate, Halcyon Pale Ale, Brown,
+    torrefied wheat, maris otter, golden promise
+Warminster Maltings (UK)
+Weyermann (German): Munich, Acidulated, Melanoidin
+
+Substitutions
+https://www.wildabouthops.nz/malt_substitutes.html
+https://www.gladfieldmalt.co.nz/malt-alternative-swap-to-gladfield-malts
+ */
+
 /// A category of Malt
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
 pub enum MaltCategory {

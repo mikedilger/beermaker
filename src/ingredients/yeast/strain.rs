@@ -149,6 +149,9 @@ pub enum Strain {
     // WLP510
     Orval,
 
+    /// Pacman
+    Pacman,
+
     /// PJ Früh, Köln
     PJFruh,
 
