@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 mod water;
-pub use water::{WaterAdjustment, WaterProfile};
+pub use water::{WaterAdjustment, WaterProfile, WaterVolume};
 
 mod salt;
 pub use salt::Salt;
@@ -22,16 +22,6 @@ mod yeast;
 pub use yeast::{Flocculation, Gallone, STA1, Strain, Yeast, YeastProvider};
 
 use crate::prelude::*;
-
-/// A dose of Water
-#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
-pub struct WaterDose {
-    /// How much
-    pub volume: Liters,
-
-    /// At what temperature
-    pub temp: Celsius,
-}
 
 /// A concentration of a Salt
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
