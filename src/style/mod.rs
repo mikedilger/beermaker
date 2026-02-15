@@ -49,8 +49,8 @@ pub enum Style {
     // 3C. Czech Amber Lager
 
     // 3D. Czech Dark Lager
-
-    // 4A. Munich Helles
+    /// 4A. Munich Helles
+    MunichHelles,
 
     // 4B. Festbier
 
@@ -227,6 +227,7 @@ impl fmt::Display for Style {
             Self::CreamAle => write!(f, "Cream Ale"),
             Self::AmericanWheatBeer => write!(f, "American Wheat Beer"),
             Self::CzechPremiumPaleLager => write!(f, "Czech Premium Pale Lager"),
+            Self::MunichHelles => write!(f, "Munich Helles"),
             Self::OrdinaryBitter => write!(f, "Ordinary Bitter"),
             Self::BestBitter => write!(f, "Best Bitter"),
             Self::StrongBitter => write!(f, "Strong Bitter"),
@@ -252,6 +253,7 @@ impl Style {
             Self::CreamAle => StyleOrigin::American,
             Self::AmericanWheatBeer => StyleOrigin::American,
             Self::CzechPremiumPaleLager => StyleOrigin::Bohemian,
+            Self::MunichHelles => StyleOrigin::German,
             Self::OrdinaryBitter => StyleOrigin::British,
             Self::BestBitter => StyleOrigin::British,
             Self::StrongBitter => StyleOrigin::British,
@@ -275,6 +277,7 @@ impl Style {
             Self::CreamAle => Fermentation::Either,
             Self::AmericanWheatBeer => Fermentation::Either,
             Self::CzechPremiumPaleLager => Fermentation::Lager,
+            Self::MunichHelles => Fermentation::Lager,
             Self::OrdinaryBitter => Fermentation::Ale,
             Self::BestBitter => Fermentation::Ale,
             Self::StrongBitter => Fermentation::Ale,
@@ -298,6 +301,7 @@ impl Style {
             Self::CreamAle => Conditioning::None,
             Self::AmericanWheatBeer => Conditioning::None,
             Self::CzechPremiumPaleLager => Conditioning::Lagered,
+            Self::MunichHelles => Conditioning::Lagered,
             Self::OrdinaryBitter => Conditioning::None,
             Self::BestBitter => Conditioning::None,
             Self::StrongBitter => Conditioning::None,
@@ -345,6 +349,13 @@ impl Style {
                  a Pilsner-type beer. The bitterness is strong and clean but \
                  lacks harshness, which gives a well-balanced, rounded flavor \
                  impression that enhances drinkability."
+            }
+            Self::MunichHelles => {
+                "A gold-colored German lager with a smooth, malty flavor and a \
+                 soft, dry finish. Subtle spicy, floral, or herbal hops and \
+                 restrained bitterness help keep the balance malty but not \
+                 sweet, which helps make this beer a refreshing, everyday \
+                 drink."
             }
             Self::OrdinaryBitter => {
                 "Low gravity, alcohol, and carbonation \
@@ -419,6 +430,7 @@ impl Style {
             Self::CreamAle => &[SpecificGravity(1.042)..SpecificGravity(1.055)],
             Self::AmericanWheatBeer => &[SpecificGravity(1.040)..SpecificGravity(1.055)],
             Self::CzechPremiumPaleLager => &[SpecificGravity(1.044)..SpecificGravity(1.060)],
+            Self::MunichHelles => &[SpecificGravity(1.044)..SpecificGravity(1.048)],
             Self::OrdinaryBitter => &[SpecificGravity(1.030)..SpecificGravity(1.039)],
             Self::BestBitter => &[SpecificGravity(1.040)..SpecificGravity(1.048)],
             Self::StrongBitter => &[SpecificGravity(1.048)..SpecificGravity(1.060)],
@@ -468,6 +480,7 @@ impl Style {
             Self::CreamAle => &[SpecificGravity(1.006)..SpecificGravity(1.012)],
             Self::AmericanWheatBeer => &[SpecificGravity(1.008)..SpecificGravity(1.013)],
             Self::CzechPremiumPaleLager => &[SpecificGravity(1.013)..SpecificGravity(1.017)],
+            Self::MunichHelles => &[SpecificGravity(1.006)..SpecificGravity(1.012)],
             Self::OrdinaryBitter => &[SpecificGravity(1.007)..SpecificGravity(1.011)],
             Self::BestBitter => &[SpecificGravity(1.008)..SpecificGravity(1.012)],
             Self::StrongBitter => &[SpecificGravity(1.010)..SpecificGravity(1.016)],
@@ -517,6 +530,7 @@ impl Style {
             Self::CreamAle => vec![4.2..5.6],
             Self::AmericanWheatBeer => vec![4.0..5.5],
             Self::CzechPremiumPaleLager => vec![4.2..5.8],
+            Self::MunichHelles => vec![4.7..5.4],
             Self::OrdinaryBitter => vec![3.2..3.8],
             Self::BestBitter => vec![3.8..4.6],
             Self::StrongBitter => vec![4.6..6.2],
@@ -551,6 +565,7 @@ impl Style {
             Self::CreamAle => &[Ibu(8.0)..Ibu(20.0)],
             Self::AmericanWheatBeer => &[Ibu(15.0)..Ibu(30.0)],
             Self::CzechPremiumPaleLager => &[Ibu(30.0)..Ibu(45.0)],
+            Self::MunichHelles => &[Ibu(16.0)..Ibu(22.0)],
             Self::OrdinaryBitter => &[Ibu(25.0)..Ibu(35.0)],
             Self::BestBitter => &[Ibu(25.0)..Ibu(40.0)],
             Self::StrongBitter => &[Ibu(30.0)..Ibu(50.0)],
@@ -580,6 +595,7 @@ impl Style {
             Self::CreamAle => &[Srm(2.0)..Srm(5.0)],
             Self::AmericanWheatBeer => &[Srm(3.0)..Srm(6.0)],
             Self::CzechPremiumPaleLager => &[Srm(3.5)..Srm(6.0)],
+            Self::MunichHelles => &[Srm(3.0)..Srm(5.0)],
             Self::OrdinaryBitter => &[Srm(8.0)..Srm(14.0)],
             Self::BestBitter => &[Srm(8.0)..Srm(16.0)],
             Self::StrongBitter => &[Srm(8.0)..Srm(18.0)],
@@ -625,6 +641,7 @@ impl Style {
             Self::CreamAle => 3.2,
             Self::AmericanWheatBeer => 2.8,
             Self::CzechPremiumPaleLager => 2.4,
+            Self::MunichHelles => 2.6,
             Self::OrdinaryBitter => 1.8,
             Self::BestBitter => 1.8,
             Self::StrongBitter => 1.8,

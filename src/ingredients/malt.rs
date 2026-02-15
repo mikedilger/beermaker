@@ -47,6 +47,9 @@ pub enum MaltCategory {
 /// A type of Malt
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, EnumIter)]
 pub enum Malt {
+    /// BestMalz Vienna
+    BestMalzVienna,
+
     /// Briess Victory
     BriessVictory,
 
@@ -64,6 +67,9 @@ pub enum Malt {
 
     /// Gladfield American Ale Malt
     GladfieldAmericanAle,
+
+    /// Gladfield Aurora
+    GladfieldAurora,
 
     /// Gladfield Big-O Malted Oats
     GladfieldBigOMaltedOats,
@@ -128,6 +134,9 @@ pub enum Malt {
     /// Weyermann Carafa Special III
     WeyermannCarafaSpecial3,
 
+    /// Weyermann Carahell
+    WeyermannCarahell,
+
     /// Weyermann Caramunich Type II
     WeyermannCaramunich2,
 
@@ -159,12 +168,14 @@ impl Malt {
     #[allow(clippy::match_same_arms)]
     pub fn category(&self) -> MaltCategory {
         match *self {
+            Malt::BestMalzVienna => MaltCategory::Base,
             Malt::BriessVictory => MaltCategory::Roasted,
             Malt::DingemansSpecialB => MaltCategory::Crystal,
             Malt::FawcettHalcyonPaleAle => MaltCategory::Base,
             Malt::FawcettPaleChocolate => MaltCategory::Roasted,
             Malt::GladfieldAle => MaltCategory::Base,
             Malt::GladfieldAmericanAle => MaltCategory::Base,
+            Malt::GladfieldAurora => MaltCategory::Base,
             Malt::GladfieldBigOMaltedOats => MaltCategory::Base,
             Malt::GladfieldBiscuit => MaltCategory::Roasted,
             Malt::GladfieldBrown => MaltCategory::Roasted,
@@ -186,6 +197,7 @@ impl Malt {
             Malt::WeyermannBohemianPilsner => MaltCategory::Base,
             Malt::WeyermannCarafaSpecial2 => MaltCategory::Roasted,
             Malt::WeyermannCarafaSpecial3 => MaltCategory::Roasted,
+            Malt::WeyermannCarahell => MaltCategory::Crystal,
             Malt::WeyermannCaramunich2 => MaltCategory::Crystal,
             Malt::WeyermannCarapils => MaltCategory::Crystal,
             Malt::WeyermannMelanoidin => MaltCategory::Crystal,
@@ -201,12 +213,14 @@ impl Malt {
     #[must_use]
     pub fn distilled_water_mash_ph(&self) -> Option<Ph> {
         match *self {
+            Malt::BestMalzVienna => Some(Ph(f32::midpoint(5.6, 6.1))), // [3]
             Malt::BriessVictory => None,
             Malt::DingemansSpecialB => None,
             Malt::FawcettHalcyonPaleAle => None,
             Malt::FawcettPaleChocolate => None,
             Malt::GladfieldAle => Some(Ph(f32::midpoint(5.7, 6.0))), // [2]
             Malt::GladfieldAmericanAle => Some(Ph(f32::midpoint(5.7, 6.0))), // [2]
+            Malt::GladfieldAurora => Some(Ph(f32::midpoint(5.1, 5.8))), // [2]
             Malt::GladfieldBigOMaltedOats => Some(Ph(f32::midpoint(5.7, 6.1))),
             Malt::GladfieldBiscuit => Some(Ph(5.15)), // [2]
             Malt::GladfieldBrown => Some(Ph(4.81)),   // [2]
@@ -228,6 +242,7 @@ impl Malt {
             Malt::WeyermannBohemianPilsner => Some(Ph(5.76)), // [1] presumed pilsner
             Malt::WeyermannCarafaSpecial2 => None,
             Malt::WeyermannCarafaSpecial3 => None,
+            Malt::WeyermannCarahell => None,
             Malt::WeyermannCaramunich2 => None,
             Malt::WeyermannCarapils => None,
             Malt::WeyermannMelanoidin => None,
@@ -240,6 +255,7 @@ impl Malt {
 
         // [1] http://braukaiser.com/documents/effect_of_water_and_grist_on_mash_pH.pdf
         // [2] https://www.gladfieldmalt.co.nz/
+        // [3] https://bestmalz.de/
     }
 
     /// Malt acidity in mEq/kg
@@ -284,12 +300,14 @@ impl Malt {
     #[allow(clippy::match_same_arms)]
     pub fn ebc_range(&self) -> (Ebc, Ebc) {
         match *self {
+            Malt::BestMalzVienna => (Ebc(8.0), Ebc(10.0)),
             Malt::BriessVictory => (Ebc(55.0), Ebc(55.0)),
             Malt::DingemansSpecialB => (Ebc(300.0), Ebc(300.0)),
-            Malt::FawcettHalcyonPaleAle => (Ebc(4.0), Ebc(6.0)),
+            Malt::FawcettHalcyonPaleAle => (Ebc(5.0), Ebc(7.5)),
             Malt::FawcettPaleChocolate => (Ebc(560.0), Ebc(690.0)),
             Malt::GladfieldAle => (Ebc(5.0), Ebc(6.0)),
             Malt::GladfieldAmericanAle => (Ebc(4.5), Ebc(5.5)),
+            Malt::GladfieldAurora => (Ebc(35.0), Ebc(60.0)),
             Malt::GladfieldBigOMaltedOats => (Ebc(2.1), Ebc(5.0)),
             Malt::GladfieldBiscuit => (Ebc(40.0), Ebc(80.0)),
             Malt::GladfieldBrown => (Ebc(150.0), Ebc(200.0)),
@@ -311,6 +329,7 @@ impl Malt {
             Malt::WeyermannBohemianPilsner => (Ebc(3.0), Ebc(5.0)),
             Malt::WeyermannCarafaSpecial2 => (Ebc(1100.0), Ebc(1200.0)),
             Malt::WeyermannCarafaSpecial3 => (Ebc(1300.0), Ebc(1500.0)),
+            Malt::WeyermannCarahell => (Ebc(20.0), Ebc(30.0)),
             Malt::WeyermannCaramunich2 => (Ebc(110.0), Ebc(130.0)), // 41.9 - 49.5
             Malt::WeyermannCarapils => (Ebc(2.5), Ebc(6.5)),
             Malt::WeyermannMelanoidin => (Ebc(60.0), Ebc(80.0)), // 23.1 - 30.6
@@ -333,12 +352,14 @@ impl Malt {
     #[allow(clippy::match_same_arms)]
     pub fn recommended_max_percent(&self) -> f32 {
         match *self {
+            Malt::BestMalzVienna => 100.0,
             Malt::BriessVictory => 10.0,
             Malt::DingemansSpecialB => 15.0,
             Malt::FawcettHalcyonPaleAle => 100.0,
             Malt::FawcettPaleChocolate => 5.0,
             Malt::GladfieldAle => 100.0,
             Malt::GladfieldAmericanAle => 100.0,
+            Malt::GladfieldAurora => 100.0,
             Malt::GladfieldBigOMaltedOats => 20.0,
             Malt::GladfieldBiscuit => 15.0,
             Malt::GladfieldBrown => 15.0,
@@ -360,6 +381,7 @@ impl Malt {
             Malt::WeyermannBohemianPilsner => 100.0,
             Malt::WeyermannCarafaSpecial2 => 5.0,
             Malt::WeyermannCarafaSpecial3 => 5.0,
+            Malt::WeyermannCarahell => 15.0,
             Malt::WeyermannCaramunich2 => 10.0,
             Malt::WeyermannCarapils => 10.0,
             Malt::WeyermannMelanoidin => 20.0,
@@ -377,12 +399,14 @@ impl Malt {
     #[allow(clippy::match_same_arms)]
     pub fn ppg(&self) -> f32 {
         match *self {
+            Malt::BestMalzVienna => 37.0,
             Malt::BriessVictory => 34.5,
             Malt::DingemansSpecialB => 33.1,
             Malt::FawcettHalcyonPaleAle => 36.3,
             Malt::FawcettPaleChocolate => 32.2,
             Malt::GladfieldAle => 37.4,
             Malt::GladfieldAmericanAle => 37.3,
+            Malt::GladfieldAurora => 37.2,
             Malt::GladfieldBigOMaltedOats => 27.5,
             Malt::GladfieldBiscuit => 35.0,
             Malt::GladfieldBrown => 34.0,
@@ -404,6 +428,7 @@ impl Malt {
             Malt::WeyermannBohemianPilsner => 36.8,
             Malt::WeyermannCarafaSpecial2 => 29.9,
             Malt::WeyermannCarafaSpecial3 => 29.9,
+            Malt::WeyermannCarahell => 34.0,
             Malt::WeyermannCaramunich2 => 34.0,
             Malt::WeyermannCarapils => 34.5,
             Malt::WeyermannMelanoidin => 34.5,
@@ -420,12 +445,14 @@ impl Malt {
     #[allow(clippy::match_same_arms)]
     pub fn percent_protein(&self) -> Option<f32> {
         match *self {
+            Malt::BestMalzVienna => Some(12.0),
             Malt::BriessVictory => None,
             Malt::DingemansSpecialB => None,
             Malt::FawcettHalcyonPaleAle => None,
             Malt::FawcettPaleChocolate => Some(11.6), // less than
             Malt::GladfieldAle => None,
             Malt::GladfieldAmericanAle => None,
+            Malt::GladfieldAurora => None,
             Malt::GladfieldBigOMaltedOats => None,
             Malt::GladfieldBiscuit => None,
             Malt::GladfieldBrown => None,
@@ -447,6 +474,7 @@ impl Malt {
             Malt::WeyermannBohemianPilsner => Some(f32::midpoint(9.0, 12.0)),
             Malt::WeyermannCarafaSpecial2 => Some(0.0), // presume none
             Malt::WeyermannCarafaSpecial3 => Some(0.0), // presume none
+            Malt::WeyermannCarahell => Some(0.0),       // presume none
             Malt::WeyermannCaramunich2 => Some(0.0),    // presume none
             Malt::WeyermannCarapils => Some(0.0),       // presume none
             Malt::WeyermannMelanoidin => Some(0.0),     // presume none
@@ -464,12 +492,14 @@ impl Malt {
     #[allow(clippy::match_same_arms)]
     pub fn kolbach_index(&self) -> Option<f32> {
         match *self {
+            Malt::BestMalzVienna => Some(41.0), // spec 37 - 45
             Malt::BriessVictory => None,
             Malt::DingemansSpecialB => None,
             Malt::FawcettHalcyonPaleAle => None,
             Malt::FawcettPaleChocolate => None,
             Malt::GladfieldAle => Some(38.0), // spec 35 - 41
             Malt::GladfieldAmericanAle => Some(38.0), // spec 35 - 41
+            Malt::GladfieldAurora => Some(41.0), // spec 37 - 45
             Malt::GladfieldBigOMaltedOats => Some(27.5), // spec 25 - 30
             Malt::GladfieldBiscuit => Some(37.0), // of zero
             Malt::GladfieldBrown => Some(37.0), // of zero
@@ -491,9 +521,10 @@ impl Malt {
             Malt::WeyermannBohemianPilsner => Some(f32::midpoint(38.0, 42.0)),
             Malt::WeyermannCarafaSpecial2 => None,
             Malt::WeyermannCarafaSpecial3 => None,
+            Malt::WeyermannCarahell => Some(37.0), // of zero
             Malt::WeyermannCaramunich2 => Some(37.0), // of zero
-            Malt::WeyermannCarapils => Some(37.0),    // of zero
-            Malt::WeyermannMelanoidin => Some(37.0),  // of zero
+            Malt::WeyermannCarapils => Some(37.0), // of zero
+            Malt::WeyermannMelanoidin => Some(37.0), // of zero
             Malt::WeyermannMunich1 => Some(f32::midpoint(37.0, 46.0)),
             Malt::WeyermannMunich2 => Some(f32::midpoint(37.0, 46.0)),
             Malt::WeyermannPilsner => Some(f32::midpoint(36.0, 42.5)),
@@ -507,12 +538,14 @@ impl Malt {
     #[must_use]
     pub fn fan_from_spec(&self) -> Option<Ppm> {
         match *self {
+            Malt::BestMalzVienna => None, // 65-80 sol nitrogen
             Malt::BriessVictory => None,
             Malt::DingemansSpecialB => Some(Ppm(0.0)), // assume 0
             Malt::FawcettHalcyonPaleAle => None,
             Malt::FawcettPaleChocolate => None,
             Malt::GladfieldAle => Some(Ppm(130.0)), // min spec 120.0
             Malt::GladfieldAmericanAle => Some(Ppm(135.0)), // min spec 120.0
+            Malt::GladfieldAurora => Some(Ppm(120.0)), // min spec 120.0
             Malt::GladfieldBigOMaltedOats => Some(Ppm(100.0)), // 80-120
             Malt::GladfieldBiscuit => Some(Ppm(0.0)), // assume 0
             Malt::GladfieldBrown => Some(Ppm(0.0)), // assume 0
@@ -534,6 +567,7 @@ impl Malt {
             Malt::WeyermannBohemianPilsner => None,
             Malt::WeyermannCarafaSpecial2 => Some(Ppm(0.0)), // assume 0
             Malt::WeyermannCarafaSpecial3 => Some(Ppm(0.0)), // assume 0
+            Malt::WeyermannCarahell => Some(Ppm(0.0)),       // assume 0
             Malt::WeyermannCaramunich2 => Some(Ppm(0.0)),    // assume 0
             Malt::WeyermannCarapils => Some(Ppm(0.0)),       // assume 0
             Malt::WeyermannMelanoidin => Some(Ppm(0.0)),     // assume 0
@@ -571,12 +605,14 @@ impl Malt {
 impl fmt::Display for Malt {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match *self {
+            Malt::BestMalzVienna => write!(f, "[BestMalz Vienna]"),
             Malt::BriessVictory => write!(f, "[Briess Victory]"),
             Malt::DingemansSpecialB => write!(f, "[Dingemans Special B]"),
             Malt::FawcettHalcyonPaleAle => write!(f, "[Thomas Fawcett Halcyon Pale Ale Malt]"),
             Malt::FawcettPaleChocolate => write!(f, "[Thomas Fawcett Pale Chocolate Malt]"),
             Malt::GladfieldAle => write!(f, "[Gladfield Ale Malt]"),
             Malt::GladfieldAmericanAle => write!(f, "[Gladfield American Ale Malt]"),
+            Malt::GladfieldAurora => write!(f, "[Gladfield Aurora Malt]"),
             Malt::GladfieldBigOMaltedOats => write!(f, "[Gladfield Big-O Malted Oats]"),
             Malt::GladfieldBiscuit => write!(f, "[Gladfield Biscuit Malt]"),
             Malt::GladfieldBrown => write!(f, "[Gladfield Brown Malt]"),
@@ -598,6 +634,7 @@ impl fmt::Display for Malt {
             Malt::WeyermannBohemianPilsner => write!(f, "[Weyermann Bohemian Pilsner Malt]"),
             Malt::WeyermannCarafaSpecial2 => write!(f, "[Weyermann Carafa Special II]"),
             Malt::WeyermannCarafaSpecial3 => write!(f, "[Weyermann Carafa Special III]"),
+            Malt::WeyermannCarahell => write!(f, "[Weyermann CaraHell Malt]"),
             Malt::WeyermannCaramunich2 => write!(f, "[Weyermann CaraMunich Malt II]"),
             Malt::WeyermannCarapils => write!(f, "[Weyermann Carapils Malt]"),
             Malt::WeyermannMelanoidin => write!(f, "[Weyermann Melanoidin Malt]"),

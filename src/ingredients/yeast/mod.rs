@@ -108,7 +108,7 @@ pub enum Yeast {
     // ImperialFlagship,
     // ImperialGlobal,
     // ImperialGnome,
-    // ImperialHarvest,
+    // ImperialHarvest, L17, Augustiner
     // ImperialHouse,
     // ImperialIndependence,
     // ImperialJoystick, - A18 = Pacman
@@ -163,7 +163,7 @@ pub enum Yeast {
     // OYL-052 (Conan strain)
     OYL061, // Voss Kveik
     OYL071, // Lutra Kveik
-
+    // OYL-114 Bayern Lager (Augustiner)
     WLP001,
     WLP002,
     WLP003,
