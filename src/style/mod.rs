@@ -107,7 +107,8 @@ pub enum Style {
     /// 13A. Dark Mild
     DarkMild,
 
-    // 13B. British Brown Ale
+    /// 13B. British Brown Ale
+    BritishBrownAle,
 
     // 13C. English Porter
 
@@ -232,6 +233,7 @@ impl fmt::Display for Style {
             Self::BestBitter => write!(f, "Best Bitter"),
             Self::StrongBitter => write!(f, "Strong Bitter"),
             Self::DarkMild => write!(f, "Dark Mild"),
+            Self::BritishBrownAle => write!(f, "British Brown Ale"),
             Self::DunklesWeissbier => write!(f, "Dunkles Weissbier"),
             Self::Marzen => write!(f, "Märzen"),
             Self::Weissbier => write!(f, "Weissbier"),
@@ -258,6 +260,7 @@ impl Style {
             Self::BestBitter => StyleOrigin::British,
             Self::StrongBitter => StyleOrigin::British,
             Self::DarkMild => StyleOrigin::British,
+            Self::BritishBrownAle => StyleOrigin::British,
             Self::DunklesWeissbier => StyleOrigin::German,
             Self::Marzen => StyleOrigin::German,
             Self::Weissbier => StyleOrigin::German,
@@ -282,6 +285,7 @@ impl Style {
             Self::BestBitter => Fermentation::Ale,
             Self::StrongBitter => Fermentation::Ale,
             Self::DarkMild => Fermentation::Ale,
+            Self::BritishBrownAle => Fermentation::Ale,
             Self::DunklesWeissbier => Fermentation::Ale,
             Self::Marzen => Fermentation::Lager,
             Self::Weissbier => Fermentation::Ale,
@@ -306,6 +310,7 @@ impl Style {
             Self::BestBitter => Conditioning::None,
             Self::StrongBitter => Conditioning::None,
             Self::DarkMild => Conditioning::None,
+            Self::BritishBrownAle => Conditioning::None,
             Self::DunklesWeissbier => Conditioning::None,
             Self::Marzen => Conditioning::Lagered,
             Self::Weissbier => Conditioning::None,
@@ -383,6 +388,11 @@ impl Style {
                  its strength, with a wide range of dark malt or dark sugar \
                  expression."
             }
+            Self::BritishBrownAle => {
+                "A malty, caramelly, brown British ale without the roasted \
+                 flavors of a Porter. Balanced and flavorful, but usually a \
+                 little stronger than most average UK beers."
+            }
             Self::DunklesWeissbier => {
                 "A moderately dark German wheat beer \
                  with a distinctive banana-and-clove weizen yeast fermentation \
@@ -437,6 +447,9 @@ impl Style {
             Self::DarkMild => &[
                 SpecificGravity(1.030)..SpecificGravity(1.038), // BJCP
             ],
+            Self::BritishBrownAle => &[
+                SpecificGravity(1.040)..SpecificGravity(1.052), // BJCP
+            ],
             Self::DunklesWeissbier => &[
                 SpecificGravity(1.044)..SpecificGravity(1.057), // BJCP
                 SpecificGravity(1.048)..SpecificGravity(1.056), // BA
@@ -487,6 +500,9 @@ impl Style {
             Self::DarkMild => &[
                 SpecificGravity(1.008)..SpecificGravity(1.013), // BJCP
             ],
+            Self::BritishBrownAle => &[
+                SpecificGravity(1.008)..SpecificGravity(1.013), // BJCP
+            ],
             Self::DunklesWeissbier => &[
                 SpecificGravity(1.008)..SpecificGravity(1.014), // BJCP
                 SpecificGravity(1.008)..SpecificGravity(1.016), // BA
@@ -535,6 +551,7 @@ impl Style {
             Self::BestBitter => vec![3.8..4.6],
             Self::StrongBitter => vec![4.6..6.2],
             Self::DarkMild => vec![3.0..3.8],
+            Self::BritishBrownAle => vec![4.2..5.9],
             Self::DunklesWeissbier => vec![4.3..5.6, 4.8..5.4],
             Self::Marzen => vec![5.6..6.3, 5.1..6.0],
             Self::Weissbier => vec![4.3..5.6, 4.9..5.6],
@@ -570,6 +587,7 @@ impl Style {
             Self::BestBitter => &[Ibu(25.0)..Ibu(40.0)],
             Self::StrongBitter => &[Ibu(30.0)..Ibu(50.0)],
             Self::DarkMild => &[Ibu(10.0)..Ibu(25.0)],
+            Self::BritishBrownAle => &[Ibu(20.0)..Ibu(30.0)],
             Self::DunklesWeissbier => &[Ibu(10.0)..Ibu(18.0), Ibu(10.0)..Ibu(15.0)],
             Self::Marzen => &[Ibu(18.0)..Ibu(24.0), Ibu(18.0)..Ibu(25.0)],
             Self::Weissbier => &[Ibu(8.0)..Ibu(15.0), Ibu(10.0)..Ibu(15.0)],
@@ -600,6 +618,7 @@ impl Style {
             Self::BestBitter => &[Srm(8.0)..Srm(16.0)],
             Self::StrongBitter => &[Srm(8.0)..Srm(18.0)],
             Self::DarkMild => &[Srm(14.0)..Srm(25.0)],
+            Self::BritishBrownAle => &[Srm(12.0)..Srm(22.0)],
             Self::DunklesWeissbier => &[Srm(14.0)..Srm(23.0), Srm(10.0)..Srm(25.0)],
             Self::Marzen => &[Srm(8.0)..Srm(17.0), Srm(4.0)..Srm(15.0)],
             Self::Weissbier => &[Srm(2.0)..Srm(6.0), Srm(3.0)..Srm(9.0)],
@@ -646,6 +665,7 @@ impl Style {
             Self::BestBitter => 1.8,
             Self::StrongBitter => 1.8,
             Self::DarkMild => 1.8,
+            Self::BritishBrownAle => 2.1,
             Self::DunklesWeissbier => 3.5,
             Self::Marzen => 2.7,
             Self::Weissbier => 3.3,
