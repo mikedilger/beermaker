@@ -105,7 +105,7 @@ pub enum Yeast {
     // ImperialDarkness,
     // ImperialDieter,
     // ImperialDryHop,
-    // ImperialFlagship,
+    // ImperialFlagship, - A07 (clean)
     // ImperialGlobal,
     // ImperialGnome,
     // ImperialHarvest, L17, Augustiner

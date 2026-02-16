@@ -31,6 +31,9 @@ pub enum Hops {
     /// Fuggles
     Fuggles,
 
+    /// Galaxy
+    Galaxy,
+
     /// Hallertau Mittelfruh, a noble hop
     HallertauMittelfruh,
 
@@ -82,6 +85,7 @@ impl fmt::Display for Hops {
             Hops::Citra => write!(f, "[Citra]"),
             Hops::EastKentGoldings => write!(f, "[East Kent Goldings]"),
             Hops::Fuggles => write!(f, "[Fuggles]"),
+            Hops::Galaxy => write!(f, "[Galaxy]"),
             Hops::HallertauMittelfruh => write!(f, "[Hallertau Mittelfruh]"),
             Hops::Magnum => write!(f, "[Magnum]"),
             Hops::Mosaic => write!(f, "[Mosaic]"),
@@ -107,6 +111,7 @@ impl Hops {
             Hops::Citra => HopsUsage::DualPurpose,
             Hops::EastKentGoldings => HopsUsage::DualPurpose,
             Hops::Fuggles => HopsUsage::Finishing,
+            Hops::Galaxy => HopsUsage::DualPurpose,
             Hops::HallertauMittelfruh => HopsUsage::Finishing,
             Hops::Magnum => HopsUsage::Bittering,
             Hops::Mosaic => HopsUsage::DualPurpose,
@@ -130,6 +135,7 @@ impl Hops {
             Hops::Citra => 0.133,
             Hops::EastKentGoldings => 0.055,
             Hops::Fuggles => f32::midpoint(0.035, 0.065),
+            Hops::Galaxy => f32::midpoint(0.11, 0.16),
             Hops::HallertauMittelfruh => 0.0375,
             Hops::Magnum => f32::midpoint(0.12, 0.14),
             Hops::Mosaic => f32::midpoint(0.115, 0.135),
