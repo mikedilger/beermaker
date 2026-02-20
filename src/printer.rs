@@ -355,12 +355,6 @@ pub fn print_process(
             .to_string(),
     );
 
-    steps.mash.push(
-        "Mash out by raising the temperature to 77°C and hold for 5 to \
-               10 minutes."
-            .to_string(),
-    );
-
     steps
         .mash
         .push("Take the pH of the sample that cooled and record it.".to_string());
