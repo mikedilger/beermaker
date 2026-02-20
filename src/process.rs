@@ -519,6 +519,12 @@ impl Process {
         Liters(self.grain_weight().0 * self.recipe.mash_thickness - self.water_absorption().0)
     }
 
+    /// The post-sparge volume
+    #[must_use]
+    pub fn pre_lauter_volume(&self) -> Liters {
+        self.pre_boil_volume() + self.brewery.mash_tun_losses
+    }
+
     /// The volume at the end of the mash, before losses from grain absorption
     #[must_use]
     pub fn mash_volume(&self) -> Liters {
@@ -528,7 +534,7 @@ impl Process {
     /// The amount of sparge water used
     #[must_use]
     pub fn sparge_volume(&self) -> Liters {
-        self.pre_boil_volume() - self.pre_sparge_volume()
+        self.pre_lauter_volume() - self.pre_sparge_volume()
     }
 
     /// Strike volume
@@ -840,15 +846,23 @@ impl Process {
         total = total + self.sparge_volume();
         writeln!(
             output,
-            "Sparge:        +{}     = {total}  pre boil volume",
+            "Sparge:        +{}     = {total}  pre lauter volume",
             self.sparge_volume()
+        )
+        .unwrap();
+
+        total = total - self.brewery.mash_tun_losses;
+        writeln!(
+            output,
+            "Lauter loss:   -{}     = {total}  pre boil volume",
+            self.brewery.mash_tun_losses
         )
         .unwrap();
 
         total = total - self.boil_evaporation();
         writeln!(
             output,
-            "Boil off:      -{}     = {total}  pre boil pre loss volume",
+            "Boil off:      -{}     = {total}  post boil pre loss volume",
             self.boil_evaporation()
         )
         .unwrap();

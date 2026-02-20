@@ -23,6 +23,8 @@ Here is the overall process, with it's various changes in volume and gravity:
 | - absorb            |               |                             |                        |
 |                     |               | pre_sparge_volume()         |                        |
 | + sparge            | Sparge        |                             |                        |
+|                     |               | pre_lauter_volume()         |                        |
+| - mash_tun_losses   | Lauter        |                             |                        |
 |                     |               | pre_boil_volume()           | pre_boil_gravity()     |
 | - evaporation       | Boil          |                             |                        |
 |                     |               | post_boil_pre_loss_volume() |                        |

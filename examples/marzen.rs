@@ -34,6 +34,9 @@ fn main() {
         // I mash in my kettle
         mash_tun_volume: Liters(11.0),
 
+        // Pretty much no mash tun losses
+        mash_tun_losses: Liters(0.01),
+
         // I leave 1.5 liters of headroom on the 11L kettle so that it
         // doesn't boil over
         max_kettle_volume: Liters(9.5),

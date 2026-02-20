@@ -20,6 +20,9 @@ pub struct Brewery {
     /// Max usable volume of your mash tun (or kettle if BIAB)
     pub mash_tun_volume: Liters,
 
+    /// Mash tun losses
+    pub mash_tun_losses: Liters,
+
     /// Max usable volume of your boil kettle
     pub max_kettle_volume: Liters,
 
